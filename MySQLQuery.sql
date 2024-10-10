@@ -17,7 +17,7 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,                    -- Email người dùng
     phone VARCHAR(50),                                     -- Số điện thoại
     password VARCHAR(255) NOT NULL,                        -- Mật khẩu
-    role ENUM('donor', 'student', 'faculty', 'admin') DEFAULT 'donor',  -- Vai trò
+    role VARCHAR(50),                                      -- Vai trò: donor, student, faculty, admin
     status TINYINT(1) NOT NULL DEFAULT 1                   -- Trạng thái (1: hoạt động, 0: khóa)
 );
 
@@ -27,12 +27,12 @@ CREATE TABLE campaigns (
     title VARCHAR(255) NOT NULL,                           -- Tiêu đề chiến dịch
     description TEXT NOT NULL,                             -- Mô tả chiến dịch
     target_amount DECIMAL(18, 2) NOT NULL,                 -- Số tiền mục tiêu quyên góp
-    current_amount DECIMAL(18, 2) NOT NULL DEFAULT 0,      -- Số tiền đã quyên góp được
+    current_amount DECIMAL(18, 2) NOT NULL,      -- Số tiền đã quyên góp được
     start_date DATETIME NOT NULL,                          -- Ngày bắt đầu chiến dịch
     end_date DATETIME NOT NULL,                            -- Ngày kết thúc chiến dịch
     department_id INT,                                     -- ID khoa/phòng ban liên quan
     created_by INT NOT NULL,                               -- ID người khởi xướng chiến dịch
-    status ENUM('active', 'completed', 'canceled') DEFAULT 'active',  -- Trạng thái
+    status VARCHAR(50),                                    -- Trạng thái: active, completed, canceled
     FOREIGN KEY (department_id) REFERENCES departments(department_id),
     FOREIGN KEY (created_by) REFERENCES users(user_id)
 );
@@ -44,8 +44,8 @@ CREATE TABLE donations (
     user_id INT NOT NULL,                                  -- ID người quyên góp
     amount DECIMAL(18, 2) NOT NULL,                        -- Số tiền quyên góp
     payment_method VARCHAR(50) NOT NULL,                   -- Phương thức thanh toán (MoMo, chuyển khoản, v.v.)
-    donation_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Ngày quyên góp
-    status ENUM('successful', 'pending', 'failed') DEFAULT 'successful', -- Trạng thái quyên góp
+    donation_date DATETIME NOT NULL,                       -- Ngày quyên góp
+    status VARCHAR(50),                                    -- Trạng thái quyên góp: successful, pending, failed, successful
     FOREIGN KEY (campaign_id) REFERENCES campaigns(campaign_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
@@ -59,7 +59,7 @@ CREATE TABLE scholarships (
     department_id INT,                                     -- ID khoa/phòng ban liên quan
     available_slots INT NOT NULL,                          -- Số lượng học bổng có sẵn
     awarded_slots INT NOT NULL DEFAULT 0,                  -- Số suất đã trao
-    status ENUM('open', 'closed') DEFAULT 'open',          -- Trạng thái học bổng
+    status VARCHAR(50),                                    -- Trạng thái học bổng: open, closed, open
     FOREIGN KEY (department_id) REFERENCES departments(department_id)
 );
 
@@ -68,22 +68,22 @@ CREATE TABLE student_applications (
     application_id INT AUTO_INCREMENT PRIMARY KEY,         -- ID đơn
     student_id INT NOT NULL,                               -- ID sinh viên
     scholarship_id INT NOT NULL,                           -- ID học bổng
-    application_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Ngày nộp đơn
-    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending', -- Trạng thái đơn
+    application_date DATETIME NOT NULL,                    -- Ngày nộp đơn
+    status VARCHAR(50),                                    -- Trạng thái đơn: pending, approved, rejected
     FOREIGN KEY (student_id) REFERENCES users(user_id),
     FOREIGN KEY (scholarship_id) REFERENCES scholarships(scholarship_id)
 );
 
 -- Tạo bảng faculty_requests (Yêu cầu của giảng viên)
 CREATE TABLE faculty_requests (
-    request_id INT AUTO_INCREMENT PRIMARY KEY,             -- ID yêu cầu
-    faculty_id INT NOT NULL,                               -- ID giảng viên
-    department_id INT NOT NULL,                            -- ID khoa/phòng ban
-    title VARCHAR(255) NOT NULL,                           -- Tiêu đề yêu cầu
-    description TEXT NOT NULL,                             -- Mô tả yêu cầu
-    requested_amount DECIMAL(18, 2) NOT NULL,              -- Số tiền yêu cầu
-    request_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Ngày yêu cầu
-    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending', -- Trạng thái yêu cầu
+    request_id INT AUTO_INCREMENT PRIMARY KEY,                  -- ID yêu cầu
+    faculty_id INT NOT NULL,                                    -- ID giảng viên
+    department_id INT NOT NULL,                                 -- ID khoa/phòng ban
+    title VARCHAR(255) NOT NULL,                                -- Tiêu đề yêu cầu
+    description TEXT NOT NULL,                                  -- Mô tả yêu cầu
+    requested_amount DECIMAL(18, 2) NOT NULL,                   -- Số tiền yêu cầu
+    request_date DATETIME NOT NULL,                             -- Ngày yêu cầu
+    status VARCHAR(50),                                         -- Trạng thái yêu cầu: pending, approved, rejected
     FOREIGN KEY (faculty_id) REFERENCES users(user_id),
     FOREIGN KEY (department_id) REFERENCES departments(department_id)
 );
@@ -94,8 +94,8 @@ CREATE TABLE transactions (
     donation_id INT NOT NULL,                              -- ID khoản quyên góp
     transaction_code VARCHAR(255) NOT NULL,                -- Mã giao dịch từ cổng thanh toán
     payment_gateway VARCHAR(50) NOT NULL,                  -- Cổng thanh toán (MoMo, ZaloPay, Ngân hàng)
-    transaction_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Ngày giao dịch
-    transaction_status ENUM('successful', 'failed', 'pending') NOT NULL, -- Trạng thái giao dịch
+    transaction_date DATETIME NOT NULL,                    -- Ngày giao dịch
+    transaction_status VARCHAR(50),                        -- Trạng thái giao dịch: successful, failed, pending
     FOREIGN KEY (donation_id) REFERENCES donations(donation_id)
 );
 UniversityCharityDB

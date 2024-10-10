@@ -1,16 +1,18 @@
 package com.UniCharity.UniCharity.mapper;
 
-import com.UniCharity.UniCharity.dto.request.DepartmentCreateRequest;
-import com.UniCharity.UniCharity.dto.request.DepartmentUpdateRequest;
-import com.UniCharity.UniCharity.dto.response.DepartmentResponse;
-import com.UniCharity.UniCharity.models.Department;
+import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
+import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
+import com.UniCharity.UniCharity.dto.response.CampaignResponse;
+import com.UniCharity.UniCharity.models.Campaign;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CampaignMapper {
-    Department toDepartment(DepartmentCreateRequest request);
-    DepartmentResponse toDepartmentResponse(Department department);
-    void updateDepartment(@MappingTarget Department department, DepartmentUpdateRequest request);
+    @Mapping(target = "department", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    Campaign toCampaign(CampaignCreateRequest request);
+    CampaignResponse toCampaignResponse(Campaign campaign);
+    void updateCampaign(@MappingTarget Campaign campaign, CampaignUpdateRequest request);
 }

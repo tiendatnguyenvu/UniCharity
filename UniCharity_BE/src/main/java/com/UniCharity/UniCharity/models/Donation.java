@@ -34,13 +34,10 @@ public class Donation {
     @Column(name = "payment_method", nullable = false, length = 50)
     private String paymentMethod;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "donation_date", nullable = false)
     private Instant donationDate;
 
-    @ColumnDefault("'successful'")
-    @Lob
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status;
 
     @OneToMany(mappedBy = "donation")

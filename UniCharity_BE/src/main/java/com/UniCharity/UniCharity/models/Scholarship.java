@@ -36,12 +36,9 @@ public class Scholarship {
     @Column(name = "available_slots", nullable = false)
     private Integer availableSlots;
 
-    @ColumnDefault("0")
     @Column(name = "awarded_slots", nullable = false)
     private Integer awardedSlots;
 
-    @ColumnDefault("'open'")
-    @Lob
     @Column(name = "status")
     private String status;
 

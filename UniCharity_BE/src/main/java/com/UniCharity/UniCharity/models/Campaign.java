@@ -48,9 +48,7 @@ public class Campaign {
     @JoinColumn(name = "created_by", nullable = false)
     private User createdBy;
 
-    @ColumnDefault("'active'")
-    @Lob
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status;
 
     @OneToMany(mappedBy = "campaign")

@@ -30,12 +30,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ColumnDefault("'donor'")
-    @Lob
     @Column(name = "role")
     private String role;
 
-    @ColumnDefault("1")
     @Column(name = "status", nullable = false)
     private Boolean status = false;
 

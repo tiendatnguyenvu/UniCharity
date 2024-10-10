@@ -27,11 +27,9 @@ public class Transaction {
     @Column(name = "payment_gateway", nullable = false, length = 50)
     private String paymentGateway;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "transaction_date", nullable = false)
     private Instant transactionDate;
 
-    @Lob
     @Column(name = "transaction_status", nullable = false)
     private String transactionStatus;
 

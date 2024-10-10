@@ -12,6 +12,7 @@ public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     // các lỗi của User
     USER_NOT_EXISTED(1001, "User not existed", HttpStatus.NOT_FOUND),
+    EMPTY_USER_LIST(1002, "User list is empty.", HttpStatus.NO_CONTENT),
     // các lỗi của Department
     DEPARTMENT_NOT_EXISTED(1051, "Department not existed", HttpStatus.NOT_FOUND),
     // các lỗi của Campaign
