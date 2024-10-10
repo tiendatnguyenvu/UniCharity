@@ -31,8 +31,8 @@ public class CampaignController {
     }
 
     @GetMapping("/{campaignId}")
-    ApiResponse<CampaignResponse> getCampaign(@PathVariable("campaignId") int campaignId) {
-        return ApiResponse.<CampaignResponse>builder().result(campaignService.getCampaign(campaignId)).build();
+    CampaignResponse getCampaign(@PathVariable("campaignId") int campaignId) {
+        return campaignService.getCampaign(campaignId);
     }
 
     @PutMapping("/{campaignId}")
