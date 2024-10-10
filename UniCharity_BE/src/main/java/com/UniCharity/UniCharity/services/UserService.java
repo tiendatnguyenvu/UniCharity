@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +38,8 @@ public class UserService implements IUserService {
 
     @Override
     public List<UserResponse> getUsers() {
-        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+        List<UserResponse> users = userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+        return users;
     }
 
     @Override

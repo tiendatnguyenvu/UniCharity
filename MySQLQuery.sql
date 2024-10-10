@@ -32,7 +32,7 @@ CREATE TABLE campaigns (
     end_date DATETIME NOT NULL,                            -- Ngày kết thúc chiến dịch
     department_id INT,                                     -- ID khoa/phòng ban liên quan
     created_by INT NOT NULL,                               -- ID người khởi xướng chiến dịch
-    status ENUM('active', 'completed', 'canceled') DEFAULT 'active',  -- Trạng thái
+    status VARCHAR(50),                                    -- Trạng thái: active, completed, canceled
     FOREIGN KEY (department_id) REFERENCES departments(department_id),
     FOREIGN KEY (created_by) REFERENCES users(user_id)
 );

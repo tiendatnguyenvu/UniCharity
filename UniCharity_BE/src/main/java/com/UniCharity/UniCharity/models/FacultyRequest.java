@@ -36,12 +36,9 @@ public class FacultyRequest {
     @Column(name = "requested_amount", nullable = false, precision = 18, scale = 2)
     private BigDecimal requestedAmount;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "request_date", nullable = false)
     private Instant requestDate;
 
-    @ColumnDefault("'pending'")
-    @Lob
     @Column(name = "status")
     private String status;
 

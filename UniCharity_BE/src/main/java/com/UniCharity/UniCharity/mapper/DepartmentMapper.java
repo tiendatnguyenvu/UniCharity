@@ -8,7 +8,7 @@ import com.UniCharity.UniCharity.models.Department;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface DepartmentMapper {
     Department toDepartment(DepartmentCreateRequest request);
     DepartmentResponse toDepartmentResponse(Department department);

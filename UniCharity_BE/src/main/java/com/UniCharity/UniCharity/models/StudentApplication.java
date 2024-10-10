@@ -25,12 +25,9 @@ public class StudentApplication {
     @JoinColumn(name = "scholarship_id", nullable = false)
     private Scholarship scholarship;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "application_date", nullable = false)
     private Instant applicationDate;
 
-    @ColumnDefault("'pending'")
-    @Lob
     @Column(name = "status")
     private String status;
 
