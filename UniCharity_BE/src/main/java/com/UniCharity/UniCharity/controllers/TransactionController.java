@@ -18,6 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransactionController {
     TransactionService transactionService;
 
-    @PostMapping
-    ApiResponse<>
+    /*@PostMapping
+    ApiResponse<>*/
 }
