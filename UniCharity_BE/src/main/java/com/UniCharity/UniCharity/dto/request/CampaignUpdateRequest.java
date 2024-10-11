@@ -14,8 +14,8 @@ import java.time.Instant;
 public class CampaignUpdateRequest {
     String title;
     String description;
-    BigDecimal targetAmount;
-    BigDecimal currentAmount;
+    long targetAmount = 0;
+    long currentAmount = 0;
     Instant startDate;
     Instant endDate;
     String status;

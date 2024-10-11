@@ -5,7 +5,6 @@ import com.UniCharity.UniCharity.dto.request.UserUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.UserResponse;
 import com.UniCharity.UniCharity.models.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")

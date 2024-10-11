@@ -27,12 +27,12 @@ public class Campaign {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "target_amount", nullable = false, precision = 18, scale = 2)
-    private BigDecimal targetAmount;
+    @Column(name = "target_amount", nullable = false)
+    private long targetAmount;
 
     @ColumnDefault("0.00")
-    @Column(name = "current_amount", nullable = false, precision = 18, scale = 2)
-    private BigDecimal currentAmount;
+    @Column(name = "current_amount", nullable = false)
+    private Long currentAmount;
 
     @Column(name = "start_date", nullable = false)
     private Instant startDate;

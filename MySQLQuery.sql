@@ -26,10 +26,10 @@ CREATE TABLE campaigns (
     campaign_id INT AUTO_INCREMENT PRIMARY KEY,            -- ID chiến dịch
     title VARCHAR(255) NOT NULL,                           -- Tiêu đề chiến dịch
     description TEXT NOT NULL,                             -- Mô tả chiến dịch
-    target_amount DECIMAL(18, 2) NOT NULL,                 -- Số tiền mục tiêu quyên góp
-    current_amount DECIMAL(18, 2) NOT NULL,      -- Số tiền đã quyên góp được
-    start_date DATETIME NOT NULL,                          -- Ngày bắt đầu chiến dịch
-    end_date DATETIME NOT NULL,                            -- Ngày kết thúc chiến dịch
+    target_amount BIGINT NOT NULL,                 -- Số tiền mục tiêu quyên góp
+    current_amount BIGINT NOT NULL,      -- Số tiền đã quyên góp được
+    start_date DATE NOT NULL,                          -- Ngày bắt đầu chiến dịch
+    end_date DATE NOT NULL,                            -- Ngày kết thúc chiến dịch
     department_id INT,                                     -- ID khoa/phòng ban liên quan
     created_by INT NOT NULL,                               -- ID người khởi xướng chiến dịch
     status VARCHAR(50),                                    -- Trạng thái: active, completed, canceled
@@ -42,7 +42,7 @@ CREATE TABLE donations (
     donation_id INT AUTO_INCREMENT PRIMARY KEY,            -- ID quyên góp
     campaign_id INT NOT NULL,                              -- ID chiến dịch từ thiện
     user_id INT NOT NULL,                                  -- ID người quyên góp
-    amount DECIMAL(18, 2) NOT NULL,                        -- Số tiền quyên góp
+    amount BIGINT NOT NULL,                        -- Số tiền quyên góp
     payment_method VARCHAR(50) NOT NULL,                   -- Phương thức thanh toán (MoMo, chuyển khoản, v.v.)
     donation_date DATETIME NOT NULL,                       -- Ngày quyên góp
     status VARCHAR(50),                                    -- Trạng thái quyên góp: successful, pending, failed, successful
@@ -55,7 +55,7 @@ CREATE TABLE scholarships (
     scholarship_id INT AUTO_INCREMENT PRIMARY KEY,         -- ID học bổng
     name VARCHAR(255) NOT NULL,                            -- Tên học bổng
     description TEXT NOT NULL,                             -- Mô tả học bổng
-    target_amount DECIMAL(18, 2) NOT NULL,                 -- Số tiền mục tiêu
+    target_amount BIGINT NOT NULL,                 -- Số tiền mục tiêu
     department_id INT,                                     -- ID khoa/phòng ban liên quan
     available_slots INT NOT NULL,                          -- Số lượng học bổng có sẵn
     awarded_slots INT NOT NULL DEFAULT 0,                  -- Số suất đã trao
@@ -68,7 +68,7 @@ CREATE TABLE student_applications (
     application_id INT AUTO_INCREMENT PRIMARY KEY,         -- ID đơn
     student_id INT NOT NULL,                               -- ID sinh viên
     scholarship_id INT NOT NULL,                           -- ID học bổng
-    application_date DATETIME NOT NULL,                    -- Ngày nộp đơn
+    application_date DATE NOT NULL,                    -- Ngày nộp đơn
     status VARCHAR(50),                                    -- Trạng thái đơn: pending, approved, rejected
     FOREIGN KEY (student_id) REFERENCES users(user_id),
     FOREIGN KEY (scholarship_id) REFERENCES scholarships(scholarship_id)
@@ -81,7 +81,7 @@ CREATE TABLE faculty_requests (
     department_id INT NOT NULL,                                 -- ID khoa/phòng ban
     title VARCHAR(255) NOT NULL,                                -- Tiêu đề yêu cầu
     description TEXT NOT NULL,                                  -- Mô tả yêu cầu
-    requested_amount DECIMAL(18, 2) NOT NULL,                   -- Số tiền yêu cầu
+    requested_amount BIGINT NOT NULL,                   -- Số tiền yêu cầu
     request_date DATETIME NOT NULL,                             -- Ngày yêu cầu
     status VARCHAR(50),                                         -- Trạng thái yêu cầu: pending, approved, rejected
     FOREIGN KEY (faculty_id) REFERENCES users(user_id),

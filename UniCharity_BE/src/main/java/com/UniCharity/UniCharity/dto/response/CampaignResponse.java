@@ -14,13 +14,14 @@ import java.time.Instant;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CampaignResponse {
+    Integer id;
     String title;
     String description;
     BigDecimal targetAmount;
     BigDecimal currentAmount;
     Instant startDate;
     Instant endDate;
-    Department department;
-    User createdBy;
+    Integer department;
+    Integer createdBy;
     String status;
 }
