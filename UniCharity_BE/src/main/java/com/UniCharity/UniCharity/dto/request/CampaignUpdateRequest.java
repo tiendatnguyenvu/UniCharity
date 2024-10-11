@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -16,7 +17,8 @@ public class CampaignUpdateRequest {
     String description;
     long targetAmount = 0;
     long currentAmount = 0;
-    Instant startDate;
-    Instant endDate;
+    LocalDate startDate;
+    LocalDate endDate;
     String status;
+    String image;
 }

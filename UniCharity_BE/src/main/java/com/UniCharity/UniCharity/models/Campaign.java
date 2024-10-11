@@ -7,6 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -35,10 +36,10 @@ public class Campaign {
     private Long currentAmount;
 
     @Column(name = "start_date", nullable = false)
-    private Instant startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date", nullable = false)
-    private Instant endDate;
+    private LocalDate endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
@@ -51,7 +52,7 @@ public class Campaign {
     @Column(name = "status", nullable = false)
     private String status;
 
-    @Column(name = "image", nullable = false)
+    @Column(name = "image")
     private String image;
 
     @OneToMany(mappedBy = "campaign")

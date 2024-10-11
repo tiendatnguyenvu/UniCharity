@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -19,9 +20,10 @@ public class CampaignResponse {
     String description;
     long targetAmount;
     long currentAmount;
-    Instant startDate;
-    Instant endDate;
+    LocalDate startDate;
+    LocalDate endDate;
     Integer department;
     Integer createdBy;
     String status;
+    String image;
 }
