@@ -3,9 +3,8 @@ package com.UniCharity.UniCharity.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -26,9 +25,8 @@ public class StudentApplication {
     private Scholarship scholarship;
 
     @Column(name = "application_date", nullable = false)
-    private Instant applicationDate;
+    private LocalDate applicationDate;
 
     @Column(name = "status")
     private String status;
-
 }
