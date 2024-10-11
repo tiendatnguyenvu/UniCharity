@@ -26,13 +26,14 @@ CREATE TABLE campaigns (
     campaign_id INT AUTO_INCREMENT PRIMARY KEY,            -- ID chiến dịch
     title VARCHAR(255) NOT NULL,                           -- Tiêu đề chiến dịch
     description TEXT NOT NULL,                             -- Mô tả chiến dịch
-    target_amount BIGINT NOT NULL,                 -- Số tiền mục tiêu quyên góp
-    current_amount BIGINT NOT NULL,      -- Số tiền đã quyên góp được
-    start_date DATE NOT NULL,                          -- Ngày bắt đầu chiến dịch
-    end_date DATE NOT NULL,                            -- Ngày kết thúc chiến dịch
+    target_amount BIGINT NOT NULL,                         -- Số tiền mục tiêu quyên góp
+    current_amount BIGINT NOT NULL,                        -- Số tiền đã quyên góp được
+    start_date DATE NOT NULL,                              -- Ngày bắt đầu chiến dịch
+    end_date DATE NOT NULL,                                -- Ngày kết thúc chiến dịch
     department_id INT,                                     -- ID khoa/phòng ban liên quan
     created_by INT NOT NULL,                               -- ID người khởi xướng chiến dịch
     status VARCHAR(50),                                    -- Trạng thái: active, completed, canceled
+    image TEXT,                                            -- Hình ảnh của campaign
     FOREIGN KEY (department_id) REFERENCES departments(department_id),
     FOREIGN KEY (created_by) REFERENCES users(user_id)
 );

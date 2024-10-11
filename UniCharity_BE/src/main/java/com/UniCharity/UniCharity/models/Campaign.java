@@ -28,7 +28,7 @@ public class Campaign {
     private String description;
 
     @Column(name = "target_amount", nullable = false)
-    private long targetAmount;
+    private Long targetAmount;
 
     @ColumnDefault("0.00")
     @Column(name = "current_amount", nullable = false)
@@ -50,6 +50,9 @@ public class Campaign {
 
     @Column(name = "status", nullable = false)
     private String status;
+
+    @Column(name = "image", nullable = false)
+    private String image;
 
     @OneToMany(mappedBy = "campaign")
     private Set<Donation> donations = new LinkedHashSet<>();

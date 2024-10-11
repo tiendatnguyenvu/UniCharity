@@ -17,8 +17,8 @@ public class CampaignResponse {
     Integer id;
     String title;
     String description;
-    BigDecimal targetAmount;
-    BigDecimal currentAmount;
+    long targetAmount;
+    long currentAmount;
     Instant startDate;
     Instant endDate;
     Integer department;

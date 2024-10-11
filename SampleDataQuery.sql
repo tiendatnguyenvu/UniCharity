@@ -112,3 +112,34 @@ VALUES
 (8, 'ZALO20240915', 'ZaloPay', '2024-09-15', 'pending'),
 (9, 'MOMO20241001', 'MoMo', '2024-10-01', 'successful'),
 (10, 'BANK20240920', 'Bank Transfer', '2024-09-20', 'successful');
+
+UPDATE campaigns 
+SET image = 'https://example.com/image1.jpg' WHERE campaign_id = 1;
+
+UPDATE campaigns 
+SET image = 'https://example.com/image2.jpg' WHERE campaign_id = 2;
+
+UPDATE campaigns 
+SET image = 'https://example.com/image3.jpg' WHERE campaign_id = 3;
+
+UPDATE campaigns 
+SET image = 'https://example.com/image4.jpg' WHERE campaign_id = 4;
+
+UPDATE campaigns 
+SET image = 'https://example.com/image5.jpg' WHERE campaign_id = 5;
+
+UPDATE campaigns 
+SET image = 'https://example.com/image6.jpg' WHERE campaign_id = 6;
+
+UPDATE campaigns 
+SET image = 'https://example.com/image7.jpg' WHERE campaign_id = 7;
+
+UPDATE campaigns 
+SET image = 'https://example.com/image8.jpg' WHERE campaign_id = 8;
+
+UPDATE campaigns 
+SET image = 'https://example.com/image9.jpg' WHERE campaign_id = 9;
+
+UPDATE campaigns 
+SET image = 'https://example.com/image10.jpg' WHERE campaign_id = 10;
+
