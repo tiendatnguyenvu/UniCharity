@@ -21,6 +21,9 @@ public enum ErrorCode {
     CAMPAIGN_NOT_EXISTED(2001, "Campaign not existed", HttpStatus.NOT_FOUND),
     // các lỗi của FacultyRequest
     FACULTYREQUEST_NOT_EXISTED(2051, "Faculty request not existed", HttpStatus.NOT_FOUND),
+    // các lỗi của Scholarship
+    SCHOLARSHIP_NOT_EXISTED(3001, "Scholarship not existed", HttpStatus.NOT_FOUND),
+
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
