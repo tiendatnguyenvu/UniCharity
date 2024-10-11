@@ -14,10 +14,13 @@ public enum ErrorCode {
     // các lỗi của User
     USER_NOT_EXISTED(1001, "User not existed", HttpStatus.NOT_FOUND),
     EMPTY_USER_LIST(1002, "User list is empty.", HttpStatus.NO_CONTENT),
+    FACULTY_NOT_EXISTED(1003, "Faculty not existed", HttpStatus.NOT_FOUND),
     // các lỗi của Department
     DEPARTMENT_NOT_EXISTED(1051, "Department not existed", HttpStatus.NOT_FOUND),
     // các lỗi của Campaign
     CAMPAIGN_NOT_EXISTED(2001, "Campaign not existed", HttpStatus.NOT_FOUND),
+    // các lỗi của FacultyRequest
+    FACULTYREQUEST_NOT_EXISTED(2051, "Faculty request not existed", HttpStatus.NOT_FOUND),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
