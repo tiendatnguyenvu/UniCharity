@@ -1,0 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Đảm bảo padding và border được tính trong kích thước phần tử */
+}
+
+body {
+  font-family: 'Heebo', sans-serif;
+}
