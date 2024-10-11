@@ -83,7 +83,7 @@ CREATE TABLE faculty_requests (
     title VARCHAR(255) NOT NULL,                                -- Tiêu đề yêu cầu
     description TEXT NOT NULL,                                  -- Mô tả yêu cầu
     requested_amount BIGINT NOT NULL,                   -- Số tiền yêu cầu
-    request_date DATETIME NOT NULL,                             -- Ngày yêu cầu
+    request_date DATE NOT NULL,                             -- Ngày yêu cầu
     status VARCHAR(50),                                         -- Trạng thái yêu cầu: pending, approved, rejected
     FOREIGN KEY (faculty_id) REFERENCES users(user_id),
     FOREIGN KEY (department_id) REFERENCES departments(department_id)
