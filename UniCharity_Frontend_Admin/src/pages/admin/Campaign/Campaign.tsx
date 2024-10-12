@@ -4,7 +4,7 @@ import { CampaignGet } from "../../../models/Campaign";
 import { useNavigate } from "react-router";
 import {
   CampaignGetAPI,
-  CampaignUpfateStatusAPI,
+  // CampaignUpfateStatusAPI,
 } from "../../../services/CampaignService";
 import { toast } from "react-toastify";
 
@@ -22,9 +22,9 @@ const Campaign = () => {
   const getCampaigns = () => {
     CampaignGetAPI()
       .then((res) => {
-        if (res?.data) {
-          setCampaigns(res?.data);
-          console.log(res?.data);
+        if (res?.result) {
+          setCampaigns(res?.result);
+          console.log(res?.result);
         }
       })
       .catch((error) => {
@@ -33,23 +33,23 @@ const Campaign = () => {
       });
   };
 
-  const onStatusChange = (supplierID: number) => {
-    updateStatusAPI(supplierID);
-  };
+  // const onStatusChange = (supplierID: number) => {
+  //   updateStatusAPI(supplierID);
+  // };
 
-  const updateStatusAPI = (campaignID: number) => {
-    CampaignUpfateStatusAPI(campaignID).then((res) => {
-      if (res?.data) {
-        // const updateCampaign = campaigns.map((supllier) => {
-        //   return supllier.campaign_id == res?.data.supplierId
-        //     ? { ...supllier, status: res?.data.status }
-        //     : supllier;
-        // });
+  // const updateStatusAPI = (campaignID: number) => {
+  //   CampaignUpfateStatusAPI(campaignID).then((res) => {
+  //     if (res?.data) {
+  //       // const updateCampaign = campaigns.map((supllier) => {
+  //       //   return supllier.campaign_id == res?.data.supplierId
+  //       //     ? { ...supllier, status: res?.data.status }
+  //       //     : supllier;
+  //       // });
 
-        setCampaigns(res?.data);
-      }
-    });
-  };
+  //       setCampaigns(res?.data);
+  //     }
+  //   });
+  // };
 
   const configs = [
     {
@@ -66,19 +66,19 @@ const Campaign = () => {
     },
     {
       label: "campaign's target amount",
-      render: (campaign: CampaignGet) => campaign.target_amount,
+      render: (campaign: CampaignGet) => campaign.targetAmount,
     },
     {
       label: "campaign's current amount",
-      render: (campaign: CampaignGet) => campaign.current_amount,
+      render: (campaign: CampaignGet) => campaign.currentAmount,
     },
     {
       label: "campaign's start date",
-      render: (campaign: CampaignGet) => campaign.start_date,
+      render: (campaign: CampaignGet) => campaign.startDate,
     },
     {
       label: "campaign's end date",
-      render: (campaign: CampaignGet) => campaign.end_date,
+      render: (campaign: CampaignGet) => campaign.endDate,
     },
     {
       label: "campaign's Status",
@@ -98,7 +98,7 @@ const Campaign = () => {
               type="button"
               className="btn-sm btn-success d-flex align-items-center me-2"
               onClick={() =>
-                navigate(`/admin/supplier/edit/${campaign.campaign_id}`)
+                navigate(`/admin/supplier/edit/${campaign.campaignId}`)
               }
             >
               {/* <FaPen className='me-2' /> */}
@@ -116,18 +116,18 @@ const Campaign = () => {
     <div>
       {(campaigns) ? (
         (<div className="container-fluid pt-4 px-4">
-          <h1 className="py-3">Supplier Management</h1>
+          <h1 className="py-3">Campaign Management</h1>
           <div className="col-12">
             <div className="rounded custom-container  h-100 p-4">
               <div className="d-flex py-2">
-                <h6 className="mb-4">Supplier List</h6>
+                <h6 className="mb-4">Campaign List</h6>
                 <button
                   className="admin-btn-primary ms-auto"
                   onClick={() => {
-                    navigate("/admin/supplier/create");
+                    navigate("/admin/campaigns/create");
                   }}
                 >
-                  Create a new supplier
+                  Create a new campaign
                 </button>
               </div>
               <div className="table-responsive"></div>

@@ -14,28 +14,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/campaign")
+@RequestMapping("/campaigns")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CampaignController {
     CampaignService campaignService;
 
-    @PostMapping
+    @PostMapping("/create")
     ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request) {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.createCampaign(request)).build();
     }
 
-    @GetMapping
+    @GetMapping()
     ApiResponse<List<CampaignResponse>> getCampaigns() {
         return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaigns()).build();
     }
 
-    @GetMapping("/{campaignId}")
+    @GetMapping("/get-by-id/{campaignId}")
     CampaignResponse getCampaign(@PathVariable("campaignId") int campaignId) {
         return campaignService.getCampaign(campaignId);
     }
 
-    @PutMapping("/{campaignId}")
+    @PutMapping("/update/{campaignId}")
     ApiResponse<CampaignResponse> updateCampaign(@PathVariable("campaignId") int campaignId, @RequestBody @Valid CampaignUpdateRequest request) {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.updateCampaign(campaignId, request)).build();
     }

@@ -2,12 +2,13 @@ import axios from "axios";
 import { CampaignGet, CampaignPost } from "../models/Campaign";
 import { handleError } from "../Helpers/ErrorHandler";
 
-const api = "http://localhost:5173/admin/campaigns";
+const api = "http://localhost:8080/UniCharity/campaigns";
 
 export const CampaignGetAPI = async () => {
   try {
     const data = await axios.get<CampaignGet[]>(api);
-    return data;
+    console.log("data:",data.data)
+    return data.data;
   } catch (error) {
     handleError(error)
     
