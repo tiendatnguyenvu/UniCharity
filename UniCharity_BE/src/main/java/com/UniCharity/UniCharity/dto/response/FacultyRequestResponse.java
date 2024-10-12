@@ -1,4 +1,4 @@
-package com.UniCharity.UniCharity.dto.request;
+package com.UniCharity.UniCharity.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +10,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FacultyRequestCreate {
+public class FacultyRequestResponse {
+    Integer id;
     int faculty;
     int department;
     String title;

@@ -10,12 +10,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FacultyRequestCreate {
-    int faculty;
-    int department;
-    String title;
-    String description;
-    Long requestedAmount;
-    LocalDate requestDate;
+public class StudentApplicationCreateRequest {
+    int student;
+    int scholarship;
+    LocalDate applicationDate;
     String status;
 }

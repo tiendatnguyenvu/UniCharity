@@ -7,6 +7,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -34,10 +35,10 @@ public class    FacultyRequest {
     private String description;
 
     @Column(name = "requested_amount", nullable = false, precision = 18, scale = 2)
-    private BigDecimal requestedAmount;
+    private Long requestedAmount;
 
     @Column(name = "request_date", nullable = false)
-    private Instant requestDate;
+    private LocalDate requestDate;
 
     @Column(name = "status")
     private String status;

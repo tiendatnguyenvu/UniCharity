@@ -27,7 +27,7 @@ public class Scholarship {
     private String description;
 
     @Column(name = "target_amount", nullable = false, precision = 18, scale = 2)
-    private BigDecimal targetAmount;
+    private Long targetAmount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")

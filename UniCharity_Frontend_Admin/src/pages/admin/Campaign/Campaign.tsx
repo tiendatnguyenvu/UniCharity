@@ -24,7 +24,7 @@ const Campaign = () => {
       .then((res) => {
         if (res?.result) {
           setCampaigns(res?.result);
-          console.log(res?.result);
+          // console.log(res?.result);
         }
       })
       .catch((error) => {
@@ -98,7 +98,7 @@ const Campaign = () => {
               type="button"
               className="btn-sm btn-success d-flex align-items-center me-2"
               onClick={() =>
-                navigate(`/admin/supplier/edit/${campaign.campaignId}`)
+                navigate(`/admin/campaigns/edit/${campaign.campaignId}`)
               }
             >
               {/* <FaPen className='me-2' /> */}
