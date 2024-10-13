@@ -16,28 +16,29 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/campaign")
+@RequestMapping("/campaigns")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CampaignController {
     CampaignService campaignService;
 
-    @PostMapping
-    ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request, @RequestParam("image")MultipartFile file) throws IOException {
-        return ApiResponse.<CampaignResponse>builder().result(campaignService.createCampaign(request, file)).build();
+    @PostMapping("/create")
+    ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request) {
+        return ApiResponse.<CampaignResponse>builder().result(campaignService.createCampaign(request)).build();
     }
 
-    @GetMapping
+    @GetMapping()
     ApiResponse<List<CampaignResponse>> getCampaigns() {
         return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaigns()).build();
     }
 
-    @GetMapping("/{campaignId}")
+    @GetMapping("/get-by-id/{campaignId}")
     ApiResponse<CampaignResponse> getCampaign(@PathVariable("campaignId") int campaignId) {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.getCampaign(campaignId)).build();
     }
 
-    @PutMapping("/{campaignId}")
+    @PutMapping("/update/{campaignId}")
     ApiResponse<CampaignResponse> updateCampaign(@PathVariable("campaignId") int campaignId, @RequestBody @Valid CampaignUpdateRequest request) {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.updateCampaign(campaignId, request)).build();
     }

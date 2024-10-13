@@ -1,13 +1,14 @@
 export type CampaignGet = {
-    campaign_id:number,
+    campaignId:number,
     title: string,
     description:string,
-    target_amount:number,
-    current_amount:number,
-    start_date:Date,
-    end_date:Date,
-    department_id:number,
-    created_by:number,
+    targetAmount:number,
+    currentAmount:number,
+    startDate:Date,
+    endDate:Date,
+    departmentId:number,
+    createdBy:number,
+    image:string,
     status:string
 }
 

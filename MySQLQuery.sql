@@ -146,3 +146,4 @@ ADD FOREIGN KEY (user_id) REFERENCES users (user_id);
 
 ALTER TABLE transactions 
 ADD FOREIGN KEY (donation_id) REFERENCES donations (donation_id);
+    
