@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class CampaignService implements ICampaignService {
     DepartmentRepository departmentRepository;
 
     @Override
-    public CampaignResponse createCampaign(CampaignCreateRequest request) {
+    public CampaignResponse createCampaign(CampaignCreateRequest request, MultipartFile file) {
         User user = userRepository.findById(request.getCreatedBy()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         Department department = departmentRepository.findById(request.getDepartmentId()).orElseThrow(() -> new AppException(ErrorCode.DEPARTMENT_NOT_EXISTED));
         Campaign campaign = campaignMapper.toCampaign(request);

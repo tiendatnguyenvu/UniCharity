@@ -1,145 +1,132 @@
--- Sử dụng cơ sở dữ liệu
+-- Chọn cơ sở dữ liệu
 USE UniversityCharityDB;
 
--- Thêm dữ liệu mẫu vào bảng departments
-INSERT INTO departments (name, description, status)
-VALUES
-('Công nghệ thông tin', 'Phòng Công nghệ thông tin', 1),
-('Kinh tế', 'Phòng Kinh tế', 1),
-('Khoa học xã hội', 'Phòng Khoa học xã hội', 1),
-('Khoa học tự nhiên', 'Phòng Khoa học tự nhiên', 1),
-('Khoa Y', 'Phòng Y khoa', 1),
-('Khoa Sư phạm', 'Phòng Sư phạm', 1),
-('Khoa Luật', 'Phòng Luật', 1),
-('Khoa Ngoại ngữ', 'Phòng Ngoại ngữ', 1),
-('Khoa Môi trường', 'Phòng Môi trường', 1),
-('Khoa Kỹ thuật', 'Phòng Kỹ thuật', 1);
+-- Dữ liệu mẫu cho bảng users
+INSERT INTO users (name, email, phone, password, role, status) VALUES
+('Nguyễn Văn A', 'nguyenvana@example.com', '0123456789', 'password123', 'admin', 1),
+('Trần Thị B', 'tranthib@example.com', '0987654321', 'password123', 'user', 1),
+('Lê Văn C', 'levanc@example.com', '0912345678', 'password123', 'user', 1),
+('Phạm Thị D', 'phamthid@example.com', '0934567890', 'password123', 'user', 1),
+('Đặng Văn E', 'dangvane@example.com', '0945678901', 'password123', 'user', 1),
+('Ngô Thị F', 'ngothif@example.com', '0956789012', 'password123', 'user', 1),
+('Hoàng Văn G', 'hoangvang@example.com', '0967890123', 'password123', 'user', 1),
+('Trần Văn H', 'tranvanh@example.com', '0978901234', 'password123', 'user', 1),
+('Nguyễn Thị I', 'nguyenthii@example.com', '0989012345', 'password123', 'user', 1),
+('Bùi Văn J', 'buivanj@example.com', '0990123456', 'password123', 'user', 1);
 
--- Thêm dữ liệu mẫu vào bảng users
-INSERT INTO users (name, email, phone, password, role, status)
-VALUES
-('Nguyễn Văn A', 'nva@example.com', '0912345678', 'password123', 'donor', 1),
-('Trần Thị B', 'ttb@example.com', '0923456789', 'password123', 'student', 1),
-('Lê Văn C', 'lvc@example.com', '0934567890', 'password123', 'faculty', 1),
-('Hoàng Văn D', 'hvd@example.com', '0945678901', 'password123', 'donor', 1),
-('Phạm Thị E', 'pte@example.com', '0956789012', 'password123', 'admin', 1),
-('Vũ Thị F', 'vtf@example.com', '0967890123', 'password123', 'student', 1),
-('Ngô Văn G', 'nvg@example.com', '0978901234', 'password123', 'faculty', 1),
-('Đỗ Thị H', 'dth@example.com', '0989012345', 'password123', 'donor', 1),
-('Phan Văn I', 'pvi@example.com', '0990123456', 'password123', 'student', 1),
-('Nguyễn Thị J', 'ntj@example.com', '0910987654', 'password123', 'donor', 1);
+-- Dữ liệu mẫu cho bảng campaigns
+INSERT INTO campaigns (title, description, target_amount, current_amount, created_at, start_date, end_date, created_by, status) VALUES
+('Học bổng cho trẻ em nghèo', 'Hỗ trợ học bổng cho 100 trẻ em nghèo.', 100000000, 50000000, '2024-01-01', '2024-01-15', '2024-02-15', 1, 'Đang diễn ra'),
+('Mua sách cho học sinh', 'Mua sách cho 200 học sinh vùng sâu vùng xa.', 50000000, 30000000, '2024-02-01', '2024-02-15', '2024-03-15', 2, 'Đang diễn ra'),
+('Chương trình tặng quà Trung Thu', 'Tặng quà cho trẻ em nghèo nhân dịp Trung Thu.', 75000000, 20000000, '2024-03-01', '2024-03-15', '2024-04-15', 3, 'Đang diễn ra'),
+('Hỗ trợ xây dựng cầu cho làng quê', 'Xây dựng cầu cho làng quê hẻo lánh.', 200000000, 100000000, '2024-04-01', '2024-04-15', '2024-05-15', 4, 'Đang diễn ra'),
+('Chương trình dinh dưỡng cho trẻ em', 'Cung cấp bữa ăn dinh dưỡng cho trẻ em.', 60000000, 25000000, '2024-05-01', '2024-05-15', '2024-06-15', 5, 'Đang diễn ra'),
+('Tổ chức lớp học hè cho trẻ em', 'Mở lớp học hè cho trẻ em khó khăn.', 90000000, 35000000, '2024-06-01', '2024-06-15', '2024-07-15', 6, 'Đang diễn ra'),
+('Chương trình chăm sóc sức khỏe cho trẻ em', 'Kiểm tra sức khỏe miễn phí cho trẻ em.', 30000000, 15000000, '2024-07-01', '2024-07-15', '2024-08-15', 7, 'Đang diễn ra'),
+('Quỹ hỗ trợ khẩn cấp cho người dân lũ lụt', 'Hỗ trợ người dân vùng lũ lụt.', 100000000, 60000000, '2024-08-01', '2024-08-15', '2024-09-15', 8, 'Đang diễn ra'),
+('Chương trình khuyến học cho học sinh nghèo', 'Khuyến học cho học sinh nghèo.', 50000000, 25000000, '2024-09-01', '2024-09-15', '2024-10-15', 9, 'Đang diễn ra'),
+('Chương trình hỗ trợ đi học cho sinh viên', 'Hỗ trợ sinh viên nghèo trong việc học.', 150000000, 80000000, '2024-10-01', '2024-10-15', '2024-11-15', 10, 'Đang diễn ra');
 
--- Thêm dữ liệu mẫu vào bảng campaigns
-INSERT INTO campaigns (title, description, target_amount, current_amount, start_date, end_date, department_id, created_by, status)
-VALUES
-('Quyên góp hỗ trợ sinh viên khó khăn', 'Chiến dịch hỗ trợ học phí cho sinh viên khó khăn', 50000000, 10000000, '2024-01-01', '2024-12-31', 1, 5, 'active'),
-('Chung tay góp sức mùa Trung thu cho trẻ em nghèo', 'Tặng quà Trung thu cho trẻ em nghèo', 20000000, 15000000, '2024-07-01', '2024-09-30', 2, 4, 'completed'),
-('Ủng hộ đồng bào miền Trung', 'Hỗ trợ người dân miền Trung khắc phục sau bão lũ', 100000000, 75000000, '2024-03-01', '2024-06-30', 3, 1, 'active'),
-('Chiến dịch chống dịch Covid-19', 'Mua vật phẩm y tế cho cộng đồng', 30000000, 20000000, '2024-05-01', '2024-08-31', 4, 1, 'active'),
-('Xây trường cho trẻ em vùng cao', 'Xây dựng trường học cho trẻ em vùng cao', 150000000, 120000000, '2024-02-01', '2024-12-31', 5, 1, 'active'),
-('Quyên góp hỗ trợ học sinh nghèo', 'Chiến dịch hỗ trợ học sinh nghèo ở các vùng khó khăn', 50000000, 35000000, '2024-03-01', '2024-09-30', 2, 4, 'active'),
-('Ủng hộ nạn nhân lũ quét', 'Quyên góp để hỗ trợ nạn nhân của lũ quét tại miền núi', 80000000, 60000000, '2024-06-01', '2024-09-30', 3, 5, 'completed'),
-('Chiến dịch mua sắm thiết bị học tập', 'Hỗ trợ mua thiết bị học tập cho sinh viên', 70000000, 40000000, '2024-07-01', '2024-12-31', 1, 5, 'active'),
-('Hỗ trợ nạn nhân chất độc da cam', 'Quyên góp để hỗ trợ nạn nhân của chất độc da cam', 10000000, 5000000, '2024-08-01', '2024-12-31', 6, 3, 'active'),
-('Hỗ trợ sinh viên khuyết tật', 'Quyên góp để hỗ trợ sinh viên khuyết tật', 40000000, 25000000, '2024-03-01', '2024-12-31', 7, 2, 'active');
+-- Dữ liệu mẫu cho bảng policies
+INSERT INTO policies (campaign_id, policy_description, eligibility_criteria, approval_required, created_at, updated_at) VALUES
+(1, 'Trẻ em từ 6 đến 15 tuổi.', 'Trẻ em có hoàn cảnh khó khăn.', 'Có', '2024-01-01', '2024-01-02'),
+(2, 'Học sinh có nhu cầu về sách.', 'Học sinh tại vùng sâu vùng xa.', 'Không', '2024-02-01', '2024-02-02'),
+(3, 'Trẻ em dưới 12 tuổi.', 'Trẻ em sống trong vùng khó khăn.', 'Có', '2024-03-01', '2024-03-02'),
+(4, 'Dân cư làng quê nghèo.', 'Có nhu cầu xây cầu.', 'Có', '2024-04-01', '2024-04-02'),
+(5, 'Trẻ em dưới 10 tuổi.', 'Trẻ em có hoàn cảnh khó khăn.', 'Có', '2024-05-01', '2024-05-02'),
+(6, 'Trẻ em từ 6 đến 14 tuổi.', 'Có nhu cầu học hè.', 'Có', '2024-06-01', '2024-06-02'),
+(7, 'Trẻ em từ 1 đến 10 tuổi.', 'Có nhu cầu kiểm tra sức khỏe.', 'Không', '2024-07-01', '2024-07-02'),
+(8, 'Dân cư vùng bị lũ lụt.', 'Có hoàn cảnh khó khăn.', 'Có', '2024-08-01', '2024-08-02'),
+(9, 'Học sinh nghèo có nhu cầu học.', 'Học sinh từ 10 đến 18 tuổi.', 'Có', '2024-09-01', '2024-09-02'),
+(10, 'Sinh viên có hoàn cảnh khó khăn.', 'Sinh viên có thu nhập thấp.', 'Có', '2024-10-01', '2024-10-02');
 
--- Thêm dữ liệu mẫu vào bảng donations
-INSERT INTO donations (campaign_id, user_id, amount, payment_method, donation_date, status)
-VALUES
-(1, 1, 2000000, 'MoMo', '2024-02-15', 'successful'),
-(2, 4, 5000000, 'Bank Transfer', '2024-07-10', 'successful'),
-(3, 5, 10000000, 'ZaloPay', '2024-04-20', 'successful'),
-(4, 3, 3000000, 'MoMo', '2024-06-15', 'pending'),
-(5, 2, 7000000, 'Bank Transfer', '2024-07-25', 'successful'),
-(6, 1, 1500000, 'MoMo', '2024-08-05', 'successful'),
-(7, 4, 4000000, 'Bank Transfer', '2024-09-02', 'successful'),
-(8, 5, 5000000, 'ZaloPay', '2024-09-15', 'pending'),
-(9, 3, 1000000, 'MoMo', '2024-10-01', 'successful'),
-(10, 1, 2500000, 'Bank Transfer', '2024-09-20', 'successful');
+-- Dữ liệu mẫu cho bảng policy_violations
+INSERT INTO policy_violations (policy_id, violation_description, violation_date, status, created_at, updated_at) VALUES
+(1, 'Không đủ điều kiện theo tiêu chí.', '2024-01-05', 'Đã xử lý', '2024-01-06', '2024-01-07'),
+(2, 'Nộp đơn trễ hạn.', '2024-02-05', 'Chưa xử lý', '2024-02-06', '2024-02-07'),
+(3, 'Không cung cấp đầy đủ tài liệu.', '2024-03-05', 'Đã xử lý', '2024-03-06', '2024-03-07'),
+(4, 'Không đủ chứng từ cần thiết.', '2024-04-05', 'Chưa xử lý', '2024-04-06', '2024-04-07'),
+(5, 'Không đủ chứng nhận của cơ quan.', '2024-05-05', 'Đã xử lý', '2024-05-06', '2024-05-07'),
+(6, 'Không tuân thủ các yêu cầu.', '2024-06-05', 'Chưa xử lý', '2024-06-06', '2024-06-07'),
+(7, 'Vi phạm quy định của chương trình.', '2024-07-05', 'Đã xử lý', '2024-07-06', '2024-07-07'),
+(8, 'Không có giấy chứng nhận hoàn cảnh.', '2024-08-05', 'Chưa xử lý', '2024-08-06', '2024-08-07'),
+(9, 'Không đủ giấy tờ hợp lệ.', '2024-09-05', 'Đã xử lý', '2024-09-06', '2024-09-07'),
+(10, 'Gửi hồ sơ không hợp lệ.', '2024-10-05', 'Chưa xử lý', '2024-10-06', '2024-10-07');
 
--- Thêm dữ liệu mẫu vào bảng scholarships
-INSERT INTO scholarships (name, description, target_amount, department_id, available_slots, awarded_slots, status)
-VALUES
-('Học bổng tài năng CNTT', 'Học bổng dành cho sinh viên xuất sắc ngành CNTT', 20000000, 1, 10, 5, 'open'),
-('Học bổng hỗ trợ kinh tế', 'Học bổng dành cho sinh viên có hoàn cảnh khó khăn', 10000000, 2, 20, 8, 'open'),
-('Học bổng nghiên cứu khoa học', 'Hỗ trợ sinh viên nghiên cứu khoa học', 15000000, 3, 5, 2, 'open'),
-('Học bổng vượt khó', 'Hỗ trợ sinh viên vượt qua khó khăn', 8000000, 4, 15, 10, 'closed'),
-('Học bổng khuyến khích học tập', 'Học bổng dành cho sinh viên có thành tích học tập tốt', 5000000, 5, 10, 7, 'open'),
-('Học bổng vì cộng đồng', 'Hỗ trợ sinh viên tham gia các hoạt động vì cộng đồng', 12000000, 6, 8, 3, 'open'),
-('Học bổng khuyến học', 'Hỗ trợ sinh viên có thành tích học tập cao', 7000000, 1, 10, 6, 'open'),
-('Học bổng dành cho nữ sinh', 'Hỗ trợ nữ sinh có hoàn cảnh khó khăn', 15000000, 2, 10, 5, 'closed'),
-('Học bổng tương lai', 'Học bổng dành cho sinh viên có ý chí vượt khó', 20000000, 3, 5, 3, 'open'),
-('Học bổng dành cho sinh viên nghiên cứu khoa học', 'Hỗ trợ sinh viên nghiên cứu trong lĩnh vực khoa học', 25000000, 4, 5, 4, 'open');
+-- Dữ liệu mẫu cho bảng violation_actions
+INSERT INTO violation_actions (violation_id, action_description, action_date, status, created_at) VALUES
+(1, 'Đã yêu cầu bổ sung tài liệu.', '2024-01-08', 'Đã xử lý', '2024-01-09'),
+(2, 'Gửi thông báo về vi phạm.', '2024-02-08', 'Chưa xử lý', '2024-02-09'),
+(3, 'Kiểm tra lại hồ sơ.', '2024-03-08', 'Đã xử lý', '2024-03-09'),
+(4, 'Yêu cầu điều chỉnh thông tin.', '2024-04-08', 'Chưa xử lý', '2024-04-09'),
+(5, 'Cảnh báo về quy trình.', '2024-05-08', 'Đã xử lý', '2024-05-09'),
+(6, 'Yêu cầu giải trình.', '2024-06-08', 'Chưa xử lý', '2024-06-09'),
+(7, 'Xác nhận điều kiện.', '2024-07-08', 'Đã xử lý', '2024-07-09'),
+(8, 'Yêu cầu thêm giấy tờ.', '2024-08-08', 'Chưa xử lý', '2024-08-09'),
+(9, 'Gửi thư nhắc nhở.', '2024-09-08', 'Đã xử lý', '2024-09-09'),
+(10, 'Kiểm tra lại thông tin.', '2024-10-08', 'Chưa xử lý', '2024-10-09');
 
--- Thêm dữ liệu mẫu vào bảng student_applications
-INSERT INTO student_applications (student_id, scholarship_id, application_date, status)
-VALUES
-(2, 1, '2024-01-15', 'approved'),
-(5, 2, '2024-02-10', 'pending'),
-(6, 3, '2024-03-12', 'rejected'),
-(3, 4, '2024-04-01', 'approved'),
-(7, 5, '2024-05-05', 'pending'),
-(2, 6, '2024-06-08', 'rejected'),
-(5, 7, '2024-07-14', 'approved'),
-(6, 8, '2024-08-22', 'approved'),
-(3, 9, '2024-09-01', 'pending'),
-(7, 10, '2024-10-03', 'pending');
+-- Dữ liệu mẫu cho bảng campaign_reports
+INSERT INTO campaign_reports (campaign_id, total_donations, total_recipients, results_summary, lessons_learned, report_date, created_at, updated_at) VALUES
+(1, 50000000, 100, 'Đạt được mục tiêu học bổng.', 'Cần mở rộng quảng bá.', '2024-02-16', '2024-02-17', '2024-02-18'),
+(2, 30000000, 200, 'Mua đủ sách cho học sinh.', 'Cần tìm nguồn sách chất lượng.', '2024-03-16', '2024-03-17', '2024-03-18'),
+(3, 20000000, 150, 'Tặng quà cho trẻ em Trung Thu.', 'Nên tổ chức sớm hơn.', '2024-04-16', '2024-04-17', '2024-04-18'),
+(4, 100000000, 500, 'Xây cầu thành công.', 'Cần tăng cường vận động.', '2024-05-16', '2024-05-17', '2024-05-18'),
+(5, 25000000, 300, 'Cung cấp bữa ăn cho trẻ em.', 'Cần đầu tư hơn.', '2024-06-16', '2024-06-17', '2024-06-18'),
+(6, 35000000, 100, 'Mở lớp học hè thành công.', 'Cần thêm giáo viên.', '2024-07-16', '2024-07-17', '2024-07-18'),
+(7, 15000000, 200, 'Kiểm tra sức khỏe cho trẻ em.', 'Cần nhiều nguồn lực hơn.', '2024-08-16', '2024-08-17', '2024-08-18'),
+(8, 60000000, 400, 'Hỗ trợ người dân vùng lũ lụt.', 'Cần hỗ trợ liên tục.', '2024-09-16', '2024-09-17', '2024-09-18'),
+(9, 25000000, 300, 'Khuyến học cho học sinh nghèo.', 'Nên tạo nhiều chương trình hơn.', '2024-10-16', '2024-10-17', '2024-10-18'),
+(10, 80000000, 150, 'Hỗ trợ sinh viên khó khăn.', 'Cần quan tâm hơn.', '2024-11-16', '2024-11-17', '2024-11-18');
 
--- Thêm dữ liệu mẫu vào bảng faculty_requests
-INSERT INTO faculty_requests (faculty_id, department_id, title, description, requested_amount, request_date, status)
-VALUES
-(3, 1, 'Mua thiết bị máy tính', 'Yêu cầu mua máy tính cho phòng nghiên cứu', 30000000, '2024-03-10', 'pending'),
-(4, 2, 'Hỗ trợ sinh viên khuyết tật', 'Yêu cầu hỗ trợ học bổng cho sinh viên khuyết tật', 50000000, '2024-04-15', 'approved'),
-(5, 3, 'Mua thiết bị phòng thí nghiệm', 'Yêu cầu mua thiết bị cho phòng thí nghiệm', 70000000, '2024-05-20', 'pending'),
-(6, 4, 'Tổ chức hội thảo', 'Yêu cầu kinh phí tổ chức hội thảo quốc tế', 20000000, '2024-06-25', 'rejected'),
-(7, 5, 'Mua sách cho thư viện', 'Yêu cầu mua sách chuyên ngành cho thư viện', 15000000, '2024-07-30', 'approved'),
-(3, 6, 'Tổ chức hội nghị khoa học', 'Yêu cầu hỗ trợ tổ chức hội nghị khoa học quốc tế', 30000000, '2024-08-15', 'pending'),
-(4, 7, 'Hỗ trợ sinh viên nghèo', 'Yêu cầu hỗ trợ học phí cho sinh viên nghèo', 5000000, '2024-09-10', 'pending'),
-(5, 1, 'Mua thiết bị giảng dạy', 'Yêu cầu mua thiết bị phục vụ giảng dạy', 20000000, '2024-10-05', 'pending'),
-(6, 2, 'Hỗ trợ mua thiết bị nghiên cứu', 'Yêu cầu mua thiết bị nghiên cứu cho khoa', 30000000, '2024-02-25', 'approved'),
-(7, 3, 'Tổ chức sự kiện nghiên cứu', 'Yêu cầu tổ chức sự kiện nghiên cứu quốc tế', 25000000, '2024-03-15', 'rejected');
+-- Dữ liệu mẫu cho bảng fund_allocations
+INSERT INTO fund_allocations (report_id, category, amount, description, created_at, user_id) VALUES
+(1, 'Học bổng', 20000000, 'Học bổng cho 20 trẻ em.', '2024-02-19', 1),
+(1, 'Thiết bị học tập', 30000000, 'Mua máy tính cho 30 học sinh.', '2024-02-20', 2),
+(2, 'Sách', 20000000, 'Mua sách cho 200 học sinh.', '2024-03-19', 3),
+(2, 'Giấy', 10000000, 'Mua giấy cho học sinh.', '2024-03-20', 4),
+(3, 'Quà Trung Thu', 10000000, 'Tặng quà cho 100 trẻ em.', '2024-04-19', 5),
+(4, 'Xây cầu', 100000000, 'Xây cầu cho làng.', '2024-05-19', 6),
+(5, 'Thực phẩm', 15000000, 'Cung cấp thực phẩm cho trẻ em.', '2024-06-19', 7),
+(6, 'Giáo viên', 20000000, 'Trả lương cho giáo viên.', '2024-07-19', 8),
+(7, 'Vaccine', 5000000, 'Cung cấp vaccine cho trẻ em.', '2024-08-19', 9),
+(8, 'Quỹ hỗ trợ', 30000000, 'Hỗ trợ trực tiếp cho 100 gia đình.', '2024-09-19', 10);
 
--- Thêm dữ liệu mẫu vào bảng transactions
-INSERT INTO transactions (donation_id, transaction_code, payment_gateway, transaction_date, transaction_status)
-VALUES
-(1, 'MOMO20240215', 'MoMo', '2024-02-15', 'successful'),
-(2, 'BANK20240710', 'Bank Transfer', '2024-07-10', 'successful'),
-(3, 'ZALO20240420', 'ZaloPay', '2024-04-20', 'successful'),
-(4, 'MOMO20240615', 'MoMo', '2024-06-15', 'pending'),
-(5, 'BANK20240725', 'Bank Transfer', '2024-07-25', 'successful'),
-(6, 'MOMO20240805', 'MoMo', '2024-08-05', 'successful'),
-(7, 'BANK20240902', 'Bank Transfer', '2024-09-02', 'successful'),
-(8, 'ZALO20240915', 'ZaloPay', '2024-09-15', 'pending'),
-(9, 'MOMO20241001', 'MoMo', '2024-10-01', 'successful'),
-(10, 'BANK20240920', 'Bank Transfer', '2024-09-20', 'successful');
+-- Dữ liệu mẫu cho bảng images
+INSERT INTO images (campaign_id, image_path, image_type) VALUES
+(1, 'https://example.com/image1.jpg', 'image/jpeg'),
+(1, 'https://example.com/image2.jpg', 'image/jpeg'),
+(2, 'https://example.com/image3.jpg', 'image/jpeg'),
+(2, 'https://example.com/image4.jpg', 'image/jpeg'),
+(3, 'https://example.com/image5.jpg', 'image/jpeg'),
+(4, 'https://example.com/image6.jpg', 'image/jpeg'),
+(5, 'https://example.com/image7.jpg', 'image/jpeg'),
+(6, 'https://example.com/image8.jpg', 'image/jpeg'),
+(7, 'https://example.com/image9.jpg', 'image/jpeg'),
+(8, 'https://example.com/image10.jpg', 'image/jpeg');
 
-UPDATE campaigns 
-SET image = 'https://example.com/image1.jpg' WHERE campaign_id = 1;
+-- Dữ liệu mẫu cho bảng donations
+INSERT INTO donations (campaign_id, user_id, amount, payment_method, donation_date, status) VALUES
+(1, 1, 1000000, 'Chuyển khoản', '2024-01-02 10:00:00', 'Hoàn thành'),
+(1, 2, 2000000, 'Tiền mặt', '2024-01-03 11:00:00', 'Hoàn thành'),
+(2, 3, 1500000, 'Chuyển khoản', '2024-02-02 12:00:00', 'Hoàn thành'),
+(2, 4, 2500000, 'Tiền mặt', '2024-02-03 13:00:00', 'Hoàn thành'),
+(3, 5, 3000000, 'Chuyển khoản', '2024-03-02 14:00:00', 'Hoàn thành'),
+(3, 6, 5000000, 'Tiền mặt', '2024-03-03 15:00:00', 'Hoàn thành'),
+(4, 7, 4000000, 'Chuyển khoản', '2024-04-02 16:00:00', 'Hoàn thành'),
+(4, 8, 10000000, 'Tiền mặt', '2024-04-03 17:00:00', 'Hoàn thành'),
+(5, 9, 3000000, 'Chuyển khoản', '2024-05-02 18:00:00', 'Hoàn thành'),
+(5, 10, 6000000, 'Tiền mặt', '2024-05-03 19:00:00', 'Hoàn thành');
 
-UPDATE campaigns 
-SET image = 'https://example.com/image2.jpg' WHERE campaign_id = 2;
-
-UPDATE campaigns 
-SET image = 'https://example.com/image3.jpg' WHERE campaign_id = 3;
-
-UPDATE campaigns 
-SET image = 'https://example.com/image4.jpg' WHERE campaign_id = 4;
-
-UPDATE campaigns 
-SET image = 'https://example.com/image5.jpg' WHERE campaign_id = 5;
-
-UPDATE campaigns 
-SET image = 'https://example.com/image6.jpg' WHERE campaign_id = 6;
-
-UPDATE campaigns 
-SET image = 'https://example.com/image7.jpg' WHERE campaign_id = 7;
-
-UPDATE campaigns 
-SET image = 'https://example.com/image8.jpg' WHERE campaign_id = 8;
-
-UPDATE campaigns 
-SET image = 'https://example.com/image9.jpg' WHERE campaign_id = 9;
-
-UPDATE campaigns 
-SET image = 'https://example.com/image10.jpg' WHERE campaign_id = 10;
-
+-- Dữ liệu mẫu cho bảng transactions
+INSERT INTO transactions (donation_id, transaction_code, payment_gateway, transaction_date, transaction_status) VALUES
+(1, 'TRANS001', 'Ngân hàng A', '2024-01-02 10:05:00', 'Thành công'),
+(2, 'TRANS002', 'Ngân hàng B', '2024-01-03 11:05:00', 'Thành công'),
+(3, 'TRANS003', 'Ngân hàng C', '2024-02-02 12:05:00', 'Thành công'),
+(4, 'TRANS004', 'Ngân hàng D', '2024-02-03 13:05:00', 'Thành công'),
+(5, 'TRANS005', 'Ngân hàng E', '2024-03-02 14:05:00', 'Thành công'),
+(6, 'TRANS006', 'Ngân hàng F', '2024-03-03 15:05:00', 'Thành công'),
+(7, 'TRANS007', 'Ngân hàng G', '2024-04-02 16:05:00', 'Thành công'),
+(8, 'TRANS008', 'Ngân hàng H', '2024-04-03 17:05:00', 'Thành công'),
+(9, 'TRANS009', 'Ngân hàng I', '2024-05-02 18:05:00', 'Thành công'),
+(10, 'TRANS010', 'Ngân hàng J', '2024-05-03 19:05:00', 'Thành công');

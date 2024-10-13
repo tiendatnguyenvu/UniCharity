@@ -10,7 +10,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,8 +23,8 @@ public class CampaignController {
     CampaignService campaignService;
 
     @PostMapping
-    ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request) {
-        return ApiResponse.<CampaignResponse>builder().result(campaignService.createCampaign(request)).build();
+    ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request, @RequestParam("image")MultipartFile file) throws IOException {
+        return ApiResponse.<CampaignResponse>builder().result(campaignService.createCampaign(request, file)).build();
     }
 
     @GetMapping

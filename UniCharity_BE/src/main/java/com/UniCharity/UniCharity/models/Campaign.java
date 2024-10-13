@@ -52,8 +52,9 @@ public class Campaign {
     @Column(name = "status", nullable = false)
     private String status;
 
+    @Lob
     @Column(name = "image")
-    private String image;
+    private byte[] image;
 
     @OneToMany(mappedBy = "campaign")
     private Set<Donation> donations = new LinkedHashSet<>();
