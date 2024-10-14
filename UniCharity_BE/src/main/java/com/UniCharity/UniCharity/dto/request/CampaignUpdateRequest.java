@@ -3,8 +3,6 @@ package com.UniCharity.UniCharity.dto.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
 
 @Data
@@ -20,5 +18,4 @@ public class CampaignUpdateRequest {
     LocalDate startDate;
     LocalDate endDate;
     String status;
-    String image;
 }

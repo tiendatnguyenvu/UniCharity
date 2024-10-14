@@ -11,23 +11,29 @@ import org.springframework.http.HttpStatusCode;
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_KEY(9998, "Invalid message key", HttpStatus.BAD_REQUEST),
-    // các lỗi của User
+    // Campaign
+    CAMPAIGN_NOT_EXISTED(1051, "Campaign not existed", HttpStatus.NOT_FOUND),
+    // CampaignReport
+    CAMPAIGN_REPORT_NOT_EXISTED(2001, "Campaign reposrt not existed", HttpStatus.NOT_FOUND),
+    // Donation
+    DONATION_NOT_EXISTED(5001, "Donation not existed", HttpStatus.NOT_FOUND),
+    // FundAllocation
+    FUND_ALLOCATION_NOT_EXISTED(2051, "Fund allocation not existed", HttpStatus.NOT_FOUND),
+    // Image
+    IMAGE_NOT_EXISTED(3001, "Image not existed", HttpStatus.NOT_FOUND),
+    // Policy
+    POLICY_NOT_EXISTED(3051, "Policy not existed", HttpStatus.NOT_FOUND),
+    // PolicyViolation
+    POLICY_VIOLATION_NOT_EXISTED(4001, "Policy violation not existed", HttpStatus.NOT_FOUND),
+    // Transaction
+    TRANSACTION_NOT_EXISTED(4051, "Transcation not existed", HttpStatus.NOT_FOUND),
+    // User
     USER_NOT_EXISTED(1001, "User not existed", HttpStatus.NOT_FOUND),
     EMPTY_USER_LIST(1002, "User list is empty.", HttpStatus.NO_CONTENT),
     FACULTY_NOT_EXISTED(1003, "Faculty not existed", HttpStatus.NOT_FOUND),
     STUDENT_NOT_EXISTED(1004, "Student not existed", HttpStatus.NOT_FOUND),
-    // các lỗi của Department
-    DEPARTMENT_NOT_EXISTED(1051, "Department not existed", HttpStatus.NOT_FOUND),
-    // các lỗi của Campaign
-    CAMPAIGN_NOT_EXISTED(2001, "Campaign not existed", HttpStatus.NOT_FOUND),
-    // các lỗi của FacultyRequest
-    FACULTYREQUEST_NOT_EXISTED(2051, "Faculty request not existed", HttpStatus.NOT_FOUND),
-    // các lỗi của Scholarship
-    SCHOLARSHIP_NOT_EXISTED(3001, "Scholarship not existed", HttpStatus.NOT_FOUND),
-    SCHOLARSHIP_CLOSED(3002, "The scholarship is already closed", HttpStatus.BAD_REQUEST),
-    // các lỗi của StudentApplication
-    STUDENTAPPLICATION_NOT_EXISTED(3051, "Student application not existed", HttpStatus.NOT_FOUND),
-    STUDENTAPPLICATION_DELETE_FAILED(3052, "Failed to delete student application", HttpStatus.BAD_REQUEST),
+    // ViolationAction
+    VIOLATION_ACTION(4051, "Violation action not existed", HttpStatus.NOT_FOUND),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

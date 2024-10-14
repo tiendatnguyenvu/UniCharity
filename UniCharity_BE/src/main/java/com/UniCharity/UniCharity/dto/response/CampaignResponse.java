@@ -1,12 +1,8 @@
 package com.UniCharity.UniCharity.dto.response;
 
-import com.UniCharity.UniCharity.models.Department;
-import com.UniCharity.UniCharity.models.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
 
 @Data
@@ -20,10 +16,9 @@ public class CampaignResponse {
     String description;
     long targetAmount;
     long currentAmount;
+    LocalDate createdAt;
     LocalDate startDate;
     LocalDate endDate;
-    Integer department;
     Integer createdBy;
     String status;
-    String image;
 }

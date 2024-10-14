@@ -1,8 +1,8 @@
 package com.UniCharity.UniCharity.controllers;
 
-import com.UniCharity.UniCharity.dto.request.ApiResponse;
 import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
+import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.CampaignResponse;
 import com.UniCharity.UniCharity.services.CampaignService;
 import jakarta.validation.Valid;
@@ -10,9 +10,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -43,7 +41,7 @@ public class CampaignController {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.updateCampaign(campaignId, request)).build();
     }
 
-    @PutMapping("/update_status/{campaignId}")
+    @PutMapping("/update-status/{campaignId}")
     ApiResponse<CampaignResponse> updateCampaignStatus(@PathVariable("campaignId") int campaignId) {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.updateCampaignStatus(campaignId)).build();
     }

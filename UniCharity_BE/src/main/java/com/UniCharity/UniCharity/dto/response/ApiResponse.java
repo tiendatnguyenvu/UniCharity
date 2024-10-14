@@ -1,4 +1,4 @@
-package com.UniCharity.UniCharity.dto.request;
+package com.UniCharity.UniCharity.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

@@ -7,10 +7,8 @@ import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.CampaignMapper;
 import com.UniCharity.UniCharity.models.Campaign;
-import com.UniCharity.UniCharity.models.Department;
 import com.UniCharity.UniCharity.models.User;
 import com.UniCharity.UniCharity.repositories.CampaignRepository;
-import com.UniCharity.UniCharity.repositories.DepartmentRepository;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.ICampaignService;
 import lombok.AccessLevel;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,14 +28,11 @@ public class CampaignService implements ICampaignService {
     CampaignRepository campaignRepository;
     UserRepository userRepository;
     CampaignMapper campaignMapper;
-    DepartmentRepository departmentRepository;
 
     @Override
-    public CampaignResponse createCampaign(CampaignCreateRequest request, MultipartFile file) {
+    public CampaignResponse createCampaign(CampaignCreateRequest request) {
         User user = userRepository.findById(request.getCreatedBy()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        Department department = departmentRepository.findById(request.getDepartmentId()).orElseThrow(() -> new AppException(ErrorCode.DEPARTMENT_NOT_EXISTED));
         Campaign campaign = campaignMapper.toCampaign(request);
-        campaign.setDepartment(department);
         campaign.setCreatedBy(user);
         campaign = campaignRepository.save(campaign);
         return campaignMapper.toCampaignResponse(campaign);
