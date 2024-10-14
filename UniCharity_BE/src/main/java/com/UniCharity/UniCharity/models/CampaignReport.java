@@ -32,7 +32,7 @@ public class CampaignReport {
 
     @NotNull
     @Column(name = "total_recipients", nullable = false)
-    private Integer totalRecipients;
+    private Long totalRecipients;
 
     @NotNull
     @Lob

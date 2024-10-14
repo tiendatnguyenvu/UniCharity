@@ -26,7 +26,7 @@ public class CampaignController {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.createCampaign(request)).build();
     }
 
-    @GetMapping()
+    @GetMapping
     ApiResponse<List<CampaignResponse>> getCampaigns() {
         return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaigns()).build();
     }
