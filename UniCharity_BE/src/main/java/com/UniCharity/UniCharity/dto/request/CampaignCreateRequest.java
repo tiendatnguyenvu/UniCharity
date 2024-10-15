@@ -14,8 +14,8 @@ public class CampaignCreateRequest {
     String title;
     String description;
     long targetAmount;
-    long currentAmount;
-    LocalDate createdAt;
+    long currentAmount = 0;
+    LocalDate createdAt = LocalDate.now();
     LocalDate startDate;
     LocalDate endDate;
     int createdBy;
