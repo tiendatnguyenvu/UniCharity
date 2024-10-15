@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CampaignGet, CampaignPost } from "../models/Campaign";
+import { CampaignGet, CampaignPostAdmin } from "../models/Campaign";
 import { handleError } from "../Helpers/ErrorHandler";
 
 const api = "http://localhost:8080/UniCharity/campaigns";
@@ -24,12 +24,59 @@ export const CampaignUpfateStatusAPI = async (id: number) => {
     }
 }
 
-export const CampaignPostAPI = async (formInput: CampaignPost)=>{
+export const CampaignPostAPI = async (formInput: CampaignPostAdmin)=>{
   try{
-      const data  = await axios.post<CampaignPost>(api+"/create",formInput)
+
+      const data  = await axios.post<number>(api+"/create",formInput)
+      console.log("dataPost:",data)
       return data;
   }catch(error)
   {
     handleError(error);
   }
 }
+
+
+// export const upLoadImagesAPI = async (images: FileList | null, CampaignId: number) => {
+//   console.log(CampaignId);
+
+//   try {
+//       if (images && images.length > 0) {
+//           const formData = new FormData();
+
+//           // Append images to FormData
+//           for (let i = 0; i < images.length; i++) {
+//               formData.append('fileImages', images[i]);
+//           }
+
+//           // Include Variant ID in the FormData
+//           formData.append('CampaignId', CampaignId.toString());
+
+//           // Make the API call to upload images
+//           const imageUploadResponse = await axios.post(api + "/upload-images-campaign", formData, {
+//               headers: {
+//                   'Content-Type': 'multipart/form-data',
+//               },
+//           });
+//           return imageUploadResponse;
+//       }
+//   } catch (error) {
+//       handleError(error)
+//   }
+// }
+  
+// export const CampaignPostAPI = async (formInput: CampaignPost)=>{
+//   e.preventDefault();
+//     try {
+//       const response = await axios.post('http://localhost:8080/api/save-content', formInput);
+//       if (response.status === 200) {
+//         console.log('Content saved successfully');
+//       } else {
+//         console.log('Failed to save content');
+//       }
+//     } catch (error) {
+//       console.error('Error saving content:', error);
+//     }
+
+  
+// }

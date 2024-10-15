@@ -4,6 +4,7 @@ export type CampaignGet = {
     description:string,
     targetAmount:number,
     currentAmount:number,
+    createdAt:Date,
     startDate:Date,
     endDate:Date,
     departmentId:number,
@@ -12,13 +13,20 @@ export type CampaignGet = {
     status:string
 }
 
-export type CampaignPost = {
+export type CampaignPostAdmin = {
     title: string,
     description:string,
-    target_amount:number,
-    current_amount:number,
-    start_date:Date,
-    end_date:Date,
-    department_id:number,
-    created_by:number,
+    targetAmount:number,
+    startDate:Date|null,
+    endDate:Date|null,
+    createdBy:number,
+    status:string
 }
+
+// title: "",
+// description: "",
+// targetAmount: 0, // Đảm bảo là số
+// startDate: null,
+// endDate: null,
+// createdBy: 0,
+// status: "pending",
