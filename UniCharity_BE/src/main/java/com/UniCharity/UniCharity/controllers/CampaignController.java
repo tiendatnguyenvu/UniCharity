@@ -31,6 +31,11 @@ public class CampaignController {
         return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaigns()).build();
     }
 
+    @GetMapping("/get-by-status/{status}")
+    ApiResponse<List<CampaignResponse>> getCampaignByStatus(@PathVariable("status") String status) {
+        return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaignsByStatus(status)).build();
+    }
+
     @GetMapping("/get-by-id/{campaignId}")
     ApiResponse<CampaignResponse> getCampaign(@PathVariable("campaignId") int campaignId) {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.getCampaign(campaignId)).build();

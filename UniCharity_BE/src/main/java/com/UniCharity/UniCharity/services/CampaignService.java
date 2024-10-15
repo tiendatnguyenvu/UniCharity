@@ -43,6 +43,11 @@ public class CampaignService implements ICampaignService {
     }
 
     @Override
+    public List<CampaignResponse> getCampaignsByStatus(String status) {
+        return campaignRepository.findByStatus(status).stream().map(campaignMapper::toCampaignResponse).toList();
+    }
+
+    @Override
     public CampaignResponse getCampaign(int campaignId) {
         return campaignMapper.toCampaignResponse(campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED)));
     }

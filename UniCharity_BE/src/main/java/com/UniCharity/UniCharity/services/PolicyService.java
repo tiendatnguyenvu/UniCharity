@@ -12,9 +12,18 @@ import com.UniCharity.UniCharity.repositories.CampaignReportRepository;
 import com.UniCharity.UniCharity.repositories.CampaignRepository;
 import com.UniCharity.UniCharity.repositories.PolicyRepository;
 import com.UniCharity.UniCharity.services.iservices.IPolicyService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class PolicyService implements IPolicyService {
     PolicyRepository policyRepository;
     CampaignRepository campaignRepository;
