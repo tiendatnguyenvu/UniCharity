@@ -12,26 +12,7 @@ const navigate = useNavigate();
 const handleSubmit = async (formInput:CampaignPostAdmin, images: FileList |null) => {
 
   try {
-    const response = await CampaignPostAPI(formInput);
-
-    console.log(response?.data)
-    if(response && response.data)
-    {
-      // const campaignId =response.data;
-      // console.log(response.data)
-      // if(images && images.length > 0 && campaignId)
-      // {
-
-      // }
-
-    }
-
-    
-  } catch (error) {
-    handleError(error)
-    
-  }
-  CampaignPostAPI(formInput)
+      CampaignPostAPI(formInput)
   .then((res)=>{
     if(res?.status == 200)
     {
@@ -39,6 +20,12 @@ const handleSubmit = async (formInput:CampaignPostAdmin, images: FileList |null)
       navigate("/admin/campaigns")
     }
   })
+    
+  } catch (error) {
+    handleError(error)
+    
+  }
+
 }
 
   return (

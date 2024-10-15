@@ -58,16 +58,9 @@ const InputCampaign = ({ handleCampaign, initData }: Props) => {
 
   // hàm submit
   const onSubmit = (data: CampaignPostAdmin) => {
-    // const formattedData = {
-    //   ...data,
-    //   startDate: data.startDate ? new Date(data.startDate).toISOString().split("T")[0] : null,
-    //   endDate: data.endDate ? new Date(data.endDate).toISOString().split("T")[0] : null,
-    // };
-  
-    console.log("xử lý");
-    console.log(data)
+    console.log("xử lý SUBMIT");
+    console.log("sent",data);
     handleCampaign(data, selectedImages);
-    
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +72,7 @@ const InputCampaign = ({ handleCampaign, initData }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit((onSubmit))}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="col-sm-12 col-xl-12">
         <div className="bg-light rounded h-100 p-">
           {/* Title */}
@@ -101,14 +94,18 @@ const InputCampaign = ({ handleCampaign, initData }: Props) => {
           <div className="form-floating mb-3">
             <input
               type="number"
-              className={`form-control ${errors.targetAmount ? "is-invalid" : ""}`}
+              className={`form-control ${
+                errors.targetAmount ? "is-invalid" : ""
+              }`}
               id="targetAmount"
               placeholder="Target amount"
               {...register("targetAmount")}
             />
             <label htmlFor="targetAmount">Target amount</label>
             {errors.targetAmount && (
-              <div className="invalid-feedback">{errors.targetAmount.message}</div>
+              <div className="invalid-feedback">
+                {errors.targetAmount.message}
+              </div>
             )}
           </div>
 

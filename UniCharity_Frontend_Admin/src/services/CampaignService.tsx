@@ -7,7 +7,7 @@ const api = "http://localhost:8080/UniCharity/campaigns";
 export const CampaignGetAPI = async () => {
   try {
     const data = await axios.get<CampaignGet[]>(api);
-    console.log("data:",data.data)
+    // console.log("data:",data.data)
     return data.data;
   } catch (error) {
     handleError(error)
@@ -18,6 +18,7 @@ export const CampaignGetAPI = async () => {
 export const CampaignUpfateStatusAPI = async (id: number) => {
     try {
         const data = await axios.put(api + "/updateStatus/" + id)
+        
         return data;
     }  catch (error) {
         handleError(error);
@@ -28,7 +29,7 @@ export const CampaignPostAPI = async (formInput: CampaignPostAdmin)=>{
   try{
 
       const data  = await axios.post<number>(api+"/create",formInput)
-      console.log("dataPost:",data)
+      console.log("dataPost service :",data)
       return data;
   }catch(error)
   {

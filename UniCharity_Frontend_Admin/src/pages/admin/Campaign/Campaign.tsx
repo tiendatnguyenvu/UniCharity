@@ -18,14 +18,12 @@ const Campaign = () => {
     getCampaigns();
   }, []);
 
-  console.log(campaigns);
 
   const getCampaigns = () => {
     CampaignGetAPI()
       .then((res) => {
         if (res?.result) {
           setCampaigns(res?.result);
-          // console.log(res?.result);
         }
       })
       .catch((error) => {
@@ -120,7 +118,6 @@ const Campaign = () => {
     },
   ];
 
-  console.log("campaigns", campaigns);
 
   return (
     <div>
