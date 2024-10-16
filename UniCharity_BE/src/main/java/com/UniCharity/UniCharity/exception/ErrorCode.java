@@ -33,7 +33,7 @@ public enum ErrorCode {
     FACULTY_NOT_EXISTED(1003, "Faculty not existed", HttpStatus.NOT_FOUND),
     STUDENT_NOT_EXISTED(1004, "Student not existed", HttpStatus.NOT_FOUND),
     // ViolationAction
-    VIOLATION_ACTION(4051, "Violation action not existed", HttpStatus.NOT_FOUND),
+    VIOLATION_ACTION_NOT_EXISTED(4051, "Violation action not existed", HttpStatus.NOT_FOUND),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
