@@ -1,5 +1,6 @@
 package com.UniCharity.UniCharity.dto.response;
 
+import com.UniCharity.UniCharity.models.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -19,6 +20,6 @@ public class CampaignResponse {
     LocalDate createdAt;
     LocalDate startDate;
     LocalDate endDate;
-    Integer createdBy;
+    User createdBy;
     String status;
 }

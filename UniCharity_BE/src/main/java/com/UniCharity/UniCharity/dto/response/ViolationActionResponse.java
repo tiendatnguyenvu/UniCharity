@@ -1,5 +1,6 @@
 package com.UniCharity.UniCharity.dto.response;
 
+import com.UniCharity.UniCharity.models.PolicyViolation;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ViolationActionResponse {
     Integer id;
-    Integer violation;
+    PolicyViolation violation;
     String actionDescription;
     LocalDate actionDate;
     String status;

@@ -14,8 +14,6 @@ public interface FundAllocationMapper {
     @Mapping(target = "user", ignore = true)
     FundAllocation toFundAllocation(FundAllocationCreateRequest request);
 
-    @Mapping(source = "report.id", target = "report")
-    @Mapping(source = "user.id", target = "user")
     FundAllocationResponse toFundAllocationResponse(FundAllocation fundAllocation);
 
     void updateFundAllocation(@MappingTarget FundAllocation fundAllocation, FundAllocationUpdateRequest request);

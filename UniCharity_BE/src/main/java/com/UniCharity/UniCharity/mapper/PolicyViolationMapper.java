@@ -13,7 +13,6 @@ public interface PolicyViolationMapper {
     @Mapping(target = "policy", ignore = true)
     PolicyViolation toPolicyViolation(PolicyViolationCreateRequest request);
 
-    @Mapping(source = "policy.id", target = "policy")
     PolicyViolationResponse toPolicyViolationResponse(PolicyViolation policyViolation);
 
     void updatePolicyViolation(@MappingTarget PolicyViolation policyViolation, PolicyViolationUpdateRequest request);

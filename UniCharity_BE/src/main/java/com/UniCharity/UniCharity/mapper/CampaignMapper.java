@@ -13,7 +13,6 @@ public interface CampaignMapper {
     @Mapping(target = "createdBy", ignore = true)
     Campaign toCampaign(CampaignCreateRequest request);
 
-    @Mapping(source = "createdBy.id", target = "createdBy")
     CampaignResponse toCampaignResponse(Campaign campaign);
 
     void updateCampaign(@MappingTarget Campaign campaign, CampaignUpdateRequest request);

@@ -13,7 +13,6 @@ public interface CampaignReportMapper {
     @Mapping(target = "campaign", ignore = true)
     CampaignReport toCamportReport(CampaignReportCreateRequest request);
 
-    @Mapping(source = "campaign.id", target = "campaign")
     CampaignReportResponse toCamportRequestResponse(CampaignReport campaignReport);
 
     void updateCampaignReport(@MappingTarget CampaignReport campaignReport, CampaignReportUpdateRequest request);

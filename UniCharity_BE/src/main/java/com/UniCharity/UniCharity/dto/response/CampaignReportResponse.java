@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CampaignReportResponse {
     Integer id;
-    Integer campaign;
+    Campaign campaign;
     Long totalDonations;
     Long totalRecipients;
     String resultsSummary;

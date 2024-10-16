@@ -13,7 +13,6 @@ public interface PolicyMapper {
     @Mapping(target = "campaign", ignore = true)
     Policy toPolicy(PolicyCreateRequest request);
 
-    @Mapping(source = "campaign.id", target = "campaign")
     PolicyResponse toPolicyResponse(Policy policy);
 
     void updatePolicy(@MappingTarget Policy policy, PolicyUpdateRequest request);
