@@ -16,5 +16,5 @@ public class CampaignReportUpdateRequest {
     String resultsSummary;
     String lessonsLearned;
     LocalDate reportDate;
-    LocalDate updatedAt;
+    LocalDate updatedAt = LocalDate.now();
 }

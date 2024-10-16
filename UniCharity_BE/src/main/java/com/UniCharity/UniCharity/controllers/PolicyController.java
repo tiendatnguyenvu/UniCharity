@@ -36,7 +36,7 @@ public class PolicyController {
     }
 
     @PutMapping("/update/{policyId}")
-    ApiResponse<PolicyResponse> updatePolicy(@PathVariable("policyId") int policyId, PolicyUpdateRequest request) {
+    ApiResponse<PolicyResponse> updatePolicy(@PathVariable("policyId") int policyId, @RequestBody @Valid PolicyUpdateRequest request) {
         return ApiResponse.<PolicyResponse>builder().result(policyService.updatePolicy(policyId, request)).build();
     }
 }

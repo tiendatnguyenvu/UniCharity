@@ -15,6 +15,6 @@ public class FundAllocationCreateRequest {
     String category;
     Long amount;
     String description;
-    LocalDate createdAt;
+    LocalDate createdAt = LocalDate.now();
     int user;
 }

@@ -10,11 +10,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PolicyCreateRequest {
-    int campaign;
-    String policyDescription;
-    String eligibilityCriteria;
-    String approvalRequired;
+public class PolicyViolationCreateRequest {
+    Integer policy;
+    String violationDescription;
+    LocalDate violationDate;
+    String status;
     LocalDate createdAt = LocalDate.now();
     LocalDate updatedAt = LocalDate.now();
 }

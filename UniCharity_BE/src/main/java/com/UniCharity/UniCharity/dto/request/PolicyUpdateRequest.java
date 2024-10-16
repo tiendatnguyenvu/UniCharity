@@ -14,5 +14,5 @@ public class PolicyUpdateRequest {
     String policyDescription;
     String eligibilityCriteria;
     String approvalRequired;
-    LocalDate updatedAt;
+    LocalDate updatedAt = LocalDate.now();
 }

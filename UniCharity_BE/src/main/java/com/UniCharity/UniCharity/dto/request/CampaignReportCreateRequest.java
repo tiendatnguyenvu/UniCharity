@@ -16,7 +16,7 @@ public class CampaignReportCreateRequest {
     Long totalRecipients;
     String resultsSummary;
     String lessonsLearned;
-    LocalDate createdAt;
+    LocalDate createdAt = LocalDate.now();
     LocalDate reportDate;
     LocalDate updatedAt;
 }
