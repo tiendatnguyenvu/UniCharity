@@ -29,9 +29,8 @@ public enum ErrorCode {
     TRANSACTION_NOT_EXISTED(4051, "Transcation not existed", HttpStatus.NOT_FOUND),
     // User
     USER_NOT_EXISTED(1001, "User not existed", HttpStatus.NOT_FOUND),
-    EMPTY_USER_LIST(1002, "User list is empty.", HttpStatus.NO_CONTENT),
-    FACULTY_NOT_EXISTED(1003, "Faculty not existed", HttpStatus.NOT_FOUND),
     STUDENT_NOT_EXISTED(1004, "Student not existed", HttpStatus.NOT_FOUND),
+    UNAUTHENTICATED(1005, "Unauthenticated", HttpStatus.BAD_REQUEST),
     // ViolationAction
     VIOLATION_ACTION_NOT_EXISTED(4051, "Violation action not existed", HttpStatus.NOT_FOUND),
     ;
