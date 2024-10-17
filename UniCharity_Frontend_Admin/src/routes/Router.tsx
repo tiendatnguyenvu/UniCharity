@@ -1,8 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import AdminLayout from "../layouts/AdminLayout/AdminLayout";
 import Campaign from "../pages/admin/Campaign/Campaign";
-import FormCampaign from "../pages/admin/Campaign/FormCampaign";
 import Department from "../pages/admin/Department/Department";
+import FormCampaign from "../pages/admin/Campaign/FormCampaign";
+import EditCampaign from "../pages/admin/Campaign/EditCampaign";
+
 
 const Router = createBrowserRouter([
   {
@@ -21,6 +23,10 @@ const Router = createBrowserRouter([
         path: "campaigns/create",
         element: <FormCampaign />,
       },
+      {
+        path:"campaigns/update/:id",
+        element:<EditCampaign/>
+      }
     ],
   },
 ]);

@@ -29,11 +29,31 @@ export const CampaignPostAPI = async (formInput: CampaignPostAdmin)=>{
   try{
 
       const data  = await axios.post<number>(api+"/create",formInput)
-      console.log("dataPost service :",data)
+      // console.log("dataPost service :",data)
       return data;
   }catch(error)
   {
     handleError(error);
+  }
+}
+
+export const CampaignUpdateAPI = async (id:string,formInput: CampaignPostAdmin)=>{
+  try{
+      const data  = await axios.put<number>(api+`/update/${id}`,formInput)
+      console.log("dataUpdateService service :",data)
+      return data;
+  }catch(error)
+  {
+    handleError(error);
+  }
+}
+
+export const CampaignGetByIdAPI = async (id: string) => {
+  try {
+      const response = await axios.get<CampaignGet>(api + "/get-by-id/" + id)
+      return response.data
+  } catch (error) {
+      handleError(error)
   }
 }
 
