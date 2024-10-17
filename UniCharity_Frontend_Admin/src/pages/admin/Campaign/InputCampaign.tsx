@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router";
-import * as yup from "yup";
-import { CampaignPostAdmin } from "../../../models/Campaign";
-import { yupResolver } from "@hookform/resolvers/yup";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { Editor } from "@tinymce/tinymce-react";
+import { CampaignPostAdmin } from "../../../models/Campaign";
 
+// Props
 type Props = {
   handleCampaign: (data: CampaignPostAdmin, images: FileList | null) => void;
   initData?: CampaignPostAdmin | null;
+  isUpdate: boolean;
 };
 
 // Định nghĩa schema xác thực với yup
-export const campaignPostSchema = yup.object().shape({
+const campaignPostSchema = yup.object().shape({
   title: yup.string().required("Title is required"),
   description: yup.string().required("Description is required"),
   targetAmount: yup
@@ -22,13 +23,13 @@ export const campaignPostSchema = yup.object().shape({
   startDate: yup
     .date()
     .required("Start date is required")
-    .nullable()
-    .min(new Date(), "Start date must be in the future"),
+    .min(new Date(), "Start date must be in the future")
+    .nullable(),
   endDate: yup
     .date()
     .required("End date is required")
-    .nullable()
-    .min(yup.ref("startDate"), "End date must be after start date"),
+    .min(yup.ref("startDate"), "End date must be after start date")
+    .nullable(),
   createdBy: yup
     .number()
     .required("Created by is required")
@@ -36,18 +37,64 @@ export const campaignPostSchema = yup.object().shape({
   status: yup.string().required("Status is required"),
 });
 
-const InputCampaign = ({ handleCampaign, initData }: Props) => {
+// Component
+const InputCampaign = ({ handleCampaign, initData, isUpdate }: Props) => {
   const [selectedImages, setSelectedImages] = useState<FileList | null>(null);
+  const schema= isUpdate ?
+   yup.object().shape({
+    title: yup.string().required("Title is required"),
+    description: yup.string().required("Description is required"),
+    targetAmount: yup
+      .number()
+      .required("Target amount is required")
+      .positive("Target amount must be positive"),
+    startDate: yup
+      .date()
+      .nullable(),
+    endDate: yup
+      .date()
+      .nullable(),
+    createdBy: yup
+      .number()
+      .required("Created by is required")
+      .positive("Created by must be a positive number"),
+    status: yup.string().required("Status is required"),
+  }) 
+  :
+  yup.object().shape({
+  title: yup.string().required("Title is required"),
+  description: yup.string().required("Description is required"),
+  targetAmount: yup
+    .number()
+    .required("Target amount is required")
+    .positive("Target amount must be positive"),
+  startDate: yup
+    .date()
+    .required("Start date is required")
+    .min(new Date(), "Start date must be in the future")
+    .nullable(),
+  endDate: yup
+    .date()
+    .required("End date is required")
+    .min(yup.ref("startDate"), "End date must be after start date")
+    .nullable(),
+  createdBy: yup
+    .number()
+    .required("Created by is required")
+    .positive("Created by must be a positive number"),
+  status: yup.string().required("Status is required"),
+});
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue, // Để cập nhật giá trị cho description từ Editor
+    setValue,
+    getValues,
   } = useForm<CampaignPostAdmin>({
-    resolver: yupResolver(campaignPostSchema),
+    resolver: yupResolver(schema), // Sử dụng schema đơn giản
     defaultValues: initData || {
       title: "",
-      description: "",
+      description: "description",
       targetAmount: 0,
       startDate: null,
       endDate: null,
@@ -56,19 +103,22 @@ const InputCampaign = ({ handleCampaign, initData }: Props) => {
     },
   });
 
-  // hàm submit
+  
+  // Hàm submit
   const onSubmit = (data: CampaignPostAdmin) => {
-    console.log("xử lý SUBMIT");
-    console.log("sent",data);
+    console.log("sent", data);
     handleCampaign(data, selectedImages);
   };
 
+  // Hàm thay đổi hình ảnh
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedImages(event.target.files);
   };
 
+  // Hàm thay đổi Editor
   const handleEditorChange = (content: string) => {
-    setValue("description", content); // Cập nhật giá trị cho description
+    setValue("description", content);
+    console.log(getValues());
   };
 
   return (
@@ -100,6 +150,7 @@ const InputCampaign = ({ handleCampaign, initData }: Props) => {
               id="targetAmount"
               placeholder="Target amount"
               {...register("targetAmount")}
+              disabled={isUpdate}
             />
             <label htmlFor="targetAmount">Target amount</label>
             {errors.targetAmount && (
@@ -116,6 +167,7 @@ const InputCampaign = ({ handleCampaign, initData }: Props) => {
               className={`form-control ${errors.createdBy ? "is-invalid" : ""}`}
               id="createBy"
               placeholder="Created by"
+              disabled={isUpdate}
               {...register("createdBy")}
             />
             <label htmlFor="createBy">Created by</label>
@@ -125,34 +177,45 @@ const InputCampaign = ({ handleCampaign, initData }: Props) => {
           </div>
 
           {/* Start Date */}
-          <div className="form-floating mb-3">
-            <input
-              type="date"
-              className={`form-control ${errors.startDate ? "is-invalid" : ""}`}
-              id="startDate"
-              placeholder="Start date"
-              {...register("startDate")}
-            />
-            <label htmlFor="startDate">Start date</label>
-            {errors.startDate && (
-              <div className="invalid-feedback">{errors.startDate.message}</div>
-            )}
-          </div>
+          {/* create */}
+          {!isUpdate && (
+            <div className="form-floating mb-3">
+              <input
+                type="date"
+                className={`form-control ${
+                  errors.startDate ? "is-invalid" : ""
+                }`}
+                // className="form-control"
+                id="startDate"
+                placeholder="Start date"
+                {...register("startDate")}
+              />
+              <label htmlFor="startDate">Start date</label>
+              {errors.startDate && (
+                <div className="invalid-feedback">
+                  {errors.startDate.message}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* End Date */}
-          <div className="form-floating mb-3">
-            <input
-              type="date"
-              className={`form-control ${errors.endDate ? "is-invalid" : ""}`}
-              id="endDate"
-              placeholder="End date"
-              {...register("endDate")}
-            />
-            <label htmlFor="endDate">End date</label>
-            {errors.endDate && (
+          {!isUpdate && (
+            <div className="form-floating mb-3">
+              <input
+                type="date"
+                // className={`form-control ${errors.endDate ? "is-invalid" : ""}`}
+                className="form-control"
+                id="endDate"
+                placeholder="End date"
+                {...register("endDate")}
+              />
+              <label htmlFor="endDate">End date</label>
+              {/* {errors.endDate && (
               <div className="invalid-feedback">{errors.endDate.message}</div>
-            )}
-          </div>
+            )} */}
+            </div>
+          )}
 
           {/* Input File for Multiple Images */}
           <div className="mb-3">
@@ -176,17 +239,12 @@ const InputCampaign = ({ handleCampaign, initData }: Props) => {
               init={{
                 height: 400,
                 menubar: false,
-                plugins: [
-                  "advlist autolink lists link image charmap print preview anchor",
-                  "searchreplace visualblocks code fullscreen",
-                  "insertdatetime media table paste code help wordcount",
-                ],
-                toolbar:
-                  "undo redo | formatselect | bold italic backcolor | " +
-                  "alignleft aligncenter alignright alignjustify | " +
-                  "bullist numlist outdent indent | removeformat | help",
+                toolbar_mode: "floating",
+                plugins: "image link",
+                toolbar: "undo redo | bold italic | image | link",
               }}
-              onEditorChange={handleEditorChange} // Cập nhật giá trị mô tả khi thay đổi
+              initialValue={initData?.description || ""}
+              onEditorChange={handleEditorChange}
             />
           </div>
 

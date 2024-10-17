@@ -18,7 +18,6 @@ const Campaign = () => {
     getCampaigns();
   }, []);
 
-
   const getCampaigns = () => {
     CampaignGetAPI()
       .then((res) => {
@@ -31,11 +30,7 @@ const Campaign = () => {
         setCampaigns([]);
       });
   };
-
-  // const onStatusChange = (supplierID: number) => {
-  //   updateStatusAPI(supplierID);
-  // };
-
+// console.log("list: ",campaigns)
   // const updateStatusAPI = (campaignID: number) => {
   //   CampaignUpfateStatusAPI(campaignID).then((res) => {
   //     if (res?.data) {
@@ -52,37 +47,22 @@ const Campaign = () => {
 
   const configs = [
     {
-      label: "#",
-      render: (campaign: CampaignGet, index: number) => index + 1,
+      label: "# ",
+      render: (campaign: CampaignGet) => campaign.id,
     },
     {
       label: "Title",
-      render: (campaign: CampaignGet) => campaign.title.slice(0, 20) + "...",
+      render: (campaign: CampaignGet) => campaign.title,
     },
-    {
-      label: "Description",
-      render: (campaign: CampaignGet) =>
-        campaign.description.slice(0, 20) + "...",
-    },
+
     {
       label: "Target amount",
       render: (campaign: CampaignGet) => campaign.targetAmount,
     },
+
     {
-      label: "Current amount",
-      render: (campaign: CampaignGet) => campaign.currentAmount,
-    },
-    {
-      label: "Create date",
+      label: "Created date",
       render: (campaign: CampaignGet) => campaign.createdAt,
-    },
-    {
-      label: "Start date",
-      render: (campaign: CampaignGet) => campaign.startDate,
-    },
-    {
-      label: "End datex`",
-      render: (campaign: CampaignGet) => campaign.endDate,
     },
     {
       label: "Status",
@@ -97,27 +77,30 @@ const Campaign = () => {
       label: "Action",
       render: (campaign: CampaignGet) => {
         return (
-          // <td className="d-flex">
-          //  {} <button
-          //     type="button"
-          //     className="btn-sm btn-success d-flex align-items-center me-2"
-          //     onClick={() =>
-          //       navigate(`/admin/campaigns/edit/${campaign.campaignId}`)
-          //     }
-          //   >
-          //     {/* <FaPen className='me-2' /> */}
-          //     Update
-          //   </button>
-          // </td>
-
           <td className="d-flex">
-            
+            <button
+              type="button"
+              className="btn-sm btn-success d-flex align-items-center me-2"
+              onClick={() =>
+                navigate(`/admin/campaigns/update/${campaign.id}`)
+              }
+            >
+              Update
+            </button>
+            <button
+              type="button"
+              className="btn-sm btn-warning d-flex align-items-center me-2"
+              onClick={() =>
+                navigate(`/admin/campaigns/get-by-id/${campaign.id}`)
+              }
+            >
+              Detail
+            </button>
           </td>
         );
       },
     },
   ];
-
 
   return (
     <div>
