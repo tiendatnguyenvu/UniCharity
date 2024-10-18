@@ -6,11 +6,7 @@ import com.UniCharity.UniCharity.models.Image;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = CampaignMapper.class)
 public interface ImageMapper {
-    @Mapping(target = "campaign", ignore = true)
-    @Mapping(target = "imagePath", ignore = true)
-    Image toImage(ImageCreateRequest request);
-
     ImageResponse toImageResponse(Image image);
 }

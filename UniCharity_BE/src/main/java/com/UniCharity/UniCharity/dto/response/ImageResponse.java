@@ -4,6 +4,8 @@ import com.UniCharity.UniCharity.models.Campaign;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.File;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -11,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ImageResponse {
     Integer id;
-    Campaign campaign;
+    CampaignResponse campaign;
     String imagePath;
     String imageType;
 }
