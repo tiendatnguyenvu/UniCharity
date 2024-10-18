@@ -1,3 +1,5 @@
+import ReactPaginate from "react-paginate";
+
 type Props = {
   configs: any;
   data: any;
@@ -26,7 +28,12 @@ const Table = ({ configs, data }: Props) => {
     );
   });
 
+  const handlePageClick = () => {
+   
+  };
+
   return (
+   <>
     <table className="table">
       <thead>
         <tr className="">{renderedHeaders}</tr>
@@ -35,6 +42,17 @@ const Table = ({ configs, data }: Props) => {
         {renderedRows} {/* Gọi hàm renderRows */}
       </tbody>
     </table>
+{/* 
+<ReactPaginate
+breakLabel="..."
+nextLabel="next >"
+onPageChange={handlePageClick}
+pageRangeDisplayed={5}
+pageCount={10}
+previousLabel="< previous"
+renderOnZeroPageCount={null}
+/> */}
+</>
   );
 };
 

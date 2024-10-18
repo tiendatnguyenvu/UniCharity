@@ -23,6 +23,7 @@ const Campaign = () => {
       .then((res) => {
         if (res?.result) {
           setCampaigns(res?.result);
+          
         }
       })
       .catch((error) => {
@@ -45,6 +46,7 @@ const Campaign = () => {
   //   });
   // };
 
+  console.log(campaigns)
   const configs = [
     {
       label: "# ",
