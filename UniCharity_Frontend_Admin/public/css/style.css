@@ -275,3 +275,7 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+.bg-light-custom {
+    background-color: #F3F6F9!important;
+}

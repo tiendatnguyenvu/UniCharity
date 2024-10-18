@@ -7,3 +7,8 @@
 body {
   font-family: 'Heebo', sans-serif;
 }
+
+.bg-light
+{
+  background-color: #FFFFFF !important;
+}

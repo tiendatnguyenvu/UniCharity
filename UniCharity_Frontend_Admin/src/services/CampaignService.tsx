@@ -6,7 +6,7 @@ const api = "http://localhost:8080/UniCharity/campaigns";
 
 export const CampaignGetAPI = async () => {
   try {
-    const data = await axios.get<CampaignGet[]>(api);
+    const data = await axios.get<CampaignGet[]>(`${api}`);
     console.dir("data:",data.data)
     return data.data;
   } catch (error) {

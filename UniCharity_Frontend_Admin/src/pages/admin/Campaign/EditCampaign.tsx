@@ -21,14 +21,15 @@ const EditCampaign = () => {
         if (id) {
           const response = await CampaignGetByIdAPI(id);
           if (response && response?.result) {
-            // console.log("response:", response);
+            console.log("response:", response);
+
             setInitData({
               title: response.result.title,
               description: response.result.description,
               targetAmount: response.result.targetAmount,
               startDate: new Date(response.result.startDate),
               endDate: new Date(response.result.endDate),
-              createdBy: response.result.createdBy,
+              createdBy: response.result.createdBy.id,
               status: response.result.status,
             });
           }

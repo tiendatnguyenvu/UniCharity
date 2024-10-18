@@ -4,9 +4,9 @@ import Navbar from "../../components/admin/Navbar/Navbar";
 
 const AdminLayout = () => {
   return (
-    <div className="container-fluid position-relative bg-white d-flex p-0">
+    <div className="container-fluid position-relative  bg-white d-flex p-0">
       <Sidebar />
-      <div className="content">
+      <div className="content bg-light-custom">
         <Navbar />
         <Outlet />
       </div>

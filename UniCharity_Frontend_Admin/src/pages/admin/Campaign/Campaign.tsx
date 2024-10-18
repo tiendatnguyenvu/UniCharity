@@ -123,7 +123,7 @@ const Campaign = () => {
                 </button>
                 {/*  */}
               </div>
-              <div className="table-responsive"></div>
+              <div className="bg-light rounded  table-responsive"></div>
               <Table data={campaigns} configs={configs} />
             </div>
           </div>

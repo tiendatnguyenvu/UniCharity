@@ -4,7 +4,7 @@ const Sidebar = () => {
   return (
     <>
     <div>
-        <div className="sidebar pe-4 pb-3">
+        <div className="sidebar pe-4 pb-3 bg-light">
             <nav className="navbar bg-light navbar-light">
                 <a href="index.html" className="navbar-brand mx-4 mb-3">
                     <h3 className="text-primary"><i className="fa fa-hashtag me-2"></i>DASHMIN</h3>
