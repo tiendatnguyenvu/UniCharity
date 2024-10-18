@@ -1,24 +1,16 @@
 package com.UniCharity.UniCharity.controllers;
 
-import com.UniCharity.UniCharity.dto.request.ImageCreateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.ImageResponse;
-import com.UniCharity.UniCharity.exception.AppException;
-import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.services.ImageService;
-import com.cloudinary.Api;
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-
-import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/images")
@@ -33,8 +25,18 @@ public class ImageController {
         return ApiResponse.<ImageResponse>builder().result(service.uploadImage(image, campaignId)).build();
     }
 
-    @GetMapping("/get-by-id/{imageId}")
-    ApiResponse<ImageResponse> getImage(@PathVariable("imageId") int imageId) {
+    @PostMapping("/upload-list/illustration/{campaignId}")
+    ApiResponse<List<ImageResponse>> createImages(@RequestPart("image")List<MultipartFile> imageList, @PathVariable("campaignId") int campaignId) throws IOException {
+        return ApiResponse.<List<ImageResponse>>builder().result(service.uploadImageList(imageList, campaignId)).build();
+    }
+
+    @GetMapping("/dowload-by-id/{imageId}")
+    ApiResponse<ImageResponse> getImageById(@PathVariable("imageId") int imageId) {
         return ApiResponse.<ImageResponse>builder().result(service.dowloadImage(imageId)).build();
+    }
+
+    @GetMapping("/dowload-by-campaignId/{campaignId}")
+    ApiResponse<List<ImageResponse>> getImageByCampaignId(@PathVariable("campaignId") int campaignId) {
+        return ApiResponse.<List<ImageResponse>>builder().result(service.dowloadImageByCampaign(campaignId)).build();
     }
 }
