@@ -39,12 +39,12 @@ public class CampaignService implements ICampaignService {
 
     @Override
     public List<CampaignResponse> getCampaigns() {
-        return campaignRepository.findAll().stream().map(campaignMapper::toCampaignResponse).toList();
+        return campaignRepository.findAll().stream().map(campaignMapper::toCampaignResponse).toList().reversed();
     }
 
     @Override
     public List<CampaignResponse> getCampaignsByStatus(String status) {
-        return campaignRepository.findByStatus(status).stream().map(campaignMapper::toCampaignResponse).toList();
+        return campaignRepository.findByStatus(status).stream().map(campaignMapper::toCampaignResponse).toList().reversed();
     }
 
     @Override

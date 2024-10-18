@@ -8,11 +8,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = CampaignMapper.class)
 public interface PolicyMapper {
     @Mapping(target = "campaign", ignore = true)
     Policy toPolicy(PolicyCreateRequest request);
 
+    @Mapping(source = "campaign", target = "campaign")
     PolicyResponse toPolicyResponse(Policy policy);
 
     void updatePolicy(@MappingTarget Policy policy, PolicyUpdateRequest request);

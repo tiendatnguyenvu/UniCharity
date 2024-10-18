@@ -40,7 +40,7 @@ public class PolicyService implements IPolicyService {
 
     @Override
     public List<PolicyResponse> getPolicies() {
-        return policyRepository.findAll().stream().map(policyMapper::toPolicyResponse).toList();
+        return policyRepository.findAll().stream().map(policyMapper::toPolicyResponse).toList().reversed();
     }
 
     @Override

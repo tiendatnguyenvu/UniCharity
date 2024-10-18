@@ -33,6 +33,11 @@ public enum ErrorCode {
     UNAUTHENTICATED(1005, "Unauthenticated", HttpStatus.BAD_REQUEST),
     // ViolationAction
     VIOLATION_ACTION_NOT_EXISTED(4051, "Violation action not existed", HttpStatus.NOT_FOUND),
+    // Image
+    IMAGE_UPLOAD_FAILED(5001, "Image upload failed", HttpStatus.INTERNAL_SERVER_ERROR),
+    FILE_TYPE_NOT_SUPPORTED(5002, "File type is not supported", HttpStatus.UNSUPPORTED_MEDIA_TYPE),
+    EMPTY_FILE(5002, "File is empty", HttpStatus.BAD_REQUEST),
+    IMAGE_PROCESSING_ERROR(5003, "Error occurred during image processing", HttpStatus.INTERNAL_SERVER_ERROR),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

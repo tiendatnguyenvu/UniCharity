@@ -20,6 +20,6 @@ public class CampaignResponse {
     LocalDate createdAt;
     LocalDate startDate;
     LocalDate endDate;
-    User createdBy;
+    UserResponse createdBy;
     String status;
 }
