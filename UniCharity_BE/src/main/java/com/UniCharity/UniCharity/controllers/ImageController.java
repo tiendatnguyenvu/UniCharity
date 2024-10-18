@@ -6,6 +6,7 @@ import com.UniCharity.UniCharity.dto.response.ImageResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.services.ImageService;
+import com.cloudinary.Api;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,10 @@ public class ImageController {
     @PostMapping("/upload/illustration/{campaignId}")
     ApiResponse<ImageResponse> createImage(@RequestPart("image")MultipartFile image, @PathVariable("campaignId") int campaignId) throws IOException {
         return ApiResponse.<ImageResponse>builder().result(service.uploadImage(image, campaignId)).build();
+    }
+
+    @GetMapping("/get-by-id/{imageId}")
+    ApiResponse<ImageResponse> getImage(@PathVariable("imageId") int imageId) {
+        return ApiResponse.<ImageResponse>builder().result(service.dowloadImage(imageId)).build();
     }
 }
