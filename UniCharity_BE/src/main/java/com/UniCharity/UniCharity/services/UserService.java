@@ -37,7 +37,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<UserResponse> getUsers() {
-        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList().reversed();
     }
 
     @Override

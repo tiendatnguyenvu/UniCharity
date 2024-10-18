@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PolicyViolationResponse {
     Integer id;
-    Policy   policy;
+    PolicyResponse policy;
     String violationDescription;
     LocalDate violationDate;
     String status;

@@ -44,7 +44,7 @@ public class FundAllocationService implements IFundAllocationService {
 
     @Override
     public List<FundAllocationResponse> getFundAllocations() {
-        return fundAllocationRepository.findAll().stream().map(fundAllocationMapper::toFundAllocationResponse).toList();
+        return fundAllocationRepository.findAll().stream().map(fundAllocationMapper::toFundAllocationResponse).toList().reversed();
     }
 
     @Override

@@ -14,10 +14,10 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FundAllocationResponse {
     Integer id;
-    CampaignReport report;
+    CampaignReportResponse report;
     String category;
     Long amount;
     String description;
     LocalDate createdAt;
-    User user;
+    UserResponse user;
 }

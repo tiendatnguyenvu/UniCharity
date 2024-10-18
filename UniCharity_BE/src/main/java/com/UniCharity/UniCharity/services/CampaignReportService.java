@@ -40,7 +40,7 @@ public class CampaignReportService implements ICampaignReportService {
 
     @Override
     public List<CampaignReportResponse> getCampaignReports() {
-        return campaignReportRepository.findAll().stream().map(campaignReportMapper::toCamportRequestResponse).toList();
+        return campaignReportRepository.findAll().stream().map(campaignReportMapper::toCamportRequestResponse).toList().reversed();
     }
 
     @Override
