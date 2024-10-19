@@ -31,6 +31,9 @@ public enum ErrorCode {
     USER_NOT_EXISTED(1001, "User not existed", HttpStatus.NOT_FOUND),
     STUDENT_NOT_EXISTED(1004, "Student not existed", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1005, "Unauthenticated", HttpStatus.BAD_REQUEST),
+    USER_EXISTED(1006, "User existed", HttpStatus.BAD_REQUEST),
+    EMAIL_ALREADY_EXISTS(1007, "Email already exists", HttpStatus.BAD_REQUEST),
+    USERNAME_ALREADY_EXISTS(1008, "Username already exists", HttpStatus.BAD_REQUEST),
     // ViolationAction
     VIOLATION_ACTION_NOT_EXISTED(4051, "Violation action not existed", HttpStatus.NOT_FOUND),
     // Image

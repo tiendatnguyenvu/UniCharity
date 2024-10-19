@@ -13,6 +13,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +33,23 @@ public class UserService implements IUserService {
     public UserResponse createUser(UserCreateRequest request) {
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user = userRepository.save(user);
+        try {
+            user = userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            // Kiểm tra xem ngoại lệ liên quan đến cột nào
+            if (exception.getCause() instanceof ConstraintViolationException) {
+                ConstraintViolationException constraintViolation = (ConstraintViolationException) exception.getCause();
+                String message = constraintViolation.getSQLException().getMessage();
+
+                // Kiểm tra thông báo lỗi và phát hiện lỗi trùng cột nào
+                if (message.contains("email")) {
+                    throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+                } else if (message.contains("username")) {
+                    throw new AppException(ErrorCode.USERNAME_ALREADY_EXISTS);
+                }
+            }
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
         return userMapper.toUserResponse(user);
     }
 
