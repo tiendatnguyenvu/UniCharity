@@ -40,7 +40,6 @@ public class UserService implements IUserService {
             if (exception.getCause() instanceof ConstraintViolationException) {
                 ConstraintViolationException constraintViolation = (ConstraintViolationException) exception.getCause();
                 String message = constraintViolation.getSQLException().getMessage();
-
                 // Kiểm tra thông báo lỗi và phát hiện lỗi trùng cột nào
                 if (message.contains("email")) {
                     throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
