@@ -41,7 +41,7 @@ public class ImageController {
         return ApiResponse.<List<ImageResponse>>builder().result(service.dowloadImageByCampaign(campaignId)).build();
     }
 
-    @DeleteMapping("/delete/{imageId}")
+    @DeleteMapping("/delete-image/{imageId}")
     ApiResponse<ImageResponse> removeImage(@PathVariable("imageId") int imageId) {
         return ApiResponse.<ImageResponse>builder().result(service.removeImage(imageId)).build();
     }

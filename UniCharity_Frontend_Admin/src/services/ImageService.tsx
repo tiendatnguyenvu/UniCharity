@@ -33,7 +33,7 @@ export const UploadListImagesPostAPI = async (
 };
 
 
-export const DowloadImageByCampaignId = (campaignId :number)=>{
+export const DowloadImageByCampaignId = async (campaignId :number)=>{
   try {
     const respone  = axios.get(`${api}/dowload-by-campaignId/${campaignId}`)
     return respone;
@@ -41,4 +41,16 @@ export const DowloadImageByCampaignId = (campaignId :number)=>{
     console.log("error:",error)
     handleError(error)
   }
+}
+
+export const DeleteCampaignImageAPI =  async (imageId:number)=>{
+  try {
+    const response = axios.delete(`${api}/delete-image/${imageId}`)
+    return response;
+  } catch (error) {
+    
+    console.log("error",error)
+    handleError(error)
+  }
+
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ImageGet } from '../../../../../models/Image';
-import { DowloadImageByCampaignId, UploadListImagesPostAPI } from '../../../../../services/ImageService';
+import { DeleteCampaignImageAPI, DowloadImageByCampaignId, UploadListImagesPostAPI } from '../../../../../services/ImageService';
 import CampaignImage from '../../../Image/CampaignImage';
 
 const CampaignImages = () => {
@@ -48,14 +48,18 @@ const CampaignImages = () => {
     }
 
     const handleDelete = (idImage: number) => {
-        // if (id) {
-        //     ImageDeleteAPI(idImage.toString(), id)
-        //     .then(res => {
-        //         if (res?.data) {
-        //             setImages(res?.data)
-        //         }
-        //     }).catch(err => toast.error(err))
-        // }
+        console.log(1)
+        if (id) {
+            DeleteCampaignImageAPI(idImage)
+            .then(res => {
+                console.log("delete",res)
+                console.log("complete")
+                if (res?.data?.result) {
+                    const arrNew = images.filter((item)=>{return item.id !== idImage})
+                    setImages(arrNew)
+                }
+            }).catch(err => toast.error(err))
+        }
     }
 
     return (

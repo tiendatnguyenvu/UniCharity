@@ -124,7 +124,7 @@ const Campaign = () => {
         <div className="container-fluid pt-4 px-4">
           <h1 className="py-3">Campaign Management</h1>
           <div className="col-12">
-            <div className="rounded custom-container  h-100 p-4">
+            <div className="rounded bg-light custom-container  h-100 p-4">
               <div className="d-flex py-2">
                 <h6 className="mb-4">Campaign List</h6>
                 <button
