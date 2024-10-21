@@ -1,6 +1,5 @@
 package com.UniCharity.UniCharity.dto.response;
 
-import com.UniCharity.UniCharity.models.Campaign;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

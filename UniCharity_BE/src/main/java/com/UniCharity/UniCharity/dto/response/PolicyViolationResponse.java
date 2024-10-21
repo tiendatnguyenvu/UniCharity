@@ -1,6 +1,5 @@
 package com.UniCharity.UniCharity.dto.response;
 
-import com.UniCharity.UniCharity.models.Policy;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

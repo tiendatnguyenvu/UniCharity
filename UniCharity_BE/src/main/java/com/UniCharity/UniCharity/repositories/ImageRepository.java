@@ -1,6 +1,6 @@
 package com.UniCharity.UniCharity.repositories;
 
-import com.UniCharity.UniCharity.models.Image;
+import com.UniCharity.UniCharity.entities.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

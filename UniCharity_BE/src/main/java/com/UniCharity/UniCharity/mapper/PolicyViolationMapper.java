@@ -3,7 +3,7 @@ package com.UniCharity.UniCharity.mapper;
 import com.UniCharity.UniCharity.dto.request.PolicyViolationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.PolicyViolationUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.PolicyViolationResponse;
-import com.UniCharity.UniCharity.models.PolicyViolation;
+import com.UniCharity.UniCharity.entities.PolicyViolation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

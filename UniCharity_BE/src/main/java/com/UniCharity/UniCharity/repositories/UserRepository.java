@@ -1,6 +1,6 @@
 package com.UniCharity.UniCharity.repositories;
 
-import com.UniCharity.UniCharity.models.User;
+import com.UniCharity.UniCharity.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

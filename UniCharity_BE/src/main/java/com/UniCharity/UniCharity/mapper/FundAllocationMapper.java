@@ -3,7 +3,7 @@ package com.UniCharity.UniCharity.mapper;
 import com.UniCharity.UniCharity.dto.request.FundAllocationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.FundAllocationUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.FundAllocationResponse;
-import com.UniCharity.UniCharity.models.FundAllocation;
+import com.UniCharity.UniCharity.entities.FundAllocation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

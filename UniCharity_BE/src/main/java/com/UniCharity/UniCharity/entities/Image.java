@@ -1,4 +1,4 @@
-package com.UniCharity.UniCharity.models;
+package com.UniCharity.UniCharity.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -2,13 +2,12 @@ package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.PolicyViolationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.PolicyViolationUpdateRequest;
-import com.UniCharity.UniCharity.dto.response.PolicyResponse;
 import com.UniCharity.UniCharity.dto.response.PolicyViolationResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.PolicyViolationMapper;
-import com.UniCharity.UniCharity.models.Policy;
-import com.UniCharity.UniCharity.models.PolicyViolation;
+import com.UniCharity.UniCharity.entities.Policy;
+import com.UniCharity.UniCharity.entities.PolicyViolation;
 import com.UniCharity.UniCharity.repositories.PolicyRepository;
 import com.UniCharity.UniCharity.repositories.PolicyViolationRepository;
 import com.UniCharity.UniCharity.services.iservices.IPolicyViolationService;

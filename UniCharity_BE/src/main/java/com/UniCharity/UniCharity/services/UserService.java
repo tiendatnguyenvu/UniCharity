@@ -6,7 +6,7 @@ import com.UniCharity.UniCharity.dto.response.UserResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.UserMapper;
-import com.UniCharity.UniCharity.models.User;
+import com.UniCharity.UniCharity.entities.User;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.IUserService;
 import lombok.AccessLevel;
