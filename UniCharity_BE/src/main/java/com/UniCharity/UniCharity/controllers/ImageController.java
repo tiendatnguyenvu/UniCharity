@@ -26,7 +26,7 @@ public class ImageController {
     }
 
     @PostMapping("/upload-list/illustration/{campaignId}")
-    ApiResponse<List<ImageResponse>> createImages(@RequestPart("image")List<MultipartFile> imageList, @PathVariable("campaignId") int campaignId) throws IOException {
+    ApiResponse<List<ImageResponse>> createImages( @PathVariable("campaignId") int campaignId,@RequestPart("image")List<MultipartFile> imageList) throws IOException {
         return ApiResponse.<List<ImageResponse>>builder().result(service.uploadImageList(imageList, campaignId)).build();
     }
 

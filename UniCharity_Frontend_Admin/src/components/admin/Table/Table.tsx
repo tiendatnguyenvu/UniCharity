@@ -15,14 +15,14 @@ const Table = ({ configs, data }: Props) => {
   const [array, setArray] = useState<any>(data);
   const [totalPage, setTotalPage] = useState(0);
   const [pageSize, setPageSize] = useState(0);
-  console.log("dataTable", data);
+  // console.log("dataTable", data);
 
   useEffect(() => {
     setIndex(1);
     setLength(data.length);
     setArray(data.slice(0, pageSize));
-    setPageSize(7);
-    setTotalPage(Math.ceil(data.length / 7));
+    setPageSize(5);
+    setTotalPage(Math.ceil(data.length / 5));
   }, []);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Table = ({ configs, data }: Props) => {
     setArray(data.slice(x, x + pageSize));
   }, [index]);
 
-  console.log(array);
+  // console.log(array);
   const renderedRows = array.map((item: any, index: number) => {
     // console.log("item",item)
     return (
@@ -55,14 +55,14 @@ const Table = ({ configs, data }: Props) => {
 
   const handlePageClick = (e: any) => {
     setIndex(e.selected + 1);
-    console.log("index", index);
-    console.log("length", length);
-    console.log("array", array);
-    console.log("totalPage", totalPage);
-    console.log("pageSize", pageSize);
+    // console.log("index", index);
+    // console.log("length", length);
+    // console.log("array", array);
+    // console.log("totalPage", totalPage);
+    // console.log("pageSize", pageSize);
   };
 
-  console.log(array);
+  // console.log(array);
 
   return (
     <>
@@ -76,24 +76,24 @@ const Table = ({ configs, data }: Props) => {
       </table>
 
       <ReactPaginate
-      breakLabel={<span>...</span>}
-      nextLabel="next >"
-      onPageChange={handlePageClick}
-      pageRangeDisplayed={5}
-      pageCount={totalPage}
-      previousLabel="< previous"
-      renderOnZeroPageCount={null}
-      containerClassName={"pagination"}
-      pageClassName={"page-item"}
-      pageLinkClassName={"page-link"}
-      previousClassName={"page-item"}
-      previousLinkClassName={"page-link"}
-      nextClassName={"page-item"}
-      nextLinkClassName={"page-link"}
-      breakClassName={"page-item"}
-      breakLinkClassName={"page-link"}
-      activeClassName={"active"}
-    />
+        breakLabel={<span>...</span>}
+        nextLabel="next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={2}
+        pageCount={totalPage}
+        previousLabel="< previous"
+        renderOnZeroPageCount={null}
+        containerClassName={"pagination"}
+        pageClassName={"page-item"}
+        pageLinkClassName={"page-link"}
+        previousClassName={"page-item"}
+        previousLinkClassName={"page-link"}
+        nextClassName={"page-item"}
+        nextLinkClassName={"page-link"}
+        breakClassName={"page-item"}
+        breakLinkClassName={"page-link"}
+        activeClassName={"active"}
+      />
     </>
   );
 };

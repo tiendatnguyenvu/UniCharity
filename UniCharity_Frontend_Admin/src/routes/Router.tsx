@@ -4,6 +4,7 @@ import Campaign from "../pages/admin/Campaign/Campaign";
 import Department from "../pages/admin/Department/Department";
 import FormCampaign from "../pages/admin/Campaign/FormCampaign";
 import EditCampaign from "../pages/admin/Campaign/EditCampaign";
+import CampaignImages from "../pages/admin/Campaign/component/image/CampaignImages";
 
 
 const Router = createBrowserRouter([
@@ -26,6 +27,10 @@ const Router = createBrowserRouter([
       {
         path:"campaigns/update/:id",
         element:<EditCampaign/>
+      },
+      {
+        path:"campaigns/Images/:id",
+        element:<CampaignImages/>
       }
     ],
   },

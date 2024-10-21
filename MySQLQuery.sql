@@ -146,4 +146,14 @@ ADD FOREIGN KEY (user_id) REFERENCES users (user_id);
 
 ALTER TABLE transactions 
 ADD FOREIGN KEY (donation_id) REFERENCES donations (donation_id);
+
+ALTER TABLE users ADD CONSTRAINT unique_email UNIQUE (email);
+ALTER TABLE users ADD CONSTRAINT unique_name UNIQUE (name);
     
+ALTER TABLE `UniversityCharityDB`.`campaigns` 
+CHANGE COLUMN `description` `description` LONGTEXT NOT NULL ;
+
+ALTER TABLE `UniversityCharityDB`.`images` 
+CHANGE COLUMN `image_path` `description` LONGTEXT NOT NULL ;
+
+

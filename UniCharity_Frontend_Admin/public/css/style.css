@@ -80,7 +80,7 @@
 }
 
 .content {
-    margin-left: 0px;
+    margin-left: 250px;
     min-height: 100vh;
     background: #FFFFFF;
     transition: 0.5s;
@@ -274,8 +274,4 @@
 .testimonial-carousel .owl-dot.active {
     background: var(--dark);
     border-color: var(--primary);
-}
-
-.bg-light-custom {
-    background-color: #F3F6F9!important;
 }

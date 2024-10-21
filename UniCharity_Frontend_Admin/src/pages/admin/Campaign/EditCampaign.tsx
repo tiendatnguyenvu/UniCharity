@@ -66,6 +66,7 @@ const EditCampaign = () => {
             handleCampaign={handleSubmit}
             initData={initData}
             isUpdate={true}
+            id={id}
           />
         )}
       </div>

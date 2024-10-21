@@ -4,12 +4,16 @@ import { handleError } from "../Helpers/ErrorHandler";
 
 const api = "http://localhost:8080/UniCharity/campaigns";
 
+// const token = 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZ0ZXJpYS5jb20iLCJzdWIiOiJuZ3V5ZW5jb25nZHVjMThUSERAZ21haWwuY29tIiwiZXhwIjoxNzI5MzI2NjE0LCJpYXQiOjE3MjkzMjMwMTQsInVzZXJJZCI6MTF9.NCjtgoXPAGI8iqmT5wE2BolpRQn-PkIVySArd8BqwhhCG9l0xD-if7vk7cuqCAg6ZdLena57uOQdP6CttQAvnQ'; 
 export const CampaignGetAPI = async () => {
   try {
-    const data = await axios.get<CampaignGet[]>(`${api}`);
+    const data = await axios.get<CampaignGet[]>(`${api}`
+    
+  );
     console.dir("data:",data.data)
     return data.data;
   } catch (error) {
+    console.log("error",error)
     handleError(error)
     
   }
@@ -40,7 +44,7 @@ export const CampaignPostAPI = async (formInput: CampaignPostAdmin)=>{
 export const CampaignUpdateAPI = async (id:string,formInput: CampaignPostAdmin)=>{
   try{
       const data  = await axios.put<number>(api+`/update/${id}`,formInput)
-      console.log("dataUpdateService service :",data)
+      // console.log("dataUpdateService service :",data)
       return data;
   }catch(error)
   {

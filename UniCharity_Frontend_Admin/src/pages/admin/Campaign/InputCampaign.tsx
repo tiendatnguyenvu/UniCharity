@@ -4,12 +4,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Editor } from "@tinymce/tinymce-react";
 import { CampaignPostAdmin } from "../../../models/Campaign";
+import ImageTable from "./component/image/ImageTable";
 
 // Props
 type Props = {
   handleCampaign: (data: CampaignPostAdmin, images: FileList | null) => void;
   initData?: CampaignPostAdmin | null;
   isUpdate: boolean;
+  id?:string|null;
 };
 
 // Định nghĩa schema xác thực với yup
@@ -38,7 +40,7 @@ const campaignPostSchema = yup.object().shape({
 });
 
 // Component
-const InputCampaign = ({ handleCampaign, initData, isUpdate }: Props) => {
+const InputCampaign = ({ handleCampaign, initData, isUpdate ,id}: Props) => {
   const [selectedImages, setSelectedImages] = useState<FileList | null>(null);
   const schema= isUpdate ?
    yup.object().shape({
@@ -120,11 +122,12 @@ const InputCampaign = ({ handleCampaign, initData, isUpdate }: Props) => {
     setValue("description", content);
     console.log(getValues());
   };
+  console.log("imageList:",selectedImages)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="col-sm-12 col-xl-12">
-        <div className="bg-light rounded h-100 p-">
+      <div className=" col-sm-12 col-xl-12">
+        <div className="bg-light rounded h-100 p-4">
           {/* Title */}
           <div className="form-floating mb-3">
             <input
@@ -218,7 +221,7 @@ const InputCampaign = ({ handleCampaign, initData, isUpdate }: Props) => {
           )}
 
           {/* Input File for Multiple Images */}
-          <div className="mb-3">
+          <div className={`mb-3 ${isUpdate && "d-none"}`}>
             <label htmlFor="formFileMultiple" className="form-label">
               Multiple images input
             </label>
@@ -230,23 +233,60 @@ const InputCampaign = ({ handleCampaign, initData, isUpdate }: Props) => {
               onChange={handleImageChange}
             />
           </div>
+          {/* <ImageTable campaignId={campaign.id}/> */}
+          {isUpdate && 
+          (<div className={`mb-3 "}`}>
+            <label htmlFor="formFileMultiple" className="form-label">
+              Multiple images input
+            </label>
+          {(   <ImageTable campaignId={Number(id)}/>)}
+           
+          </div>)}
 
           {/* Word Component for Description */}
-          <div className="bg-light rounded h-100 p-">
-            <label className="form-label">Description</label>
-            <Editor
-              apiKey="bjvro15xzp578awed76jjd439yuuldwig8ojluroj18stkik"
-              init={{
-                height: 400,
-                menubar: false,
-                toolbar_mode: "floating",
-                plugins: "image link",
-                toolbar: "undo redo | bold italic | image | link",
-              }}
-              initialValue={initData?.description || ""}
-              onEditorChange={handleEditorChange}
-            />
-          </div>
+          <div className="bg-light rounded h-100 p-3">
+      <label className="form-label">Description</label>
+      <Editor
+        apiKey="bjvro15xzp578awed76jjd439yuuldwig8ojluroj18stkik"
+        init={{
+          height: 1000,
+          menubar: true,
+          toolbar_mode: "floating",
+          plugins: "image link",
+          toolbar: "undo redo | bold italic | image | link",
+          
+          // Cho phép chọn file từ máy tính
+          file_picker_types: 'image',
+
+          // Cấu hình file picker để chọn ảnh từ máy tính
+          file_picker_callback: (callback, value, meta) => {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*'); // Chỉ cho phép chọn file ảnh
+
+            // Khi người dùng chọn file
+            input.onchange = function() {
+              const file = input.files?.[0]; // Kiểm tra xem có file không
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                  if (e.target) {
+                    // Chèn ảnh vào vị trí con trỏ
+                    callback(e.target.result as string, { alt: file.name });
+                  }
+                };
+                reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
+              }
+            };
+
+            input.click(); // Mở hộp thoại chọn file
+          },
+        }}
+        initialValue={initData?.description || ""}
+        onEditorChange={handleEditorChange}
+      />
+    </div>
+          
 
           {/* Status */}
           <div className="form-floating mb-3">
@@ -268,9 +308,9 @@ const InputCampaign = ({ handleCampaign, initData, isUpdate }: Props) => {
 
           {/* Submit Button */}
           <button
-            style={{ marginTop: "20px" }}
+            style={{ marginTop: "1.25rem" }}
             type="submit"
-            className="admin-btn-primary"
+            className="btn btn-primary"
           >
             Submit
           </button>

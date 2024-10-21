@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 const Campaign = () => {
   const [campaigns, setCampaigns] = useState<CampaignGet[] | null>(null);
   // const [status,setStatus] = useState<string>("active")
+  // const [liss]
 
   const navigate = useNavigate();
 
@@ -54,17 +55,31 @@ const Campaign = () => {
     },
     {
       label: "Title",
-      render: (campaign: CampaignGet) => campaign.title,
+      render: (campaign: CampaignGet) =>{
+        if(campaign.title.length > 20) return campaign.title.slice(0,10)+"..."
+        return  campaign.title
+      },
     },
 
     {
       label: "Target amount",
       render: (campaign: CampaignGet) => campaign.targetAmount,
+    },{
+      label: "Current amount",
+      render: (campaign: CampaignGet) => campaign.currentAmount,
     },
 
     {
       label: "Created date",
       render: (campaign: CampaignGet) => campaign.createdAt,
+    },
+    {
+      label: "Start",
+      render: (campaign: CampaignGet) => campaign.startDate,
+    },
+    {
+      label: "End ",
+      render: (campaign: CampaignGet) => campaign.endDate,
     },
     {
       label: "Status",
@@ -74,7 +89,6 @@ const Campaign = () => {
         </td>
       ),
     },
-
     {
       label: "Action",
       render: (campaign: CampaignGet) => {
@@ -114,7 +128,7 @@ const Campaign = () => {
               <div className="d-flex py-2">
                 <h6 className="mb-4">Campaign List</h6>
                 <button
-                  className="admin-btn-primary ms-auto"
+                  className="btn btn-primary ms-auto"
                   onClick={() => {
                     navigate("/admin/campaigns/create");
                   }}
