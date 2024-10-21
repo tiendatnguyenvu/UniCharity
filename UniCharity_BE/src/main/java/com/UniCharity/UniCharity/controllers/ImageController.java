@@ -42,7 +42,7 @@ public class ImageController {
     }
 
     @DeleteMapping("/delete/{imageId}")
-    ApiResponse<ImageResponse> removeImage(@PathVariable("imageId") int imageId) {
-        return ApiResponse.<ImageResponse>builder().result(service.removeImage(imageId)).build();
+    ApiResponse<List<ImageResponse>> removeImage(@PathVariable("imageId") int imageId) {
+        return ApiResponse.<List<ImageResponse>>builder().result(service.removeImage(imageId)).build();
     }
 }

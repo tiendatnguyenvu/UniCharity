@@ -77,10 +77,10 @@ public class ImageService implements IImageService {
     }
 
     @Override
-    public ImageResponse removeImage(int imageId) {
+    public List<ImageResponse> removeImage(int imageId) {
         Image image = imageRepository.findById(imageId).orElseThrow(() -> new AppException(ErrorCode.IMAGE_NOT_EXISTED));
         imageRepository.delete(image);
-        return imageMapper.toImageResponse(image);
+        return imageRepository.findByCampaignId(image.getCampaign().getId()).stream().map(imageMapper::toImageResponse).toList();
     }
 
     public void validateFile(MultipartFile file) {
