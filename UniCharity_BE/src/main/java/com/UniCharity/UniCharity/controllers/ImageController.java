@@ -5,6 +5,7 @@ import com.UniCharity.UniCharity.dto.response.ImageResponse;
 import com.UniCharity.UniCharity.services.ImageService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,5 +39,10 @@ public class ImageController {
     @GetMapping("/dowload-by-campaignId/{campaignId}")
     ApiResponse<List<ImageResponse>> getImageByCampaignId(@PathVariable("campaignId") int campaignId) {
         return ApiResponse.<List<ImageResponse>>builder().result(service.dowloadImageByCampaign(campaignId)).build();
+    }
+
+    @DeleteMapping("/delete/{imageId}")
+    ApiResponse<ImageResponse> removeImage(@PathVariable("imageId") int imageId) {
+        return ApiResponse.<ImageResponse>builder().result(service.removeImage(imageId)).build();
     }
 }

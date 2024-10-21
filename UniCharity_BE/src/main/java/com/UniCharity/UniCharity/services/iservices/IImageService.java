@@ -11,4 +11,5 @@ public interface IImageService {
     public List<ImageResponse> uploadImageList(List<MultipartFile> imageList, int campaignId) throws IOException;
     public ImageResponse dowloadImage(int imageId);
     public List<ImageResponse> dowloadImageByCampaign(int campaignId);
+    public ImageResponse removeImage(int imageId);
 }
