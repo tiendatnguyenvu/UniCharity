@@ -27,13 +27,13 @@ public class CampaignController {
     }
 
     @GetMapping
-    ApiResponse<List<CampaignResponse>> getCampaigns() {
-        return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaigns()).build();
+    ApiResponse<List<CampaignResponse>> getCampaigns(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sort) {
+        return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaigns(page, size, sort)).build();
     }
 
     @GetMapping("/get-by-status/{status}")
-    ApiResponse<List<CampaignResponse>> getCampaignByStatus(@PathVariable("status") String status) {
-        return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaignsByStatus(status)).build();
+    ApiResponse<List<CampaignResponse>> getCampaignByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sort) {
+        return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaignsByStatus(status, page, size, sort)).build();
     }
 
     @GetMapping("/get-by-id/{campaignId}")
@@ -47,9 +47,6 @@ public class CampaignController {
     }
 
     @PutMapping("/update-status/{campaignId}")
-
-
-
     ApiResponse<CampaignResponse> updateCampaignStatus(@PathVariable("campaignId") int campaignId) {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.updateCampaignStatus(campaignId)).build();
     }

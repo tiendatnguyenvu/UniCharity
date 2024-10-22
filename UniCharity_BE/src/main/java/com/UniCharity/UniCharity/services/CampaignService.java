@@ -15,7 +15,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -38,13 +41,18 @@ public class CampaignService implements ICampaignService {
     }
 
     @Override
-    public List<CampaignResponse> getCampaigns() {
-        return campaignRepository.findAll().stream().map(campaignMapper::toCampaignResponse).toList().reversed();
+    public List<CampaignResponse> getCampaigns(int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        return campaignRepository.findAll(pageable)
+                .map(campaignMapper::toCampaignResponse)
+                .getContent();  // Lấy danh sách từ đối tượng Page
     }
 
+
     @Override
-    public List<CampaignResponse> getCampaignsByStatus(String status) {
-        return campaignRepository.findByStatus(status).stream().map(campaignMapper::toCampaignResponse).toList().reversed();
+    public List<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        return campaignRepository.findByStatus(status, pageable).stream().map(campaignMapper::toCampaignResponse).toList().reversed();
     }
 
     @Override

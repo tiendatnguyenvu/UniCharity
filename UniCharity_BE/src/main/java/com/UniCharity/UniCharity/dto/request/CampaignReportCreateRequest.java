@@ -12,27 +12,31 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CampaignReportCreateRequest {
-    @Positive(message = "ID chiến dịch phải là số dương")
+    @Positive(message = "CAMPAIGN_ID_MUST_BE_POSITIVE")
     int campaign;
 
-    @NotNull(message = "Tổng số tiền quyên góp không được để trống")
-    @PositiveOrZero(message = "Tổng số tiền quyên góp phải là số không âm")
+    @NotNull(message = "DONATION_AMOUNT_CANNOT_BE_NULL")
+    @PositiveOrZero(message = "DONATION_AMOUNT_MUST_BE_POSITIVE_OR_ZERO")
     Long totalDonations;
 
-    @NotNull(message = "Tổng số người nhận không được để trống")
-    @PositiveOrZero(message = "Tổng số người nhận phải là số không âm")
+    @NotNull(message = "NUMBER_OF_RECIPIENTS_CANNOT_BE_NULL")
+    @PositiveOrZero(message = "NUMBER_OF_RECIPIENTS_MUST_BE_POSITIVE_OR_ZERO")
     Long totalRecipients;
 
-    @NotBlank(message = "Tóm tắt kết quả không được để trống")
-    @Size(max = 1000, message = "Tóm tắt kết quả không được vượt quá 1000 ký tự")
+    @NotBlank(message = "SUMMARY_CANNOT_BE_BLANK")
+    @Size(max = 1000, message = "SUMMARY_TOO_LONG")
     String resultsSummary;
 
-    @NotBlank(message = "Bài học rút ra không được để trống")
-    @Size(max = 1000, message = "Bài học rút ra không được vượt quá 1000 ký tự")
+    @NotBlank(message = "LESSONS_LEARNED_CANNOT_BE_BLANK")
+    @Size(max = 1000, message = "LESSONS_LEARNED_TOO_LONG")
     String lessonsLearned;
 
-    @PastOrPresent(message = "Ngày tạo phải là ngày hiện tại hoặc trong quá khứ")
+    @PastOrPresent(message = "CREATED_DATE_MUST_BE_PAST_OR_PRESENT")
     LocalDate createdAt = LocalDate.now();
+
+    @FutureOrPresent(message = "REPORT_DATE_MUST_BE_FUTURE_OR_PRESENT")
     LocalDate reportDate;
+
+    @PastOrPresent(message = "UPDATE_DATE_MUST_BE_PAST_OR_PRESENT")
     LocalDate updatedAt;
 }
