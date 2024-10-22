@@ -4,7 +4,7 @@ import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.CampaignResponse;
-import com.UniCharity.UniCharity.services.CampaignService;
+import com.UniCharity.UniCharity.services.iservices.ICampaignService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CampaignController {
-    CampaignService campaignService;
+    ICampaignService campaignService;
 
     @PostMapping("/create")
     ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request) {

@@ -5,7 +5,7 @@ import com.UniCharity.UniCharity.dto.request.IntrospectRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.AuthenticationResponse;
 import com.UniCharity.UniCharity.dto.response.IntrospectResponse;
-import com.UniCharity.UniCharity.services.AuthenticationService;
+import com.UniCharity.UniCharity.services.iservices.IAuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.text.ParseException;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthencationController {
-    AuthenticationService service;
+    IAuthenticationService service;
 
     @PostMapping("/token")
     ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {

@@ -72,12 +72,12 @@ public enum ErrorCode {
     POLICY_NOT_EXISTED(3051, "Policy not existed", HttpStatus.NOT_FOUND),
     POLICY_DESCRIPTION_CANNOT_BE_BLANK(3052, "Policy description cannot be blank", HttpStatus.BAD_REQUEST),
     POLICY_DESCRIPTION_TOO_LONG(3053, "Policy description cannot exceed 1000 characters", HttpStatus.BAD_REQUEST),
-    ELIGIBILITY_CRITERIA_CANNOT_BE_BLANK(1054, "Eligibility criteria cannot be blank", HttpStatus.BAD_REQUEST),
-    ELIGIBILITY_CRITERIA_TOO_LONG(1055, "Eligibility criteria cannot exceed 1000 characters", HttpStatus.BAD_REQUEST),
-    APPROVAL_REQUEST_CANNOT_BE_BLANK(1056, "Approval request cannot be blank", HttpStatus.BAD_REQUEST),
-    INVALID_APPROVAL_REQUEST(1057, "Approval request must be either 'approved' or 'pending'", HttpStatus.BAD_REQUEST),
-    POLICY_ID_CANNOT_BE_NULL(1058, "Policy ID cannot be null", HttpStatus.BAD_REQUEST),
-    POLICY_ID_MUST_BE_POSITIVE(1059, "Policy ID must be positive", HttpStatus.BAD_REQUEST),
+    ELIGIBILITY_CRITERIA_CANNOT_BE_BLANK(3054, "Eligibility criteria cannot be blank", HttpStatus.BAD_REQUEST),
+    ELIGIBILITY_CRITERIA_TOO_LONG(3055, "Eligibility criteria cannot exceed 1000 characters", HttpStatus.BAD_REQUEST),
+    APPROVAL_REQUEST_CANNOT_BE_BLANK(3056, "Approval request cannot be blank", HttpStatus.BAD_REQUEST),
+    INVALID_APPROVAL_REQUEST(3057, "Approval request must be either 'approved' or 'pending'", HttpStatus.BAD_REQUEST),
+    POLICY_ID_CANNOT_BE_NULL(3058, "Policy ID cannot be null", HttpStatus.BAD_REQUEST),
+    POLICY_ID_MUST_BE_POSITIVE(3059, "Policy ID must be positive", HttpStatus.BAD_REQUEST),
 
     // PolicyViolation
     POLICY_VIOLATION_NOT_EXISTED(4001, "Policy violation not existed", HttpStatus.NOT_FOUND),
@@ -94,26 +94,26 @@ public enum ErrorCode {
     DONATION_NOT_EXISTED(5001, "Donation not existed", HttpStatus.NOT_FOUND),
 
     // ViolationAction
-    VIOLATION_ACTION_NOT_EXISTED(4051, "Violation action not existed", HttpStatus.NOT_FOUND),
-    ACTION_DESCRIPTION_CANNOT_BE_BLANK(4052, "Action description cannot be blank", HttpStatus.BAD_REQUEST),
-    ACTION_DESCRIPTION_TOO_LONG(4053, "Action description cannot exceed 1000 characters", HttpStatus.BAD_REQUEST),
-    ACTION_DATE_CANNOT_BE_NULL(4054, "Action date cannot be null", HttpStatus.BAD_REQUEST),
-    ACTION_DATE_MUST_BE_PAST_OR_PRESENT(4055, "Action date must be in the past or present", HttpStatus.BAD_REQUEST),
-    ACTION_STATUS_CANNOT_BE_BLANK(4056, "Status cannot be blank", HttpStatus.BAD_REQUEST),
-    INVALID_STATUS(4057, "Status must be either 'PENDING' or 'COMPLETED'", HttpStatus.BAD_REQUEST),
+    VIOLATION_ACTION_NOT_EXISTED(5051, "Violation action not existed", HttpStatus.NOT_FOUND),
+    ACTION_DESCRIPTION_CANNOT_BE_BLANK(5052, "Action description cannot be blank", HttpStatus.BAD_REQUEST),
+    ACTION_DESCRIPTION_TOO_LONG(5053, "Action description cannot exceed 1000 characters", HttpStatus.BAD_REQUEST),
+    ACTION_DATE_CANNOT_BE_NULL(5054, "Action date cannot be null", HttpStatus.BAD_REQUEST),
+    ACTION_DATE_MUST_BE_PAST_OR_PRESENT(5055, "Action date must be in the past or present", HttpStatus.BAD_REQUEST),
+    ACTION_STATUS_CANNOT_BE_BLANK(5056, "Status cannot be blank", HttpStatus.BAD_REQUEST),
+    INVALID_STATUS(5057, "Status must be either 'PENDING' or 'COMPLETED'", HttpStatus.BAD_REQUEST),
 
     // Image
-    IMAGE_UPLOAD_FAILED(5001, "Image upload failed", HttpStatus.INTERNAL_SERVER_ERROR),
-    FILE_TYPE_NOT_SUPPORTED(5002, "File type is not supported", HttpStatus.UNSUPPORTED_MEDIA_TYPE),
-    EMPTY_FILE(5003, "File is empty", HttpStatus.BAD_REQUEST),
-    IMAGE_PROCESSING_ERROR(5004, "Error occurred during image processing", HttpStatus.INTERNAL_SERVER_ERROR),
+    IMAGE_UPLOAD_FAILED(6001, "Image upload failed", HttpStatus.INTERNAL_SERVER_ERROR),
+    FILE_TYPE_NOT_SUPPORTED(6002, "File type is not supported", HttpStatus.UNSUPPORTED_MEDIA_TYPE),
+    EMPTY_FILE(6003, "File is empty", HttpStatus.BAD_REQUEST),
+    IMAGE_PROCESSING_ERROR(6004, "Error occurred during image processing", HttpStatus.INTERNAL_SERVER_ERROR),
 
     // Date
-    CREATED_DATE_MUST_BE_PAST_OR_PRESENT(5051, "Created date must be in the past or present", HttpStatus.BAD_REQUEST),
-    START_DATE_MUST_BE_FUTURE_OR_PRESENT(5052, "Start date must be in the future or present", HttpStatus.BAD_REQUEST),
-    END_DATE_MUST_BE_IN_FUTURE(5053, "End date must be in the future", HttpStatus.BAD_REQUEST),
-    REPORT_DATE_MUST_BE_FUTURE_OR_PRESENT(5054, "Report date must be in the future or present", HttpStatus.BAD_REQUEST),
-    UPDATE_DATE_MUST_BE_PAST_OR_PRESENT(5055, "Update date must be in the past or present", HttpStatus.BAD_REQUEST),
+    CREATED_DATE_MUST_BE_PAST_OR_PRESENT(6051, "Created date must be in the past or present", HttpStatus.BAD_REQUEST),
+    START_DATE_MUST_BE_FUTURE_OR_PRESENT(6052, "Start date must be in the future or present", HttpStatus.BAD_REQUEST),
+    END_DATE_MUST_BE_IN_FUTURE(6053, "End date must be in the future", HttpStatus.BAD_REQUEST),
+    REPORT_DATE_MUST_BE_FUTURE_OR_PRESENT(6054, "Report date must be in the future or present", HttpStatus.BAD_REQUEST),
+    UPDATE_DATE_MUST_BE_PAST_OR_PRESENT(6055, "Update date must be in the past or present", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

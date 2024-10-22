@@ -4,7 +4,7 @@ import com.UniCharity.UniCharity.dto.request.FundAllocationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.FundAllocationUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.FundAllocationResponse;
-import com.UniCharity.UniCharity.services.FundAllocationService;
+import com.UniCharity.UniCharity.services.iservices.IFundAllocationService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class FundAllocationController {
-    FundAllocationService fundAllocationService;
+    IFundAllocationService fundAllocationService;
 
     @PostMapping("/create")
     ApiResponse<FundAllocationResponse> createFundAllocation(@RequestBody @Valid FundAllocationCreateRequest request) {
