@@ -4,7 +4,7 @@ import com.UniCharity.UniCharity.dto.request.PolicyCreateRequest;
 import com.UniCharity.UniCharity.dto.request.PolicyUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.PolicyResponse;
-import com.UniCharity.UniCharity.services.PolicyService;
+import com.UniCharity.UniCharity.services.iservices.IPolicyService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PolicyController {
-    PolicyService policyService;
+    IPolicyService policyService;
 
     @PostMapping("/create")
     ApiResponse<PolicyResponse> createPolicy(@RequestBody @Valid PolicyCreateRequest request) {

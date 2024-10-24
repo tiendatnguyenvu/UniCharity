@@ -2,10 +2,9 @@ package com.UniCharity.UniCharity.controllers;
 
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.ImageResponse;
-import com.UniCharity.UniCharity.services.ImageService;
+import com.UniCharity.UniCharity.services.iservices.IImageService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ImageController {
-    ImageService service;
+    IImageService service;
 
     @PostMapping("/upload/illustration/{campaignId}")
     ApiResponse<ImageResponse> createImage(@RequestPart("image")MultipartFile image, @PathVariable("campaignId") int campaignId) throws IOException {

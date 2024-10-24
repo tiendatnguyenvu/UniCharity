@@ -4,7 +4,7 @@ import com.UniCharity.UniCharity.dto.request.PolicyViolationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.PolicyViolationUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.PolicyViolationResponse;
-import com.UniCharity.UniCharity.services.PolicyViolationService;
+import com.UniCharity.UniCharity.services.iservices.IPolicyViolationService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PolicyViolationController {
-    PolicyViolationService service;
+    IPolicyViolationService service;
 
     @PostMapping("/create")
     ApiResponse<PolicyViolationResponse> createPolicyViolation(@RequestBody @Valid PolicyViolationCreateRequest request) {

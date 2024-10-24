@@ -86,8 +86,8 @@ CREATE TABLE donations (
     donation_id INT PRIMARY KEY AUTO_INCREMENT,  -- Khóa chính tự động tăng
     campaign_id INT NOT NULL,  -- Khóa ngoại tham chiếu tới bảng campaigns
     user_id INT NOT NULL,  -- Khóa ngoại tham chiếu tới bảng users
-    amount DECIMAL(18,2) NOT NULL,  -- Số tiền quyên góp
-    payment_method VARCHAR(50) NOT NULL,  -- Phương thức thanh toán
+    amount  NOT NULL,  -- Số tiền quyên góp
+    payment_method VARCHAR(50) NOT NULL,  -- Phương thức thanh toán 
     donation_date DATETIME NOT NULL,  -- Ngày quyên góp
     status VARCHAR(255) DEFAULT NULL  -- Trạng thái giao dịch
 );
@@ -96,10 +96,13 @@ CREATE TABLE donations (
 CREATE TABLE transactions (
     transaction_id INT PRIMARY KEY AUTO_INCREMENT,  -- Khóa chính tự động tăng
     donation_id INT NOT NULL,  -- Khóa ngoại tham chiếu tới bảng donations
-    transaction_code VARCHAR(255) NOT NULL,  -- Mã giao dịch
-    payment_gateway VARCHAR(50) NOT NULL,  -- Cổng thanh toán
-    transaction_date DATETIME NOT NULL,  -- Ngày giao dịch
-    transaction_status VARCHAR(255) NOT NULL  -- Trạng thái giao dịch
+    transaction_code VARCHAR(255) NOT NULL,  -- Mã giao dịch (vnp_TransactionNo)
+    payment_gateway VARCHAR(50) NOT NULL,  -- Cổng thanh toán (VNPay, MoMo, PayPel, ...)
+    transaction_date DATETIME NOT NULL,  -- Ngày giao dịch (vnp_PayDate)
+    transaction_status VARCHAR(255) NOT NULL,  -- Trạng thái giao dịch (vnp_TransactionStatus)
+    amount INT NOT NULL,  -- Số tiền giao dịch (vnp_Amount)
+    response_code VARCHAR(255) NULL,  -- Mã phản hồi từ cổng thanh toán (vnp_ResponseCode)
+    transaction_description VARCHAR(255) NULL,  -- Mô tả giao dịch (vnp_OrderInfo)
 );
 
 -- Tạo bảng users (Người dùng)

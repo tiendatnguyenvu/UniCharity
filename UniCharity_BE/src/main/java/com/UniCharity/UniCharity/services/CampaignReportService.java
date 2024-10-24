@@ -1,14 +1,13 @@
 package com.UniCharity.UniCharity.services;
 
-import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignReportCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignReportUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.CampaignReportResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.CampaignReportMapper;
-import com.UniCharity.UniCharity.models.Campaign;
-import com.UniCharity.UniCharity.models.CampaignReport;
+import com.UniCharity.UniCharity.entities.Campaign;
+import com.UniCharity.UniCharity.entities.CampaignReport;
 import com.UniCharity.UniCharity.repositories.CampaignReportRepository;
 import com.UniCharity.UniCharity.repositories.CampaignRepository;
 import com.UniCharity.UniCharity.services.iservices.ICampaignReportService;

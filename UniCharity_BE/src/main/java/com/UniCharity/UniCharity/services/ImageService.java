@@ -4,8 +4,8 @@ import com.UniCharity.UniCharity.dto.response.ImageResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.ImageMapper;
-import com.UniCharity.UniCharity.models.Campaign;
-import com.UniCharity.UniCharity.models.Image;
+import com.UniCharity.UniCharity.entities.Campaign;
+import com.UniCharity.UniCharity.entities.Image;
 import com.UniCharity.UniCharity.repositories.CampaignRepository;
 import com.UniCharity.UniCharity.repositories.ImageRepository;
 import com.UniCharity.UniCharity.services.iservices.IImageService;
@@ -63,7 +63,7 @@ public class ImageService implements IImageService {
             imageRepository.save(image);
             imageResponseList.add(imageMapper.toImageResponse(image));
         }
-        return imageResponseList;
+        return imageRepository.findByCampaignId(campaign.getId()).stream().map(imageMapper::toImageResponse).toList();
     }
 
     @Override
