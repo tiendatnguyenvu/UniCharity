@@ -1,18 +1,18 @@
 import React from 'react'
-import { ImageGet } from '../../../models/Image'
+import {  ResultImageGet } from '../../../models/Image'
 
 type Props = {
-    image:ImageGet;
+    image:ResultImageGet;
     index:number;
     handleDelete: (imageId:number) => void;
 }
 
 const CampaignImage = ({image,index,handleDelete}:Props) => {
     return (
-        <div className="rounded col m-2 bg-secondary  col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+        <div className="rounded col m-2  col-md-6 col-lg-4 col-xl-4 wow fadeInUp" data-wow-delay="0.1s">
             <div className="service-item rounded">
                 <div className="service-img p-1 rounded-top">
-                    <img src={image.imagePath} className="img-fluid rounded-top w-100" alt="" />
+                    <img src={image.imageUrl} className="img-fluid rounded-top w-100" alt="" />
                 </div>
                 <div className="service-content rounded-bottom p-4">
                     <div className="service-content-inner">

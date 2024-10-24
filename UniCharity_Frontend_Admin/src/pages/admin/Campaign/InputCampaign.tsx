@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -11,81 +11,51 @@ type Props = {
   handleCampaign: (data: CampaignPostAdmin, images: FileList | null) => void;
   initData?: CampaignPostAdmin | null;
   isUpdate: boolean;
-  id?:string|null;
+  id?: string | null;
 };
 
-// Định nghĩa schema xác thực với yup
-const campaignPostSchema = yup.object().shape({
-  title: yup.string().required("Title is required"),
-  description: yup.string().required("Description is required"),
-  targetAmount: yup
-    .number()
-    .required("Target amount is required")
-    .positive("Target amount must be positive"),
-  startDate: yup
-    .date()
-    .required("Start date is required")
-    .min(new Date(), "Start date must be in the future")
-    .nullable(),
-  endDate: yup
-    .date()
-    .required("End date is required")
-    .min(yup.ref("startDate"), "End date must be after start date")
-    .nullable(),
-  createdBy: yup
-    .number()
-    .required("Created by is required")
-    .positive("Created by must be a positive number"),
-  status: yup.string().required("Status is required"),
-});
-
 // Component
-const InputCampaign = ({ handleCampaign, initData, isUpdate ,id}: Props) => {
+const InputCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
   const [selectedImages, setSelectedImages] = useState<FileList | null>(null);
-  const schema= isUpdate ?
-   yup.object().shape({
-    title: yup.string().required("Title is required"),
-    description: yup.string().required("Description is required"),
-    targetAmount: yup
-      .number()
-      .required("Target amount is required")
-      .positive("Target amount must be positive"),
-    startDate: yup
-      .date()
-      .nullable(),
-    endDate: yup
-      .date()
-      .nullable(),
-    createdBy: yup
-      .number()
-      .required("Created by is required")
-      .positive("Created by must be a positive number"),
-    status: yup.string().required("Status is required"),
-  }) 
-  :
-  yup.object().shape({
-  title: yup.string().required("Title is required"),
-  description: yup.string().required("Description is required"),
-  targetAmount: yup
-    .number()
-    .required("Target amount is required")
-    .positive("Target amount must be positive"),
-  startDate: yup
-    .date()
-    .required("Start date is required")
-    .min(new Date(), "Start date must be in the future")
-    .nullable(),
-  endDate: yup
-    .date()
-    .required("End date is required")
-    .min(yup.ref("startDate"), "End date must be after start date")
-    .nullable(),
-  createdBy: yup
-    .number()
-    .required("Created by is required")
-    .positive("Created by must be a positive number"),
-  status: yup.string().required("Status is required"),
-});
+  const schema = isUpdate
+    ? yup.object().shape({
+        title: yup.string().required("Title is required"),
+        description: yup.string().required("Description is required"),
+        targetAmount: yup
+          .number()
+          .required("Target amount is required")
+          .positive("Target amount must be positive"),
+        startDate: yup.date().required().nullable(),
+        endDate: yup.date().required().nullable(),
+        createdBy: yup
+          .number()
+          .required("Created by is required")
+          .positive("Created by must be a positive number"),
+        status: yup.string().required("Status is required"),
+      })
+    : yup.object().shape({
+        title: yup.string().required("Title is required"),
+        description: yup.string().required("Description is required"),
+        targetAmount: yup
+          .number()
+          .required("Target amount is required")
+          .positive("Target amount must be positive"),
+        startDate: yup
+          .date()
+          .required("Start date is required")
+          .min(new Date(), "Start date must be in the future")
+          .nullable(),
+        endDate: yup
+          .date()
+          .required("End date is required")
+          .min(yup.ref("startDate"), "End date must be after start date")
+          .nullable(),
+        createdBy: yup
+          .number()
+          .required("Created by is required")
+          .positive("Created by must be a positive number"),
+        status: yup.string().required("Status is required"),
+      });
   const {
     register,
     handleSubmit,
@@ -105,7 +75,6 @@ const InputCampaign = ({ handleCampaign, initData, isUpdate ,id}: Props) => {
     },
   });
 
-  
   // Hàm submit
   const onSubmit = (data: CampaignPostAdmin) => {
     console.log("sent", data);
@@ -122,7 +91,7 @@ const InputCampaign = ({ handleCampaign, initData, isUpdate ,id}: Props) => {
     setValue("description", content);
     console.log(getValues());
   };
-  console.log("imageList:",selectedImages)
+  console.log("imageList:", selectedImages);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -234,59 +203,60 @@ const InputCampaign = ({ handleCampaign, initData, isUpdate ,id}: Props) => {
             />
           </div>
           {/* <ImageTable campaignId={campaign.id}/> */}
-          {isUpdate && 
-          (<div className={`mb-3 "}`}>
-            <label htmlFor="formFileMultiple" className="form-label">
-              Multiple images input
-            </label>
-          {(   <ImageTable campaignId={Number(id)}/>)}
-           
-          </div>)}
+          {isUpdate && (
+            <div className={`mb-3"}`}>
+              <label htmlFor="formFileMultiple" className="form-label">
+                Multiple images input
+              </label>
+              {<ImageTable campaignId={Number(id)} />}
+            </div>
+          )}
 
           {/* Word Component for Description */}
           <div className="bg-light rounded h-100 p-3">
-      <label className="form-label">Description</label>
-      <Editor
-        apiKey="bjvro15xzp578awed76jjd439yuuldwig8ojluroj18stkik"
-        init={{
-          height: 1000,
-          menubar: true,
-          toolbar_mode: "floating",
-          plugins: "image link",
-          toolbar: "undo redo | bold italic | image | link",
-          
-          // Cho phép chọn file từ máy tính
-          file_picker_types: 'image',
+            <label className="form-label">Description</label>
+            <Editor
+              apiKey="bjvro15xzp578awed76jjd439yuuldwig8ojluroj18stkik"
+              init={{
+                height: 1000,
+                menubar: true,
+                toolbar_mode: "floating",
+                plugins: "image link",
+                toolbar: "undo redo | bold italic | image | link",
 
-          // Cấu hình file picker để chọn ảnh từ máy tính
-          file_picker_callback: (callback, value, meta) => {
-            const input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/*'); // Chỉ cho phép chọn file ảnh
+                // Cho phép chọn file từ máy tính
+                file_picker_types: "image",
 
-            // Khi người dùng chọn file
-            input.onchange = function() {
-              const file = input.files?.[0]; // Kiểm tra xem có file không
-              if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                  if (e.target) {
-                    // Chèn ảnh vào vị trí con trỏ
-                    callback(e.target.result as string, { alt: file.name });
-                  }
-                };
-                reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
-              }
-            };
+                // Cấu hình file picker để chọn ảnh từ máy tính
+                file_picker_callback: (callback) => {
+                  const input = document.createElement("input");
+                  input.setAttribute("type", "file");
+                  input.setAttribute("accept", "image/*"); // Chỉ cho phép chọn file ảnh
 
-            input.click(); // Mở hộp thoại chọn file
-          },
-        }}
-        initialValue={initData?.description || ""}
-        onEditorChange={handleEditorChange}
-      />
-    </div>
-          
+                  // Khi người dùng chọn file
+                  input.onchange = function () {
+                    const file = input.files?.[0]; // Kiểm tra xem có file không
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = function (e) {
+                        if (e.target) {
+                          // Chèn ảnh vào vị trí con trỏ
+                          callback(e.target.result as string, {
+                            alt: file.name,
+                          });
+                        }
+                      };
+                      reader.readAsDataURL(file); // Đọc file dưới dạng Data URL
+                    }
+                  };
+
+                  input.click(); // Mở hộp thoại chọn file
+                },
+              }}
+              initialValue={initData?.description || ""}
+              onEditorChange={handleEditorChange}
+            />
+          </div>
 
           {/* Status */}
           <div className="form-floating mb-3">
@@ -314,6 +284,13 @@ const InputCampaign = ({ handleCampaign, initData, isUpdate ,id}: Props) => {
           >
             Submit
           </button>
+          {/* <button
+            style={{ marginTop: "1.25rem" }}
+            type="submit"
+            className="btn btn-primary"
+          >
+            Create policy
+          </button> */}
         </div>
       </div>
     </form>

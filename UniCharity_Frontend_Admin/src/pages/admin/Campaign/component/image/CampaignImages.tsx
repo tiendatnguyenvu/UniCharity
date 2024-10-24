@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ImageGet } from '../../../../../models/Image';
+import { ResultImageGet } from '../../../../../models/Image';
 import { DeleteCampaignImageAPI, DowloadImageByCampaignId, UploadListImagesPostAPI } from '../../../../../services/ImageService';
 import CampaignImage from '../../../Image/CampaignImage';
+import UploadListImage from '../../../Image/UploadListImage';
 
 const CampaignImages = () => {
     const { id } = useParams<{ id: string }>(); // Ensure to type the id
     const [selectedImages, setSelectedImages] = useState<FileList | null>(null);
-    const [images, setImages] = useState<ImageGet[]>([]);
+    const [images, setImages] = useState<ResultImageGet[]>();
 
     useEffect(() => {
         const fetchImages = async () => {
             if (id) {
                 try {
                     const res = await DowloadImageByCampaignId(Number(id));
-                    if (res?.data) {
-                        setImages(res.data.result);
+                    if (res?.result) {
+                        // setImages(res);
                     } else {
                         toast.error('No images found for this variant.');
                     }
@@ -40,7 +41,8 @@ const CampaignImages = () => {
             UploadListImagesPostAPI( Number(id),selectedImages)
             .then(res => {
                 if (res?.status == 200) {
-                    setImages(res?.data)
+                    console.log(res?.data.result)
+                    setImages(res?.data.result)
                     toast.success("Images uploaded successfully!")
                 }
             }).catch(error => toast.error(error))
@@ -52,11 +54,8 @@ const CampaignImages = () => {
         if (id) {
             DeleteCampaignImageAPI(idImage)
             .then(res => {
-                console.log("delete",res)
-                console.log("complete")
                 if (res?.data?.result) {
-                    const arrNew = images.filter((item)=>{return item.id !== idImage})
-                    setImages(arrNew)
+                    setImages(res.data.result)
                 }
             }).catch(err => toast.error(err))
         }
@@ -70,14 +69,14 @@ const CampaignImages = () => {
                   
                 </div>
 
-                {/* <div className='d-flex justify-content-center' >
+                <div className='d-flex justify-content-center' >
 
-                    <UploadImages handleImageChange={handleImageChange} handleUpload={handleUpload} selectedImages={selectedImages} />
-                </div> */}
+                    <UploadListImage handleImageChange={handleImageChange} handleUpload={handleUpload} selectedImages={selectedImages} />
+                </div>
 
                 <div className="row  justify-content-center">
-                    {images.length > 0 ? (
-                        images.map((image, index) => (
+                    {images&& images!.length > 0 ? (
+                        images!.map((image, index) => (
                             <CampaignImage handleDelete={handleDelete} key={image.id} image={image} index={index + 1} />
                         ))
                     ) : (

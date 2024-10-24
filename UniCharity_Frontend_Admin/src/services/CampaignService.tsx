@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CampaignGet, CampaignPostAdmin } from "../models/Campaign";
+import { CampaignGet, CampaignPostAdmin,  RootCampaignGet } from "../models/Campaign";
 import { handleError } from "../Helpers/ErrorHandler";
 
 const api = "http://localhost:8080/UniCharity/campaigns";
@@ -32,7 +32,7 @@ export const CampaignUpfateStatusAPI = async (id: number) => {
 export const CampaignPostAPI = async (formInput: CampaignPostAdmin)=>{
   try{
 
-      const data  = await axios.post<number>(api+"/create",formInput)
+      const data  = await axios.post<RootCampaignGet>(api+"/create",formInput)
       // console.log("dataPost service :",data)
       return data;
   }catch(error)

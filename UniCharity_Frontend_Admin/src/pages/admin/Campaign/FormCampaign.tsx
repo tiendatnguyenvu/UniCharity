@@ -19,16 +19,10 @@ const FormCampaign = () => {
     try {
       CampaignPostAPI(formInput).then(async (res) => {
         if (res?.status == 200) {
-          console.log("res:", res);
-          console.log("id", res.data.result.id);
           const campaignId = res.data.result.id;
           if (images && images.length > 0 && campaignId) {
-            console.log("images",images)
-             const imageResponse =await UploadListImagesPostAPI(campaignId, images);
-             console.log("images:",imageResponse);
+            await UploadListImagesPostAPI(campaignId, images);
           } 
-          // ImagesCampaignPostAPI(campaignId, images);
-
           toast.success("Add campaign successfully!");
           navigate("/admin/campaigns");
         }

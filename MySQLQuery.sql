@@ -1,5 +1,5 @@
 -- Tạo database UniversityCharityDB
-CREATE DATABASE IF NOT EXISTS UniversityCharityDB;
+CREATE DATABASE if NOT EXISTS UniversityCharityDB;
 USE UniversityCharityDB;
 
 -- Tạo bảng policies (Điều khoản chính sách)

@@ -27,7 +27,7 @@ public class ImageController {
     }
 
     @PostMapping("/upload-list/illustration/{campaignId}")
-    ApiResponse<List<ImageResponse>> createImages( @PathVariable("campaignId") int campaignId,@RequestPart("image")List<MultipartFile> imageList) throws IOException {
+    ApiResponse<List<ImageResponse>> createImages(@RequestPart("image")List<MultipartFile> imageList, @PathVariable("campaignId") int campaignId) throws IOException {
         return ApiResponse.<List<ImageResponse>>builder().result(service.uploadImageList(imageList, campaignId)).build();
     }
 
@@ -41,8 +41,8 @@ public class ImageController {
         return ApiResponse.<List<ImageResponse>>builder().result(service.dowloadImageByCampaign(campaignId)).build();
     }
 
-    @DeleteMapping("/delete-image/{imageId}")
-    ApiResponse<ImageResponse> removeImage(@PathVariable("imageId") int imageId) {
-        return ApiResponse.<ImageResponse>builder().result(service.removeImage(imageId)).build();
+    @DeleteMapping("/delete/{imageId}")
+    ApiResponse<List<ImageResponse>> removeImage(@PathVariable("imageId") int imageId) {
+        return ApiResponse.<List<ImageResponse>>builder().result(service.removeImage(imageId)).build();
     }
 }

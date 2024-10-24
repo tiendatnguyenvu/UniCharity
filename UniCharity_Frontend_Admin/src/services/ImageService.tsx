@@ -1,5 +1,6 @@
 import axios from "axios";
 import { handleError } from "../Helpers/ErrorHandler";
+import { RootImageGet } from "../models/Image";
 
 const api = "http://localhost:8080/UniCharity/images";
 export const UploadListImagesPostAPI = async (
@@ -35,8 +36,9 @@ export const UploadListImagesPostAPI = async (
 
 export const DowloadImageByCampaignId = async (campaignId :number)=>{
   try {
-    const respone  = axios.get(`${api}/dowload-by-campaignId/${campaignId}`)
-    return respone;
+    const response  = await axios.get<RootImageGet>(`${api}/dowload-by-campaignId/${campaignId}`)
+    console.log("result",response.data)
+    return response.data;
   } catch (error) {
     console.log("error:",error)
     handleError(error)
