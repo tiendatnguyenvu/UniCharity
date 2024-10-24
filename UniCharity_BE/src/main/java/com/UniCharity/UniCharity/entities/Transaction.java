@@ -44,4 +44,18 @@ public class Transaction {
     @Column(name = "transaction_status", nullable = false)
     private String transactionStatus;
 
+    @NotNull
+    @Column(name = "amount", nullable = false)
+    private Integer amount;
+
+    @Size(max = 500)
+    @NotNull
+    @Column(name = "response_code", nullable = false, length = 500)
+    private String responseCode;
+
+    @Size(max = 500)
+    @NotNull
+    @Column(name = "transaction_description", nullable = false, length = 500)
+    private String transactionDescription;
+
 }
