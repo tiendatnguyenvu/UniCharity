@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/payment")
+@RequestMapping("/vnpay")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class VNPAYController {
@@ -25,17 +25,15 @@ public class VNPAYController {
     }
 
     // Chuyển hướng người dùng đến cổng thanh toán VNPAY
-    @PostMapping("/submitOrder")
-    public ApiResponse<String> submidOrder(@RequestParam("amount") int orderTotal,
-                                   @RequestParam("orderInfo") String orderInfo,
-                                   HttpServletRequest request){
+    @PostMapping("/create_payment")
+    public ApiResponse<String> submidOrder(HttpServletRequest request) {
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         String vnpayUrl = vnPayService.createOrder(request, orderTotal, orderInfo, baseUrl);
         return ApiResponse.<String>builder().result(vnpayUrl).build();
     }
 
     // Sau khi hoàn tất thanh toán, VNPAY sẽ chuyển hướng trình duyệt về URL này
-    @GetMapping("/vnpay-payment-return")
+    @GetMapping("/payment-return")
     public ApiResponse<PaymentResponse> paymentCompleted(HttpServletRequest request){
         int paymentStatus =vnPayService.orderReturn(request);
 

@@ -89,7 +89,6 @@ CREATE TABLE donations (
     amount  NOT NULL,  -- Số tiền quyên góp
     payment_method VARCHAR(50) NOT NULL,  -- Phương thức thanh toán 
     donation_date DATETIME NOT NULL,  -- Ngày quyên góp
-    status VARCHAR(255) DEFAULT NULL  -- Trạng thái giao dịch
 );
 
 -- Tạo bảng transactions (Giao dịch quyên góp)
