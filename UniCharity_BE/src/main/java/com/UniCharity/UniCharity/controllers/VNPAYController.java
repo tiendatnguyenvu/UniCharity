@@ -25,12 +25,12 @@ public class VNPAYController {
     }
 
     // Chuyển hướng người dùng đến cổng thanh toán VNPAY
-    @PostMapping("/create_payment")
-    public ApiResponse<String> submidOrder(HttpServletRequest request) {
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-        String vnpayUrl = vnPayService.createOrder(request, orderTotal, orderInfo, baseUrl);
-        return ApiResponse.<String>builder().result(vnpayUrl).build();
-    }
+//    @PostMapping("/create_payment")
+//    public ApiResponse<String> submidOrder(HttpServletRequest request) {
+//        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+//        String vnpayUrl = vnPayService.createOrder(request, orderTotal, orderInfo, baseUrl);
+//        return ApiResponse.<String>builder().result(vnpayUrl).build();
+//    }
 
     // Sau khi hoàn tất thanh toán, VNPAY sẽ chuyển hướng trình duyệt về URL này
     @GetMapping("/payment-return")

@@ -25,6 +25,7 @@ public class DonationService implements IDonationService {
         Donation donation = donationMapper.toDonation(request);
         donation.setCampaign(campaign);
         donation.setUser(user);
+
         return null;
     }
 }

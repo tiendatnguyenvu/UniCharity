@@ -3,6 +3,7 @@ package com.UniCharity.UniCharity.services;
 import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.CampaignResponse;
+import com.UniCharity.UniCharity.dto.response.PageResponse;
 import com.UniCharity.UniCharity.entities.Policy;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
@@ -18,6 +19,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -44,22 +46,37 @@ public class CampaignService implements ICampaignService {
         campaign = campaignRepository.save(campaign);
         // lưu policy
         List<Policy> policies = request.getPolicyCreateRequests().stream().map(policyMapper::toPolicy).toList();
+        for(Policy policy : policies) {
+            policy.setCampaign(campaign);
+        }
         policyRepository.saveAll(policies);
         return campaignMapper.toCampaignResponse(campaign);
     }
 
     @Override
-    public List<CampaignResponse> getCampaigns(int page, int size, String sort) {
+    public PageResponse<CampaignResponse> getCampaigns(int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        return campaignRepository.findAll(pageable)
-                .map(campaignMapper::toCampaignResponse)
-                .getContent();  // Lấy danh sách từ đối tượng Page
+        Page<CampaignResponse> campaignPage = campaignRepository.findAll(pageable).map(campaignMapper::toCampaignResponse);
+        return new PageResponse<>(
+                campaignPage.getContent(),
+                campaignPage.getTotalElements(),
+                campaignPage.getNumber(),
+                campaignPage.getTotalPages(),
+                campaignPage.getSize()
+        );
     }
 
     @Override
-    public List<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sort) {
+    public PageResponse<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        return campaignRepository.findByStatus(status, pageable).stream().map(campaignMapper::toCampaignResponse).toList().reversed();
+        Page<CampaignResponse> campaignPage = campaignRepository.findByStatus(status, pageable).map(campaignMapper::toCampaignResponse);
+        return new PageResponse<>(
+                campaignPage.getContent(),
+                campaignPage.getTotalElements(),
+                campaignPage.getNumber(),
+                campaignPage.getTotalPages(),
+                campaignPage.getSize()
+        );
     }
 
     @Override

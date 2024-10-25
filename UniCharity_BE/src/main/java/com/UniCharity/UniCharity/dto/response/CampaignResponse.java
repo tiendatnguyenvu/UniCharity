@@ -1,9 +1,11 @@
 package com.UniCharity.UniCharity.dto.response;
 
+import com.UniCharity.UniCharity.entities.Policy;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder

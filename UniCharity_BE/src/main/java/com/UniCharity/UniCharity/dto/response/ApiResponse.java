@@ -3,6 +3,7 @@ package com.UniCharity.UniCharity.dto.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 
 @Data
 @Builder

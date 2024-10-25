@@ -4,11 +4,13 @@ import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.CampaignResponse;
+import com.UniCharity.UniCharity.dto.response.PageResponse;
 import com.UniCharity.UniCharity.services.iservices.ICampaignService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,13 +29,13 @@ public class CampaignController {
     }
 
     @GetMapping
-    ApiResponse<List<CampaignResponse>> getCampaigns(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sort) {
-        return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaigns(page, size, sort)).build();
+    ApiResponse<PageResponse<CampaignResponse>> getCampaigns(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sort) {
+        return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaigns(page, size, sort)).build();
     }
 
     @GetMapping("/get-by-status/{status}")
-    ApiResponse<List<CampaignResponse>> getCampaignByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sort) {
-        return ApiResponse.<List<CampaignResponse>>builder().result(campaignService.getCampaignsByStatus(status, page, size, sort)).build();
+    ApiResponse<PageResponse<CampaignResponse>> getCampaignByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sort) {
+        return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaignsByStatus(status, page, size, sort)).build();
     }
 
     @GetMapping("/get-by-id/{campaignId}")
