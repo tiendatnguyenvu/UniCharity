@@ -12,6 +12,7 @@ import org.mapstruct.MappingTarget;
 public interface CampaignMapper {
 
     @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "policyCreateRequests", ignore = true)
     Campaign toCampaign(CampaignCreateRequest request);
 
     @Mapping(source = "createdBy", target = "createdBy")

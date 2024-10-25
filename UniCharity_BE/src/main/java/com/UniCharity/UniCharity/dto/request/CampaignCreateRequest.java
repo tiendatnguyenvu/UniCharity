@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -41,4 +42,6 @@ public class CampaignCreateRequest {
     @NotBlank(message = "STATUS_CANNOT_BE_BLANK")
     @Pattern(regexp = "active|inactive|completed|cancelled", message = "INVALID_STATUS_VALUE")
     String status;
+
+    List<PolicyCreateRequest> policyCreateRequests;
 }

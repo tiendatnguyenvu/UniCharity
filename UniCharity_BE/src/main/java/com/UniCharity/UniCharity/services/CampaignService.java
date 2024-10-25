@@ -3,12 +3,15 @@ package com.UniCharity.UniCharity.services;
 import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.CampaignResponse;
+import com.UniCharity.UniCharity.entities.Policy;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.CampaignMapper;
 import com.UniCharity.UniCharity.entities.Campaign;
 import com.UniCharity.UniCharity.entities.User;
+import com.UniCharity.UniCharity.mapper.PolicyMapper;
 import com.UniCharity.UniCharity.repositories.CampaignRepository;
+import com.UniCharity.UniCharity.repositories.PolicyRepository;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.ICampaignService;
 import lombok.AccessLevel;
@@ -29,7 +32,9 @@ import java.util.List;
 public class CampaignService implements ICampaignService {
     CampaignRepository campaignRepository;
     UserRepository userRepository;
+    PolicyRepository policyRepository;
     CampaignMapper campaignMapper;
+    PolicyMapper policyMapper;
 
     @Override
     public CampaignResponse createCampaign(CampaignCreateRequest request) {
@@ -37,6 +42,9 @@ public class CampaignService implements ICampaignService {
         Campaign campaign = campaignMapper.toCampaign(request);
         campaign.setCreatedBy(user);
         campaign = campaignRepository.save(campaign);
+        // lưu policy
+        List<Policy> policies = request.getPolicyCreateRequests().stream().map(policyMapper::toPolicy).toList();
+        policyRepository.saveAll(policies);
         return campaignMapper.toCampaignResponse(campaign);
     }
 
@@ -47,7 +55,6 @@ public class CampaignService implements ICampaignService {
                 .map(campaignMapper::toCampaignResponse)
                 .getContent();  // Lấy danh sách từ đối tượng Page
     }
-
 
     @Override
     public List<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sort) {
