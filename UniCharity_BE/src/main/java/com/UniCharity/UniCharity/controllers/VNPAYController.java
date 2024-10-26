@@ -2,10 +2,8 @@ package com.UniCharity.UniCharity.controllers;
 
 import com.UniCharity.UniCharity.dto.request.DonationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.TransactionCreateRequest;
-import com.UniCharity.UniCharity.dto.request.TransactionUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.DonationResponse;
-import com.UniCharity.UniCharity.dto.response.PaymentResponse;
 import com.UniCharity.UniCharity.dto.response.TransactionResponse;
 import com.UniCharity.UniCharity.services.DonationService;
 import com.UniCharity.UniCharity.services.TransactionService;
@@ -17,10 +15,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 @RestController
 @RequestMapping("/vnpay")
