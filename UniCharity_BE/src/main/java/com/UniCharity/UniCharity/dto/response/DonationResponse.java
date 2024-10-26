@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DonationResponse {
-    Campaign campaign;
-    User user;
+    Integer id;
+    CampaignResponse campaign;
     Long amount;
     String paymentMethod;
     LocalDateTime donationDate;

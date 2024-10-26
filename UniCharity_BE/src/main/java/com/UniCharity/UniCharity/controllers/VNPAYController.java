@@ -1,58 +1,54 @@
 package com.UniCharity.UniCharity.controllers;
 
+import com.UniCharity.UniCharity.dto.request.DonationCreateRequest;
+import com.UniCharity.UniCharity.dto.request.TransactionCreateRequest;
+import com.UniCharity.UniCharity.dto.request.TransactionUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
+import com.UniCharity.UniCharity.dto.response.DonationResponse;
 import com.UniCharity.UniCharity.dto.response.PaymentResponse;
+import com.UniCharity.UniCharity.dto.response.TransactionResponse;
+import com.UniCharity.UniCharity.services.DonationService;
+import com.UniCharity.UniCharity.services.TransactionService;
 import com.UniCharity.UniCharity.services.VNPAYService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import lombok.experimental.NonFinal;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @RestController
 @RequestMapping("/vnpay")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class VNPAYController {
-    private VNPAYService vnPayService;
-
-    @GetMapping({"", "/"})
-    public String home(){
-        return "createOrder";
-    }
+    VNPAYService vnPayService;
+    DonationService donationService;
+    TransactionService transactionService;
+    @NonFinal
+    DonationResponse donationResponse;
+    @NonFinal
+    TransactionResponse transactionResponse;
 
     // Chuyển hướng người dùng đến cổng thanh toán VNPAY
-//    @PostMapping("/create_payment")
-//    public ApiResponse<String> submidOrder(HttpServletRequest request) {
-//        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-//        String vnpayUrl = vnPayService.createOrder(request, orderTotal, orderInfo, baseUrl);
-//        return ApiResponse.<String>builder().result(vnpayUrl).build();
-//    }
+    @PostMapping("/create_payment")
+    public ApiResponse<String> submidOrder(HttpServletRequest request, @RequestBody @Valid DonationCreateRequest donationCreateRequest) {
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        this.donationResponse = donationService.createDonation(donationCreateRequest, "online_payment");
+        this.transactionResponse = transactionService.createTransaction(new TransactionCreateRequest(donationResponse.getId(), "pending"));
+        String orderInfor = "Dong gop '" + donationResponse.getCampaign().getTitle() + "', so tien " + donationResponse.getAmount();
+        String vnpayUrl = vnPayService.createOrder(request, donationResponse.getAmount(), orderInfor, baseUrl);
+        return ApiResponse.<String>builder().result(vnpayUrl).build();
+    }
 
     // Sau khi hoàn tất thanh toán, VNPAY sẽ chuyển hướng trình duyệt về URL này
     @GetMapping("/payment-return")
-    public ApiResponse<PaymentResponse> paymentCompleted(HttpServletRequest request){
-        int paymentStatus =vnPayService.orderReturn(request);
-
-        String orderInfo = request.getParameter("vnp_OrderInfo");
-        String paymentTime = request.getParameter("vnp_PayDate");
-        String cardType = request.getParameter("vnp_CardType");
-        String transactionId = request.getParameter("vnp_TransactionNo");
-        String transactionStatus = request.getParameter("vnp_TransactionStatus");
-        String totalPrice = request.getParameter("vnp_Amount");
-
-        PaymentResponse paymentResponse = new PaymentResponse();
-        paymentResponse.setPaymentStatus(paymentStatus);
-        paymentResponse.setOrderInfo(orderInfo);
-        paymentResponse.setPaymentTime(paymentTime);
-        paymentResponse.setCardType(cardType);
-        paymentResponse.setTransactionId(transactionId);
-        paymentResponse.setTransactionStatus(transactionStatus);
-        paymentResponse.setTotalPrice(totalPrice);
-
-        return ApiResponse.<PaymentResponse>builder().result(paymentResponse).build();
+    public ApiResponse<TransactionResponse> paymentCompleted(HttpServletRequest request) {
+        return ApiResponse.<TransactionResponse>builder().result(transactionService.updateTransaction(this.transactionResponse.getId(), request)).build();
     }
 }

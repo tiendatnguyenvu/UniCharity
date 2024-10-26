@@ -51,7 +51,6 @@ public class PolicyService implements IPolicyService {
     public PolicyResponse updatePolicy(int policyId, PolicyUpdateRequest request) {
         Policy policy = policyRepository.findById(policyId).orElseThrow(() -> new AppException(ErrorCode.POLICY_NOT_EXISTED));
         policyMapper.updatePolicy(policy, request);
-        policyRepository.save(policy);
-        return policyMapper.toPolicyResponse(policy);
+        return policyMapper.toPolicyResponse(policyRepository.save(policy));
     }
 }
