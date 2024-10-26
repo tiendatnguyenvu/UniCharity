@@ -9,7 +9,7 @@ import java.util.*;
 
 public class VNPAYConfig {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_Returnurl = "/UniCharity/payment/vnpay-payment-return";
+    public static String vnp_Returnurl = "/UniCharity/vnpay/payment-return";
     public static String vnp_TmnCode = "LSERF3DZ"; // kiểm tra email sau
     public static String vnp_HashSecret = "7DYC7IEA59V11PNM2IBXQKHQBPRKB434"; // khi đăng ký Test
     public static String vnp_apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";

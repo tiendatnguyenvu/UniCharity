@@ -1,6 +1,5 @@
-package com.UniCharity.UniCharity.image;
+package com.UniCharity.UniCharity.utils;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;

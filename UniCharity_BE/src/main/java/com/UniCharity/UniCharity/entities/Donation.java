@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -35,8 +36,8 @@ public class Donation {
     private User user;
 
     @NotNull
-    @Column(name = "amount", nullable = false, precision = 18, scale = 2)
-    private BigDecimal amount;
+    @Column(name = "amount", nullable = false)
+    private Long amount;
 
     @Size(max = 50)
     @NotNull
@@ -45,11 +46,7 @@ public class Donation {
 
     @NotNull
     @Column(name = "donation_date", nullable = false)
-    private Instant donationDate;
-
-    @Size(max = 255)
-    @Column(name = "status")
-    private String status;
+    private LocalDateTime donationDate;
 
     @OneToMany(mappedBy = "donation")
     private Set<Transaction> transactions = new LinkedHashSet<>();
