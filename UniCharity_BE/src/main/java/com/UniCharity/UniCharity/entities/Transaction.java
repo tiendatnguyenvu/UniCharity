@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -26,36 +27,28 @@ public class Transaction {
     private Donation donation;
 
     @Size(max = 255)
-    @NotNull
     @Column(name = "transaction_code", nullable = false)
     private String transactionCode;
 
     @Size(max = 50)
-    @NotNull
     @Column(name = "payment_gateway", nullable = false, length = 50)
     private String paymentGateway;
 
-    @NotNull
     @Column(name = "transaction_date", nullable = false)
-    private Instant transactionDate;
+    private LocalDateTime transactionDate;
 
     @Size(max = 255)
-    @NotNull
     @Column(name = "transaction_status", nullable = false)
     private String transactionStatus;
 
-    @NotNull
     @Column(name = "amount", nullable = false)
-    private Integer amount;
+    private Long amount;
 
     @Size(max = 500)
-    @NotNull
     @Column(name = "response_code", nullable = false, length = 500)
     private String responseCode;
 
     @Size(max = 500)
-    @NotNull
     @Column(name = "transaction_description", nullable = false, length = 500)
     private String transactionDescription;
-
 }

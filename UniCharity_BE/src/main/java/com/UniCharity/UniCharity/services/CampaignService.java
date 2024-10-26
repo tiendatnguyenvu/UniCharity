@@ -59,10 +59,12 @@ public class CampaignService implements ICampaignService {
         Page<CampaignResponse> campaignPage = campaignRepository.findAll(pageable).map(campaignMapper::toCampaignResponse);
         return new PageResponse<>(
                 campaignPage.getContent(),
-                campaignPage.getTotalElements(),
-                campaignPage.getNumber(),
-                campaignPage.getTotalPages(),
-                campaignPage.getSize()
+                com.UniCharity.UniCharity.dto.response.Page.builder()
+                        .totalItem(campaignPage.getTotalElements())
+                        .currentPage(campaignPage.getNumber())
+                        .totalPages(campaignPage.getTotalPages())
+                        .pageSize(campaignPage.getSize())
+                        .build()
         );
     }
 
@@ -72,10 +74,12 @@ public class CampaignService implements ICampaignService {
         Page<CampaignResponse> campaignPage = campaignRepository.findByStatus(status, pageable).map(campaignMapper::toCampaignResponse);
         return new PageResponse<>(
                 campaignPage.getContent(),
-                campaignPage.getTotalElements(),
-                campaignPage.getNumber(),
-                campaignPage.getTotalPages(),
-                campaignPage.getSize()
+                com.UniCharity.UniCharity.dto.response.Page.builder()
+                        .totalItem(campaignPage.getTotalElements())
+                        .currentPage(campaignPage.getNumber())
+                        .totalPages(campaignPage.getTotalPages())
+                        .pageSize(campaignPage.getSize())
+                        .build()
         );
     }
 
