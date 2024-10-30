@@ -23,4 +23,6 @@ public class CampaignResponse {
     LocalDate endDate;
     UserResponse createdBy;
     String status;
+
+    List<ImageResponse> images;
 }

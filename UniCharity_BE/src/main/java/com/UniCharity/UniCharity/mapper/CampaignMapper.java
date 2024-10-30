@@ -15,6 +15,7 @@ public interface CampaignMapper {
     Campaign toCampaign(CampaignCreateRequest request);
 
     @Mapping(source = "createdBy", target = "createdBy")
+    @Mapping(source = "images", target = "images")
     CampaignResponse toCampaignResponse(Campaign campaign);
 
     void updateCampaign(@MappingTarget Campaign campaign, CampaignUpdateRequest request);

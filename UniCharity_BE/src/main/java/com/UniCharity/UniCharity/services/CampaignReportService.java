@@ -3,6 +3,7 @@ package com.UniCharity.UniCharity.services;
 import com.UniCharity.UniCharity.dto.request.CampaignReportCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignReportUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.CampaignReportResponse;
+import com.UniCharity.UniCharity.dto.response.PageResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.CampaignReportMapper;
@@ -37,10 +38,11 @@ public class CampaignReportService implements ICampaignReportService {
         return campaignReportMapper.toCamportRequestResponse(campaignReport);
     }
 
-    @Override
-    public List<CampaignReportResponse> getCampaignReports() {
-        return campaignReportRepository.findAll().stream().map(campaignReportMapper::toCamportRequestResponse).toList().reversed();
-    }
+//    @Override
+//    public PageResponse<CampaignReportResponse> getCampaignReports(int page, int size, String sort) {
+//
+//        return campaignReportRepository.findAll().stream().map(campaignReportMapper::toCamportRequestResponse).toList().reversed();
+//    }
 
     @Override
     public CampaignReportResponse getCampaignReport(int camportReportId) {

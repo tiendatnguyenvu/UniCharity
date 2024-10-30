@@ -26,10 +26,10 @@ public class CampaignReportController {
         return ApiResponse.<CampaignReportResponse>builder().result(campaignReportService.createCampaignReport(request)).build();
     }
 
-    @GetMapping
-    ApiResponse<List<CampaignReportResponse>> getCampaignReports() {
-        return ApiResponse.<List<CampaignReportResponse>>builder().result(campaignReportService.getCampaignReports()).build();
-    }
+//    @GetMapping
+//    ApiResponse<List<CampaignReportResponse>> getCampaignReports() {
+//        return ApiResponse.<List<CampaignReportResponse>>builder().result(campaignReportService.getCampaignReports()).build();
+//    }
 
     @GetMapping("/get-by-id/{campaignReportId}")
     ApiResponse<CampaignReportResponse> getCampaignReport(@PathVariable("campaignReportId") int campaignReportId) {

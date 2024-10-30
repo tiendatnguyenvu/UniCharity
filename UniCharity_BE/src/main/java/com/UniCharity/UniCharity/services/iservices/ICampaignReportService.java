@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ICampaignReportService {
     public CampaignReportResponse createCampaignReport(CampaignReportCreateRequest request);
-    public List<CampaignReportResponse> getCampaignReports();
+//    public List<CampaignReportResponse> getCampaignReports();
     public CampaignReportResponse getCampaignReport(int camportReportId);
     public CampaignReportResponse updateCampaignReport(int camportReportId, CampaignReportUpdateRequest request);
 }
