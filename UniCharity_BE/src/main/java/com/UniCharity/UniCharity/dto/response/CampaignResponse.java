@@ -25,4 +25,5 @@ public class CampaignResponse {
     String status;
 
     List<ImageResponse> images;
+    List<PolicyResponse> policies;
 }

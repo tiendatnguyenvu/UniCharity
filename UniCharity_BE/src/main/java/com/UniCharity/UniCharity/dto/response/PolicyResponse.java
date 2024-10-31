@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PolicyResponse {
     Integer id;
-    CampaignResponse campaign;
     String policyDescription;
     String eligibilityCriteria;
     String approvalRequired;
