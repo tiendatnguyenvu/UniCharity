@@ -8,12 +8,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring", uses = PolicyViolationMapper.class)
+@Mapper(componentModel = "spring")
 public interface ViolationActionMapper {
     @Mapping(target = "violation", ignore = true)
     ViolationAction toViolationAction(ViolationActionCreateRequest request);
 
-    @Mapping(source = "violation", target = "violation")
+    @Mapping(source = "violation.id", target = "violation")
     ViolationActionResponse toViolationActionResponse(ViolationAction violationAction);
 
     void updateViolationAction(@MappingTarget ViolationAction violationAction, ViolationActionUpdateRequest request);

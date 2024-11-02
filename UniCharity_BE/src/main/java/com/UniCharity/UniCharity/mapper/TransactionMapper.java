@@ -8,13 +8,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring", uses = DonationMapper.class)
+@Mapper(componentModel = "spring")
 public interface TransactionMapper {
     @Mapping(target = "donation", ignore = true)
     Transaction toTransaction(TransactionCreateRequest request);
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "donation", target = "donation")
+    @Mapping(source = "donation.id", target = "donation")
     TransactionResponse toTransactionResponse(Transaction transaction);
 
     void updateTransaction(@MappingTarget Transaction transaction, TransactionUpdateRequest request);

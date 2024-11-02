@@ -1,6 +1,7 @@
 package com.UniCharity.UniCharity.dto.response;
 
 import com.UniCharity.UniCharity.entities.Policy;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -21,9 +22,12 @@ public class CampaignResponse {
     LocalDate createdAt;
     LocalDate startDate;
     LocalDate endDate;
-    UserResponse createdBy;
     String status;
+
+    int createdBy;
 
     List<ImageResponse> images;
     List<PolicyResponse> policies;
+    List<DonationResponse> donations;
+    List<CampaignReportResponse> campaignReports;
 }

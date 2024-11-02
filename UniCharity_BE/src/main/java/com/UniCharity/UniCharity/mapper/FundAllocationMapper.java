@@ -8,14 +8,14 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring", uses = {CampaignReportMapper.class, UserMapper.class})
+@Mapper(componentModel = "spring")
 public interface FundAllocationMapper {
     @Mapping(target = "report", ignore = true)
     @Mapping(target = "user", ignore = true)
     FundAllocation toFundAllocation(FundAllocationCreateRequest request);
 
-    @Mapping(source = "report", target = "report")
-    @Mapping(source = "user", target = "user")
+    @Mapping(source = "report.id", target = "report")
+    @Mapping(source = "user.id", target = "user")
     FundAllocationResponse toFundAllocationResponse(FundAllocation fundAllocation);
 
     void updateFundAllocation(@MappingTarget FundAllocation fundAllocation, FundAllocationUpdateRequest request);

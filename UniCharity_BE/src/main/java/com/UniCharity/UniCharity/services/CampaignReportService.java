@@ -16,6 +16,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,11 +42,20 @@ public class CampaignReportService implements ICampaignReportService {
         return campaignReportMapper.toCamportRequestResponse(campaignReport);
     }
 
-//    @Override
-//    public PageResponse<CampaignReportResponse> getCampaignReports(int page, int size, String sort) {
-//
-//        return campaignReportRepository.findAll().stream().map(campaignReportMapper::toCamportRequestResponse).toList().reversed();
-//    }
+    @Override
+    public PageResponse<CampaignReportResponse> getCampaignReports(int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        Page<CampaignReportResponse> campaignReportPage = campaignReportRepository.findAll(pageable).map(campaignReportMapper::toCamportRequestResponse);
+        return new PageResponse<>(
+                campaignReportPage.getContent(),
+                com.UniCharity.UniCharity.dto.response.Page.builder()
+                        .totalItem(campaignReportPage.getTotalElements())
+                        .currentPage(campaignReportPage.getNumber())
+                        .totalPages(campaignReportPage.getTotalPages())
+                        .pageSize(campaignReportPage.getSize())
+                        .build()
+        );
+    }
 
     @Override
     public CampaignReportResponse getCampaignReport(int camportReportId) {

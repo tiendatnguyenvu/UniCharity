@@ -6,13 +6,14 @@ import com.UniCharity.UniCharity.entities.Donation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = CampaignMapper.class)
+@Mapper(componentModel = "spring", uses = {TransactionMapper.class})
 public interface DonationMapper {
     @Mapping(target = "campaign", ignore = true)
     @Mapping(target = "user", ignore = true)
     Donation toDonation(DonationCreateRequest request);
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "campaign", target = "campaign")
+    @Mapping(source = "campaign.id", target = "campaign")
+    @Mapping(source = "user.id", target = "user")
+    @Mapping(source = "transactions", target = "transactions")
     DonationResponse toDonationResponse(Donation donation);
 }

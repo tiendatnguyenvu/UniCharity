@@ -1,7 +1,10 @@
 package com.UniCharity.UniCharity.dto.response;
 
+import com.UniCharity.UniCharity.entities.Donation;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -15,4 +18,8 @@ public class UserResponse {
     String phone;
     String password;
     String role;
+
+    List<FundAllocationResponse> fundAllocations;
+    List<CampaignResponse> campaigns;
+    List<Donation> donations;
 }

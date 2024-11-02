@@ -10,7 +10,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ImageResponse {
     Integer id;
-//    CampaignResponse campaign;
     String imagePath;
     String imageType;
+
+    int campaign;
 }

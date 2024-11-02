@@ -4,6 +4,7 @@ import com.UniCharity.UniCharity.dto.request.CampaignReportCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignReportUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.CampaignReportResponse;
+import com.UniCharity.UniCharity.dto.response.PageResponse;
 import com.UniCharity.UniCharity.services.iservices.ICampaignReportService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -26,10 +27,10 @@ public class CampaignReportController {
         return ApiResponse.<CampaignReportResponse>builder().result(campaignReportService.createCampaignReport(request)).build();
     }
 
-//    @GetMapping
-//    ApiResponse<List<CampaignReportResponse>> getCampaignReports() {
-//        return ApiResponse.<List<CampaignReportResponse>>builder().result(campaignReportService.getCampaignReports()).build();
-//    }
+    @GetMapping
+    ApiResponse<PageResponse<CampaignReportResponse>> getCampaignReports(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sort) {
+        return ApiResponse.<PageResponse<CampaignReportResponse>>builder().result(campaignReportService.getCampaignReports(page, size, sort)).build();
+    }
 
     @GetMapping("/get-by-id/{campaignReportId}")
     ApiResponse<CampaignReportResponse> getCampaignReport(@PathVariable("campaignReportId") int campaignReportId) {

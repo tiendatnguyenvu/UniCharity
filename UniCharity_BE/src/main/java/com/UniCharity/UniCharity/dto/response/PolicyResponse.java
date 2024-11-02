@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,4 +18,8 @@ public class PolicyResponse {
     String approvalRequired;
     LocalDate createdAt;
     LocalDate updatedAt;
+
+    int campaign;
+
+    List<PolicyViolationResponse> policyViolations;
 }

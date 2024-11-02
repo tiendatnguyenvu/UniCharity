@@ -8,12 +8,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring", uses = CampaignMapper.class)
+@Mapper(componentModel = "spring", uses = {FundAllocationMapper.class})
 public interface CampaignReportMapper {
     @Mapping(target = "campaign", ignore = true)
     CampaignReport toCamportReport(CampaignReportCreateRequest request);
 
-    @Mapping(source = "campaign", target = "campaign")
+    @Mapping(source = "campaign.id", target = "campaign")
+    @Mapping(source = "fundAllocations", target = "fundAllocations")
     CampaignReportResponse toCamportRequestResponse(CampaignReport campaignReport);
 
     void updateCampaignReport(@MappingTarget CampaignReport campaignReport, CampaignReportUpdateRequest request);

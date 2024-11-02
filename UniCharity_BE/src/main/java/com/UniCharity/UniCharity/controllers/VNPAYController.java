@@ -3,8 +3,10 @@ package com.UniCharity.UniCharity.controllers;
 import com.UniCharity.UniCharity.dto.request.DonationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.TransactionCreateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
+import com.UniCharity.UniCharity.dto.response.CampaignResponse;
 import com.UniCharity.UniCharity.dto.response.DonationResponse;
 import com.UniCharity.UniCharity.dto.response.TransactionResponse;
+import com.UniCharity.UniCharity.services.CampaignService;
 import com.UniCharity.UniCharity.services.DonationService;
 import com.UniCharity.UniCharity.services.TransactionService;
 import com.UniCharity.UniCharity.services.VNPAYService;
@@ -24,6 +26,7 @@ public class VNPAYController {
     VNPAYService vnPayService;
     DonationService donationService;
     TransactionService transactionService;
+    CampaignService campaignService;
     @NonFinal
     DonationResponse donationResponse;
     @NonFinal
@@ -35,7 +38,8 @@ public class VNPAYController {
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         this.donationResponse = donationService.createDonation(donationCreateRequest, "online_payment");
         this.transactionResponse = transactionService.createTransaction(new TransactionCreateRequest(donationResponse.getId(), "pending"));
-        String orderInfor = "Dong gop '" + donationResponse.getCampaign().getTitle() + "', so tien " + donationResponse.getAmount();
+        CampaignResponse campaignResponse = campaignService.getCampaign(donationResponse.getCampaign());
+        String orderInfor = "Dong gop '" + campaignResponse.getTitle() + "', so tien " + donationResponse.getAmount();
         String vnpayUrl = vnPayService.createOrder(request, donationResponse.getAmount(), orderInfor, baseUrl);
         return ApiResponse.<String>builder().result(vnpayUrl).build();
     }

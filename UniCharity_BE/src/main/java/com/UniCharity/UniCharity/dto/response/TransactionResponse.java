@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TransactionResponse {
     Integer id;
-    DonationResponse donation;
     String transactionCode;
     String paymentGateway;
     LocalDateTime transactionDate;
@@ -21,4 +20,6 @@ public class TransactionResponse {
     Long amount;
     String responseCode;
     String transactionDescription;
+
+    int donation;
 }

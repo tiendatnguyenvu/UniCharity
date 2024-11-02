@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -14,8 +15,12 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DonationResponse {
     Integer id;
-    CampaignResponse campaign;
     Long amount;
     String paymentMethod;
     LocalDateTime donationDate;
+
+    int campaign;
+    int user;
+
+    List<TransactionResponse> transactions;
 }
