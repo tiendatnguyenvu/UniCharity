@@ -23,8 +23,4 @@ public interface CampaignMapper {
     CampaignResponse toCampaignResponse(Campaign campaign);
 
     void updateCampaign(@MappingTarget Campaign campaign, CampaignUpdateRequest request);
-
-
-
-
 }
