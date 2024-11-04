@@ -44,4 +44,5 @@ public class CampaignCreateRequest {
     String status;
 
     List<PolicyCreateRequest> policyCreateRequests;
+    List<ImageCreateRequest> imageCreateRequests;
 }

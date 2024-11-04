@@ -4,14 +4,17 @@ import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.CampaignResponse;
 import com.UniCharity.UniCharity.dto.response.PageResponse;
+import com.UniCharity.UniCharity.entities.Image;
 import com.UniCharity.UniCharity.entities.Policy;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.CampaignMapper;
 import com.UniCharity.UniCharity.entities.Campaign;
 import com.UniCharity.UniCharity.entities.User;
+import com.UniCharity.UniCharity.mapper.ImageMapper;
 import com.UniCharity.UniCharity.mapper.PolicyMapper;
 import com.UniCharity.UniCharity.repositories.CampaignRepository;
+import com.UniCharity.UniCharity.repositories.ImageRepository;
 import com.UniCharity.UniCharity.repositories.PolicyRepository;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.ICampaignService;
@@ -35,8 +38,10 @@ public class CampaignService implements ICampaignService {
     CampaignRepository campaignRepository;
     UserRepository userRepository;
     PolicyRepository policyRepository;
+    ImageRepository imageRepository;
     CampaignMapper campaignMapper;
     PolicyMapper policyMapper;
+    ImageMapper imageMapper;
 
     @Override
     public CampaignResponse createCampaign(CampaignCreateRequest request) {
@@ -50,6 +55,12 @@ public class CampaignService implements ICampaignService {
             policy.setCampaign(campaign);
         }
         policyRepository.saveAll(policies);
+        // lưu image
+        List<Image> images = request.getImageCreateRequests().stream().map(imageMapper::toImage).toList();
+        for(Image image : images) {
+            image.setCampaign(campaign);
+        }
+        imageRepository.saveAll(images);
         return campaignMapper.toCampaignResponse(campaign);
     }
 
