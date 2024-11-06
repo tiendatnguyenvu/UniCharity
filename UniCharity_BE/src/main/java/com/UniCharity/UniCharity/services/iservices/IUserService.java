@@ -2,7 +2,7 @@ package com.UniCharity.UniCharity.services.iservices;
 
 import com.UniCharity.UniCharity.dto.request.UserCreateRequest;
 import com.UniCharity.UniCharity.dto.request.UserUpdateRequest;
-import com.UniCharity.UniCharity.dto.response.UserResponse;
+import com.UniCharity.UniCharity.dto.response.user.UserResponse;
 
 import java.util.List;
 

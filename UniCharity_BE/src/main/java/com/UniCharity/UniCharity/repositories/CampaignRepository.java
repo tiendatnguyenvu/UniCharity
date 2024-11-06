@@ -1,6 +1,7 @@
 package com.UniCharity.UniCharity.repositories;
 
 import com.UniCharity.UniCharity.entities.Campaign;
+import com.UniCharity.UniCharity.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

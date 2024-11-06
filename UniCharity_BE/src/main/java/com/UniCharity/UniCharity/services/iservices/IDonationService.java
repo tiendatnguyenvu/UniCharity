@@ -1,9 +1,8 @@
 package com.UniCharity.UniCharity.services.iservices;
 
 import com.UniCharity.UniCharity.dto.request.DonationCreateRequest;
-import com.UniCharity.UniCharity.dto.response.DonationResponse;
-import com.UniCharity.UniCharity.dto.response.PageResponse;
-import com.UniCharity.UniCharity.entities.Donation;
+import com.UniCharity.UniCharity.dto.response.donation.DonationResponse;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 
 public interface IDonationService {
     public DonationResponse createDonation(DonationCreateRequest request, String paymentMethod);

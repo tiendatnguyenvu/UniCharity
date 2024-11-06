@@ -1,7 +1,10 @@
-package com.UniCharity.UniCharity.dto.response;
+package com.UniCharity.UniCharity.dto.response.campaign;
 
-import com.UniCharity.UniCharity.entities.Policy;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.UniCharity.UniCharity.dto.response.campaignReport.CampaignReportResponse;
+import com.UniCharity.UniCharity.dto.response.donation.DonationResponse;
+import com.UniCharity.UniCharity.dto.response.image.ImageResponse;
+import com.UniCharity.UniCharity.dto.response.policy.PolicyResponse;
+import com.UniCharity.UniCharity.dto.response.user.UserSimple;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -24,7 +27,7 @@ public class CampaignResponse {
     LocalDate endDate;
     String status;
 
-    int createdBy;
+    UserSimple createdBy;
 
     List<ImageResponse> images;
     List<PolicyResponse> policies;

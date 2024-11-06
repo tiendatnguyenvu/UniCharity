@@ -1,6 +1,5 @@
-package com.UniCharity.UniCharity.dto.response;
+package com.UniCharity.UniCharity.dto.response.transaction;
 
-import com.UniCharity.UniCharity.entities.Donation;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TransactionResponse {
+public class TransactionSimple {
     Integer id;
     String transactionCode;
     String paymentGateway;
@@ -20,6 +19,4 @@ public class TransactionResponse {
     Long amount;
     String responseCode;
     String transactionDescription;
-
-    int donation;
 }

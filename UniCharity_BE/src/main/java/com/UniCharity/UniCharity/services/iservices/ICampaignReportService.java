@@ -2,10 +2,8 @@ package com.UniCharity.UniCharity.services.iservices;
 
 import com.UniCharity.UniCharity.dto.request.CampaignReportCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignReportUpdateRequest;
-import com.UniCharity.UniCharity.dto.response.CampaignReportResponse;
-import com.UniCharity.UniCharity.dto.response.PageResponse;
-
-import java.util.List;
+import com.UniCharity.UniCharity.dto.response.campaignReport.CampaignReportResponse;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 
 public interface ICampaignReportService {
     public CampaignReportResponse createCampaignReport(CampaignReportCreateRequest request);

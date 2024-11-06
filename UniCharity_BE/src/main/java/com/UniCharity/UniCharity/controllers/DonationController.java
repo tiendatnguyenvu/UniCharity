@@ -1,8 +1,8 @@
 package com.UniCharity.UniCharity.controllers;
 
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
-import com.UniCharity.UniCharity.dto.response.DonationResponse;
-import com.UniCharity.UniCharity.dto.response.PageResponse;
+import com.UniCharity.UniCharity.dto.response.donation.DonationResponse;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 import com.UniCharity.UniCharity.services.iservices.IDonationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

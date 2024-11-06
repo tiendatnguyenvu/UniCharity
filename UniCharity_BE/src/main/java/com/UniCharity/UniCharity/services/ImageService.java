@@ -1,6 +1,6 @@
 package com.UniCharity.UniCharity.services;
 
-import com.UniCharity.UniCharity.dto.response.ImageResponse;
+import com.UniCharity.UniCharity.dto.response.image.ImageResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.ImageMapper;
@@ -30,7 +30,6 @@ public class ImageService implements IImageService {
     private final List<String> allowedMimeTypes = Arrays.asList("image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp", "image/tiff");
     ImageRepository imageRepository;
     CampaignRepository campaignRepository;
-    ImageMapper imageMapper;
 
     @Override
     public ImageResponse uploadImage(MultipartFile imageFile, int campaignId) throws IOException {
@@ -45,7 +44,7 @@ public class ImageService implements IImageService {
         image.setImagePath(imageDataUrl);
         image.setImageType("illustration");
         imageRepository.save(image);
-        return imageMapper.toImageResponse(image);
+        return ImageMapper.toImageResponse(image);
     }
 
     @Override
@@ -61,26 +60,26 @@ public class ImageService implements IImageService {
             image.setImagePath(imageDataUrl);
             image.setImageType("illustration");
             imageRepository.save(image);
-            imageResponseList.add(imageMapper.toImageResponse(image));
+            imageResponseList.add(ImageMapper.toImageResponse(image));
         }
-        return imageRepository.findByCampaignId(campaign.getId()).stream().map(imageMapper::toImageResponse).toList();
+        return imageRepository.findByCampaignId(campaign.getId()).stream().map(ImageMapper::toImageResponse).toList();
     }
 
     @Override
     public ImageResponse dowloadImage(int imageId) {
-        return imageMapper.toImageResponse(imageRepository.findById(imageId).orElseThrow(() -> new AppException(ErrorCode.IMAGE_NOT_EXISTED)));
+        return ImageMapper.toImageResponse(imageRepository.findById(imageId).orElseThrow(() -> new AppException(ErrorCode.IMAGE_NOT_EXISTED)));
     }
 
     @Override
     public List<ImageResponse> dowloadImageByCampaign(int campaignId) {
-        return imageRepository.findByCampaignId(campaignId).stream().map(imageMapper::toImageResponse).toList();
+        return imageRepository.findByCampaignId(campaignId).stream().map(ImageMapper::toImageResponse).toList();
     }
 
     @Override
     public List<ImageResponse> removeImage(int imageId) {
         Image image = imageRepository.findById(imageId).orElseThrow(() -> new AppException(ErrorCode.IMAGE_NOT_EXISTED));
         imageRepository.delete(image);
-        return imageRepository.findByCampaignId(image.getCampaign().getId()).stream().map(imageMapper::toImageResponse).toList();
+        return imageRepository.findByCampaignId(image.getCampaign().getId()).stream().map(ImageMapper::toImageResponse).toList();
     }
 
     public void validateFile(MultipartFile file) {

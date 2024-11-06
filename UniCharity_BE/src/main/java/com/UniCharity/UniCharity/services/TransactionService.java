@@ -1,8 +1,7 @@
 package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.TransactionCreateRequest;
-import com.UniCharity.UniCharity.dto.request.TransactionUpdateRequest;
-import com.UniCharity.UniCharity.dto.response.TransactionResponse;
+import com.UniCharity.UniCharity.dto.response.transaction.TransactionResponse;
 import com.UniCharity.UniCharity.entities.Donation;
 import com.UniCharity.UniCharity.entities.Transaction;
 import com.UniCharity.UniCharity.exception.AppException;
@@ -29,16 +28,14 @@ import java.time.format.DateTimeParseException;
 public class TransactionService implements ITransactionService {
     DonationRepository donationRepository;
     TransactionRepository transactionRepository;
-    TransactionMapper transactionMapper;
-
-
+    
     @Override
     public TransactionResponse createTransaction(TransactionCreateRequest request) {
         Donation donation = donationRepository.findById(request.getDonation()).orElseThrow(() -> new AppException(ErrorCode.DONATION_NOT_EXISTED));
-        Transaction transaction = transactionMapper.toTransaction(request);
+        Transaction transaction = TransactionMapper.toTransaction(request);
         transaction.setDonation(donation);
         transaction = transactionRepository.save(transaction);
-        return transactionMapper.toTransactionResponse(transaction);
+        return TransactionMapper.toTransactionResponse(transaction);
     }
 
     @Override
@@ -70,7 +67,7 @@ public class TransactionService implements ITransactionService {
 
         transaction = transactionRepository.save(transaction);
 
-        return transactionMapper.toTransactionResponse(transaction);
+        return TransactionMapper.toTransactionResponse(transaction);
     }
 
 

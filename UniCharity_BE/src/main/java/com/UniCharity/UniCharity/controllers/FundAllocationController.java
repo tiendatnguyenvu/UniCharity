@@ -3,7 +3,7 @@ package com.UniCharity.UniCharity.controllers;
 import com.UniCharity.UniCharity.dto.request.FundAllocationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.FundAllocationUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
-import com.UniCharity.UniCharity.dto.response.FundAllocationResponse;
+import com.UniCharity.UniCharity.dto.response.fundAllocation.FundAllocationResponse;
 import com.UniCharity.UniCharity.services.iservices.IFundAllocationService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;

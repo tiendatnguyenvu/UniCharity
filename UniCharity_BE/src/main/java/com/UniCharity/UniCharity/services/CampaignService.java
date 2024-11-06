@@ -2,20 +2,13 @@ package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
-import com.UniCharity.UniCharity.dto.response.CampaignResponse;
-import com.UniCharity.UniCharity.dto.response.PageResponse;
-import com.UniCharity.UniCharity.entities.Image;
-import com.UniCharity.UniCharity.entities.Policy;
+import com.UniCharity.UniCharity.dto.response.campaign.CampaignResponse;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
+import com.UniCharity.UniCharity.entities.*;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.CampaignMapper;
-import com.UniCharity.UniCharity.entities.Campaign;
-import com.UniCharity.UniCharity.entities.User;
-import com.UniCharity.UniCharity.mapper.ImageMapper;
-import com.UniCharity.UniCharity.mapper.PolicyMapper;
 import com.UniCharity.UniCharity.repositories.CampaignRepository;
-import com.UniCharity.UniCharity.repositories.ImageRepository;
-import com.UniCharity.UniCharity.repositories.PolicyRepository;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.ICampaignService;
 import lombok.AccessLevel;
@@ -28,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,40 +31,24 @@ import java.util.List;
 public class CampaignService implements ICampaignService {
     CampaignRepository campaignRepository;
     UserRepository userRepository;
-    PolicyRepository policyRepository;
-    ImageRepository imageRepository;
-    CampaignMapper campaignMapper;
-    PolicyMapper policyMapper;
-    ImageMapper imageMapper;
+
 
     @Override
     public CampaignResponse createCampaign(CampaignCreateRequest request) {
         User user = userRepository.findById(request.getCreatedBy()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        Campaign campaign = campaignMapper.toCampaign(request);
+        Campaign campaign = CampaignMapper.toCampaign(request);
         campaign.setCreatedBy(user);
         campaign = campaignRepository.save(campaign);
-        // lưu policy
-        List<Policy> policies = request.getPolicyCreateRequests().stream().map(policyMapper::toPolicy).toList();
-        for(Policy policy : policies) {
-            policy.setCampaign(campaign);
-        }
-        policyRepository.saveAll(policies);
-        // lưu image
-        List<Image> images = request.getImageCreateRequests().stream().map(imageMapper::toImage).toList();
-        for(Image image : images) {
-            image.setCampaign(campaign);
-        }
-        imageRepository.saveAll(images);
-        return campaignMapper.toCampaignResponse(campaign);
+        return CampaignMapper.toCampaignResponse(campaign);
     }
 
     @Override
     public PageResponse<CampaignResponse> getCampaigns(int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        Page<CampaignResponse> campaignPage = campaignRepository.findAll(pageable).map(campaignMapper::toCampaignResponse);
+        Page<CampaignResponse> campaignPage = campaignRepository.findAll(pageable).map(CampaignMapper::toCampaignResponse);
         return new PageResponse<>(
                 campaignPage.getContent(),
-                com.UniCharity.UniCharity.dto.response.Page.builder()
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
                         .totalItem(campaignPage.getTotalElements())
                         .currentPage(campaignPage.getNumber())
                         .totalPages(campaignPage.getTotalPages())
@@ -82,10 +60,10 @@ public class CampaignService implements ICampaignService {
     @Override
     public PageResponse<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        Page<CampaignResponse> campaignPage = campaignRepository.findByStatus(status, pageable).map(campaignMapper::toCampaignResponse);
+        Page<CampaignResponse> campaignPage = campaignRepository.findByStatus(status, pageable).map(CampaignMapper::toCampaignResponse);
         return new PageResponse<>(
                 campaignPage.getContent(),
-                com.UniCharity.UniCharity.dto.response.Page.builder()
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
                         .totalItem(campaignPage.getTotalElements())
                         .currentPage(campaignPage.getNumber())
                         .totalPages(campaignPage.getTotalPages())
@@ -96,20 +74,42 @@ public class CampaignService implements ICampaignService {
 
     @Override
     public CampaignResponse getCampaign(int campaignId) {
-        return campaignMapper.toCampaignResponse(campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED)));
+        return CampaignMapper.toCampaignResponse(campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED)));
     }
 
     @Override
     public CampaignResponse updateCampaign(int campaignId, CampaignUpdateRequest request) {
         Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
-        campaignMapper.updateCampaign(campaign, request);
-        return campaignMapper.toCampaignResponse(campaignRepository.save(campaign));
+        CampaignMapper.updateCampaign(campaign, request);
+        return CampaignMapper.toCampaignResponse(campaignRepository.save(campaign));
     }
 
     @Override
     public CampaignResponse updateCampaignStatus(int campaignId) {
         Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
         campaign.setStatus("canceled");
-        return campaignMapper.toCampaignResponse(campaignRepository.save(campaign));
+        return CampaignMapper.toCampaignResponse(campaignRepository.save(campaign));
+    }
+
+    @Override
+    public List<Donation> getAllUserDonation(int campaignId) {
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        List<Donation> userDonated = new ArrayList<>();
+        for (Donation donation : campaign.getDonations()){
+            boolean flag = false;
+            for (Transaction transaction : donation.getTransactions()) {
+                if(transaction.getTransactionStatus().equals("00")) {
+                    flag = true;
+                    continue;
+                } else {
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag == true) {
+                userDonated.add(donation);
+            }
+        }
+        return userDonated;
     }
 }

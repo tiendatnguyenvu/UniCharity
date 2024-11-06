@@ -1,16 +1,49 @@
 package com.UniCharity.UniCharity.mapper;
 
 import com.UniCharity.UniCharity.dto.request.ImageCreateRequest;
-import com.UniCharity.UniCharity.dto.response.ImageResponse;
+import com.UniCharity.UniCharity.dto.response.image.ImageResponse;
+import com.UniCharity.UniCharity.dto.response.image.ImageSimple;
 import com.UniCharity.UniCharity.entities.Image;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
-public interface ImageMapper {
-    @Mapping(target = "campaign", ignore = true)
-    Image toImage(ImageCreateRequest imageCreateRequest);
+public class ImageMapper {
+    public static Image toImage(ImageCreateRequest request) {
+        if (request == null) {
+            return null;
+        }
 
-    @Mapping(source = "campaign.id", target = "campaign")
-    ImageResponse toImageResponse(Image image);
+        Image image = new Image();
+
+        image.setImageType(request.getImageType());
+
+        return image;
+    }
+
+    public static ImageResponse toImageResponse(Image image) {
+        if (image == null) {
+            return null;
+        }
+
+        ImageResponse.ImageResponseBuilder imageResponse = ImageResponse.builder();
+
+        imageResponse.id(image.getId());
+        imageResponse.imagePath(image.getImagePath());
+        imageResponse.imageType(image.getImageType());
+        imageResponse.campaign(CampaignMapper.toCampaignSimple(image.getCampaign()));
+
+        return imageResponse.build();
+    }
+
+    public static ImageSimple toImageSimple(Image image) {
+        if (image == null) {
+            return null;
+        }
+
+        ImageSimple.ImageSimpleBuilder imageSimple = ImageSimple.builder();
+
+        imageSimple.id(image.getId());
+        imageSimple.imagePath(image.getImagePath());
+        imageSimple.imageType(image.getImageType());
+
+        return imageSimple.build();
+    }
 }

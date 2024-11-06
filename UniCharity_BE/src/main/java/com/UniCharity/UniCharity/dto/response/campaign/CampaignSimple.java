@@ -1,4 +1,4 @@
-package com.UniCharity.UniCharity.dto.response;
+package com.UniCharity.UniCharity.dto.response.campaign;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,13 +10,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class FundAllocationResponse {
+public class CampaignSimple {
     Integer id;
-    String category;
-    Long amount;
+    String title;
     String description;
+    long targetAmount;
+    long currentAmount;
     LocalDate createdAt;
-
-    int report;
-    int user;
+    LocalDate startDate;
+    LocalDate endDate;
+    String status;
 }

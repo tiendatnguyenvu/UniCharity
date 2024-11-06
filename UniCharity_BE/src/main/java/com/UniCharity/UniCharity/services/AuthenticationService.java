@@ -2,8 +2,8 @@ package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.AuthenticationRequest;
 import com.UniCharity.UniCharity.dto.request.IntrospectRequest;
-import com.UniCharity.UniCharity.dto.response.AuthenticationResponse;
-import com.UniCharity.UniCharity.dto.response.IntrospectResponse;
+import com.UniCharity.UniCharity.dto.response.authentication.AuthenticationResponse;
+import com.UniCharity.UniCharity.dto.response.authentication.IntrospectResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.entities.User;

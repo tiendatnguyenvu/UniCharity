@@ -1,8 +1,8 @@
 package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.DonationCreateRequest;
-import com.UniCharity.UniCharity.dto.response.DonationResponse;
-import com.UniCharity.UniCharity.dto.response.PageResponse;
+import com.UniCharity.UniCharity.dto.response.donation.DonationResponse;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 import com.UniCharity.UniCharity.entities.Campaign;
 import com.UniCharity.UniCharity.entities.Donation;
 import com.UniCharity.UniCharity.entities.User;
@@ -31,27 +31,26 @@ public class DonationService implements IDonationService {
     CampaignRepository campaignRepository;
     UserRepository userRepository;
     DonationRepository donationRepository;
-    DonationMapper donationMapper;
 
     @Override
     public DonationResponse createDonation(DonationCreateRequest request, String paymentMethod) {
         Campaign campaign = campaignRepository.findById(request.getCampaign()).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
         User user = userRepository.findById(request.getUser()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        Donation donation = donationMapper.toDonation(request);
+        Donation donation = DonationMapper.toDonation(request);
         donation.setCampaign(campaign);
         donation.setUser(user);
         donation.setPaymentMethod(paymentMethod);
         donation = donationRepository.save(donation);
-        return donationMapper.toDonationResponse(donation);
+        return DonationMapper.toDonationResponse(donation);
     }
 
     @Override
     public PageResponse<DonationResponse> getDonations(int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        Page<DonationResponse> donationPage = donationRepository.findAll(pageable).map(donationMapper::toDonationResponse);
+        Page<DonationResponse> donationPage = donationRepository.findAll(pageable).map(DonationMapper::toDonationResponse);
         return new PageResponse<>(
                 donationPage.getContent(),
-                com.UniCharity.UniCharity.dto.response.Page.builder()
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
                         .totalItem(donationPage.getTotalElements())
                         .currentPage(donationPage.getNumber())
                         .totalPages(donationPage.getTotalPages())
@@ -63,7 +62,7 @@ public class DonationService implements IDonationService {
     @Override
     public DonationResponse getDonation(int donationId) {
         Donation donation = donationRepository.findById(donationId).orElseThrow(() -> new AppException(ErrorCode.DONATION_NOT_EXISTED));
-        return donationMapper.toDonationResponse(donation);
+        return DonationMapper.toDonationResponse(donation);
     }
 
 

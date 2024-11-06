@@ -1,6 +1,6 @@
-package com.UniCharity.UniCharity.dto.response;
+package com.UniCharity.UniCharity.dto.response.violationAction;
 
-import com.UniCharity.UniCharity.entities.PolicyViolation;
+import com.UniCharity.UniCharity.dto.response.policyViolation.PolicyViolationSimple;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,5 +18,5 @@ public class ViolationActionResponse {
     String status;
     LocalDate createdAt;
 
-    int violation;
+    PolicyViolationSimple violation;
 }

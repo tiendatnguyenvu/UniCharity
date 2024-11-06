@@ -52,5 +52,4 @@ public class Donation {
 
     @OneToMany(mappedBy = "donation")
     private Set<Transaction> transactions = new LinkedHashSet<>();
-
 }
