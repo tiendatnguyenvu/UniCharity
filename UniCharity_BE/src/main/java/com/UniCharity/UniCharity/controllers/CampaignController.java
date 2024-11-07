@@ -30,13 +30,11 @@ import java.util.List;
 public class CampaignController {
     ICampaignService campaignService;
     IPolicyService policyService;
-    IImageService imageService;
 
     @PostMapping("/create")
-    ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request, @RequestPart("image") List<MultipartFile> imageList) throws IOException {
+    ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request) {
         CampaignResponse campaignResponse = campaignService.createCampaign(request);
         List<PolicyResponse> policyResponseList = policyService.createPolicyList(request.getPolicyCreateRequests(), campaignResponse.getId());
-        List<ImageResponse> imageResponseList = imageService.uploadImageList(imageList, campaignResponse.getId());
         campaignResponse = campaignService.getCampaign(campaignResponse.getId());
         return ApiResponse.<CampaignResponse>builder().result(campaignResponse).build();
     }
