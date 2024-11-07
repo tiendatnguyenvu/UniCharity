@@ -40,7 +40,7 @@ public class CampaignCreateRequest {
     int createdBy;
 
     @NotBlank(message = "STATUS_CANNOT_BE_BLANK")
-    @Pattern(regexp = "active|inactive|completed|cancelled", message = "INVALID_STATUS_VALUE")
+    @Pattern(regexp = "Active|Pending|Completed|Cancelled", message = "INVALID_STATUS_VALUE")
     String status;
 
     List<PolicyCreateRequest> policyCreateRequests;
