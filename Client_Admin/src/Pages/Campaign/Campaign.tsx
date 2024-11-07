@@ -26,7 +26,6 @@ const Campaign = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setStatus(STATUS_PENDING);
     getListCampaigns(STATUS_PENDING);
     setTabs(CAMPAIGN_STATUS);
   }, []);
@@ -44,21 +43,20 @@ const Campaign = () => {
             type="radio"
             name="pcss3t"
             id={`tab${index + 1}`}
-            className={`tab-content-${
-              index + 1 === 1
+            className={`tab-content tab-content-${
+              index + 1 == 1
                 ? "first"
-                :( index + 1 === tabs.length
+                : (index + 1 == tabs.length
                 ? "last"
-                : index)
+                : index+1)
             }`}
             checked={item.status === status}
           />
           <label
             htmlFor={`tab${index + 1}`}
-            onClick={() => 
-              {handleClickTab(item.status)
-                console.log("Status: ",item.status)
-              }}
+            onClick={() => {
+              handleClickTab(item.status);
+            }}
           >
             <i className="icon-picture"></i>
             <h6>{item.status}</h6>
@@ -73,17 +71,24 @@ const Campaign = () => {
   //render content
   const renderContentTabs = () => {
     const render = tabs.map((item: any, _index: number) => {
+      const tmp=  _index + 1 == 1
+      ? "first"
+      : (_index + 1 == tabs.length
+      ? "last"
+      : _index+1)
       return (
+        
         <li
           key={item.id}
           className={`form-create tab-content tab-content-${
-            _index == 0
+            _index + 1 == 1
               ? "first"
-              : _index == tabs.length - 1
+              : (_index + 1 == tabs.length
               ? "last"
-              : _index + 1
+              : _index+1)
           } typography`}
         >
+          {/* <h1>h1</h1> */}
           {campaigns && (
             <div>
               {" "}
@@ -94,7 +99,6 @@ const Campaign = () => {
         </li>
       );
     });
-
     render.join(" ");
     return render;
   };
@@ -102,6 +106,7 @@ const Campaign = () => {
   const handleClickTab = (tab: string) => {
     setStatus(tab);
   };
+
   const getListCampaigns = (
     status: string,
     page: number = PAGE_CAMPAIGN,
@@ -109,23 +114,22 @@ const Campaign = () => {
   ) => {
     GetListCampaignByStatus(status, page, limit)
       .then((res) => {
-        if (res?.result?.items) {
-          setCampaigns(res?.result?.items);
-          setPageObject(res?.result?.page);
+        if (res?.data) {
+          setCampaigns(res?.data?.result?.items);
+          setPageObject(res?.data?.result?.page);
         }
       })
       .catch((error) => {
         toast.warning(error);
-        setCampaigns(null);
       });
   };
 
   const handlePageChange = (pageNumber: number) => {
     GetListCampaignByStatus(status, pageNumber, LIMIT_CAMPAIGN)
       .then((res) => {
-        if (res?.result?.items) {
-          setCampaigns(res?.result?.items);
-          setPageObject(res?.result?.page);
+        if (res?.data.result?.items) {
+          setCampaigns(res?.data.result?.items);
+          setPageObject(res?.data.result?.page);
         }
       })
       .catch((error) => toast.error(error));
@@ -133,7 +137,7 @@ const Campaign = () => {
   const configs = [
     {
       label: "# ",
-      render: (campaign: CampaignDto) => campaign.campaignId,
+      render: (campaign: CampaignDto) => campaign.id,
     },
     {
       label: "Title",
@@ -181,9 +185,7 @@ const Campaign = () => {
             <button
               type="button"
               className="btn-sm btn-success d-flex align-items-center me-2"
-              onClick={() =>
-                navigate(`/admin/campaigns/update/${campaign.campaignId}`)
-              }
+              onClick={() => navigate(`/admin/campaigns/update/${campaign.id}`)}
             >
               Update
             </button>
@@ -191,7 +193,7 @@ const Campaign = () => {
               type="button"
               className="btn-sm btn-warning d-flex align-items-center me-2"
               onClick={() =>
-                navigate(`/admin/campaigns/get-by-id/${campaign.campaignId}`)
+                navigate(`/admin/campaigns/get-by-id/${campaign.id}`)
               }
             >
               Detail
@@ -220,9 +222,8 @@ const Campaign = () => {
               </button>
             </div>
             <div className="bg-light rounded  table-responsive"></div>
-            {campaigns ? (
+            {campaigns && (
               <div>
-                {" "}
                 <div className="shadow my-tab">
                   <div className="pcss3t pcss3t-effect-scale pcss3t-theme-1">
                     {renderLabel()}
@@ -230,8 +231,6 @@ const Campaign = () => {
                   </div>
                 </div>
               </div>
-            ) : (
-              <h1>Loading...</h1>
             )}
           </div>
         </div>

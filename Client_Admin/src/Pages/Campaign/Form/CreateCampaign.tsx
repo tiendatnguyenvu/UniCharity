@@ -2,28 +2,37 @@
 import React from 'react'
 import FormCampaign from './FormCampaign'
 import { toast, ToastContainer } from 'react-toastify'
-import { CampaignDto, CampaignPostAdminAPI } from '../../../Models/Campaign';
+import { CampaignDto, CampaignPolicyDto, CampaignPostAdminAPI } from '../../../Models/Campaign';
 import { useNavigate } from 'react-router';
+import { CreateCampaignAPI } from '../../../Service/CampaignService';
 
 const CreateCampaign = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (
     _formInput: CampaignPostAdminAPI,
-    _images: FileList | null
+    _images: FileList | null,
+    _Policies: CampaignPolicyDto[]|null
   ) => {
+    console.log("submit")
     try {
-      console.log(1);
-      // CampaignPostAPI(formInput).then(async (res) => {
-      //   if (res?.status == 200) {
-      //     const campaignId = res.data.result.id;
-      //     if (images && images.length > 0 && campaignId) {
-      //       await UploadListImagesPostAPI(campaignId, images);
-      //     } 
-      //     toast.success("Add campaign successfully!");
-      //     navigate("/admin/campaigns");
-      //   }
-      // });
+      _formInput = new CampaignPostAdminAPI(_formInput.title,
+        _formInput.description,_formInput.targetAmount,
+        _formInput.currentAmount,
+        _formInput.createdAt,
+        _formInput.startDate,
+        _formInput.endDate,
+        _formInput.status,
+        _formInput.createdBy,
+        _Policies!
+      )
+
+      await CreateCampaignAPI(_formInput).then(async (res) => {
+        if (res?.status == 200) {
+          toast.success("Add campaign successfully!");
+          navigate("/admin/campaigns");
+        }
+      });
       toast.success("Create Successfully!");
     } catch (error) {
       toast.error("Create Fail!");

@@ -3,8 +3,7 @@ export const STATUS_ACTIVE = "Active"
 export const STATUS_COMPLETE = "Complete"
 export const STATUS_CANCLE = "Cancle"
 
-export const TAB_CREATE_CAMPAIGN = "Campaign"
-export const TAB_CREATE_POLICIES = "Policies"
+
 
 
 export const CAMPAIGN_STATUS = [
@@ -14,10 +13,15 @@ export const CAMPAIGN_STATUS = [
     {id:STATUS_CANCLE,status:STATUS_CANCLE}]
 
 
-export const PAGE_CAMPAIGN = 1
+export const PAGE_CAMPAIGN = 0
 export const LIMIT_CAMPAIGN = 5
+
+
+export const TAB_CREATE_CAMPAIGN = "Campaign"
+export const TAB_CREATE_POLICIES = "Policies"
+export const TAB_CREATE_IMAGE = "Images"
 
 export const TABS_CREATE_CAMPAIGN = [
     {id:TAB_CREATE_CAMPAIGN,title: TAB_CREATE_CAMPAIGN},
-    {id:TAB_CREATE_POLICIES,title: TAB_CREATE_POLICIES}
+    {id:TAB_CREATE_POLICIES,title: TAB_CREATE_POLICIES},
 ]

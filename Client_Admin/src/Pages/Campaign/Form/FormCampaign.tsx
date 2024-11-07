@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Editor } from "@tinymce/tinymce-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as yup from "yup";
-import { CampaignDto, CampaignPostAdminAPI } from "../../../Models/Campaign";
+import {
+  CampaignDto,
+  CampaignPolicyDto,
+  CampaignPostAdminAPI,
+} from "../../../Models/Campaign";
 import "../Campaign.scss";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,17 +21,21 @@ import InputCampaign from "./InputCampaign";
 import InputPolicy from "./InputPolicy";
 // Props
 type Props = {
-  handleCampaign: (data: CampaignPostAdminAPI, images: FileList | null) => void;
+  handleCampaign: (
+    _formInput: CampaignPostAdminAPI,
+    _images: FileList | null,
+    _Policies: CampaignPolicyDto[] | null
+  ) => void;
   initData?: CampaignPostAdminAPI | null;
   isUpdate: boolean;
   id?: string | null;
 };
 const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
+  // console.log("initDataCampaignForm:", initData);
   const [selectedImages, setSelectedImages] = useState<FileList | null>(null);
   const [tab, setTab] = useState(TAB_CREATE_CAMPAIGN);
   const [tabs, setTabs] = useState(TABS_CREATE_CAMPAIGN);
-  
-  
+ 
   const {
     register,
     handleSubmit,
@@ -48,11 +56,14 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     },
   });
 
+  // console.log(initData);
+
   // Hàm submit
-  const onSubmit = (data: CampaignPostAdminAPI) => {
-    console.log("sent", data);
-    // console.log("submit");
-    handleCampaign(data, selectedImages);
+  const handlePOST = (data: any) => {
+    console.log("submit");
+    console.log(data);
+    console.log(selectedImages);
+    // handleCampaign(data, selectedImages);
   };
 
   // Hàm thay đổi hình ảnh
@@ -63,9 +74,7 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
   // Hàm thay đổi Editor
   const handleEditorChange = (content: string) => {
     setValue("description", content);
-    console.log(getValues());
   };
-  // console.log("imageList:", selectedImages);
 
   const handleClickTab = (tab: string) => {
     setTab(tab);
@@ -122,7 +131,7 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
       return (
         <li
           key={item.id}
-          className={`shadow rounded form-create tab-content tab-content-${
+          className={` form-create tab-content tab-content-${
             _index == 0
               ? "first"
               : _index == tabs.length - 1
@@ -130,43 +139,30 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
               : _index + 1
           } typography`}
         >
-           <form onSubmit={handleSubmit(()=>{console.log(1)})}>
-          {item.title == TAB_CREATE_CAMPAIGN &&(
-            // <div className="">campaign</div>
-            <InputCampaign
-              errors={errors}
-              register={register}
-              initData={initData!}
-              isUpdate={isUpdate}
-              getValues={getValues}
-              setValue={setValue}
-            />
-          
-            
-          ) 
+          <form onSubmit={handleSubmit(handlePOST)}>
+            {item.title == TAB_CREATE_CAMPAIGN && (
+              // <div className="">campaign</div>
+              <InputCampaign
+                errors={errors}
+                register={register}
+                isUpdate={isUpdate}
+                getValues={getValues}
+                setValue={setValue}
+              />
+            )}
 
-          
-        }
-
-<button
-            style={{ marginTop: "1.25rem" }}
-            type="submit"
-            className="btn btn-primary"
-          >
-            Submit
-          </button>
-
-</form>
-          
-{item.title == TAB_CREATE_POLICIES &&(
-            // <div>policies</div>
+            <button
+              style={{ marginTop: "1.25rem" }}
+              type="submit"
+              className="btn btn-primary"
+            >
+              Submit
+            </button>
+          </form>
+          {item.title == TAB_CREATE_POLICIES && (
             <InputPolicy
-              errors={errors}
-              register={register}
-              isUpdate={false}
-              getValues={getValues}
-              setValue={setValue}
-              initData={initData!}
+              isUpdate={isUpdate}
+              initData={initData?.policies || []}
             />
           )}
         </li>
@@ -174,27 +170,18 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     });
 
     render.join(" ");
-    console.log(render);
     return render;
   };
 
-
-  console.dir("register:",{...register("title")})
   return (
     // <div></div>
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className=" my-tab">
-        <div className=" pcss3t pcss3t-effect-scale pcss3t-theme-4">
-          {renderLabel()}
-          <div></div>
-          <ul>{renderContentTabs()}</ul>
-         
-        </div>
+    <div className=" my-tab">
+      <div className=" pcss3t pcss3t-effect-scale pcss3t-theme-4">
+        {renderLabel()}
+        <ul>{renderContentTabs()}</ul>
       </div>
-    </form>
+    </div>
   );
 };
-
-
 
 export default FormCampaign;

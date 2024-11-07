@@ -18,7 +18,6 @@ public class CampaignCreateRequest {
     String title;
 
     @NotBlank(message = "DESCRIPTION_IS_REQUIRED")
-    @Size(max = 1000, message = "DESCRIPTION_TOO_LONG")
     String description;
 
     @Positive(message = "TARGET_AMOUNT_MUST_BE_POSITIVE")
