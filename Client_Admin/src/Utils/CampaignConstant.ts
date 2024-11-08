@@ -14,7 +14,7 @@ export const CAMPAIGN_STATUS = [
 ];
 
 export const PAGE_CAMPAIGN = 0;
-export const LIMIT_CAMPAIGN = 5;
+export const LIMIT_CAMPAIGN = 25;
 
 export const TABS_CREATE_CAMPAIGN = [
   { id: TAB_CREATE_CAMPAIGN, title: TAB_CREATE_CAMPAIGN },

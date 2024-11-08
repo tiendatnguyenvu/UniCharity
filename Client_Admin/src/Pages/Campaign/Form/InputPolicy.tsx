@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from "react";
 import Table from "../../../Components/Table/Table";
+import { RiDeleteBin6Fill } from "react-icons/ri";
 import {
   CampaignPolicyDto,
   CreateCampaignDto,
@@ -18,12 +19,14 @@ type Props = {
   getValues: UseFormGetValues<CreateCampaignDto>;
   setValue: UseFormSetValue<CreateCampaignDto>;
   handleCreateNewPolicy: (newPolicy: CampaignPolicyDto) => void;
+  handleDeletePolicy: (i: number) => void
 };
 const InputPolicy = ({
   register,
   errors,
   initData,
   handleCreateNewPolicy,
+  handleDeletePolicy
 }: Props) => {
 //   const [policies, setPolicies] = useState<CampaignPolicyDto[] >();
 // // 
@@ -70,6 +73,12 @@ const InputPolicy = ({
       // handleClearForm();
     }
   };
+
+
+  const handleDelete= (i:number) => {
+   toast.success("index:"+i )
+   handleDeletePolicy(i)
+  }
   const configs = [
     {
       label: "#",
@@ -85,7 +94,12 @@ const InputPolicy = ({
     },
     {
       label: "Action",
-      render: (policy: CampaignPolicyDto) => <h1>Action</h1>,
+      render: (policy: CampaignPolicyDto,index:number) => (<div>
+        <button className="btn btn-danger"
+        onClick={()=>handleDelete(index)}
+        >  <RiDeleteBin6Fill /></button>
+      
+      </div>),
     },
   ];
 

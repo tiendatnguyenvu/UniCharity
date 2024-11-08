@@ -23,6 +23,7 @@ import InputCampaign from "./InputCampaign";
 import InputPolicy from "./InputPolicy";
 import { useNavigate } from "react-router";
 import ButtonUpload from "../../../Components/UploadImage/ButtonUpload";
+import { toast } from "react-toastify";
 // import UploadListImage from "../../../Components/UploadImage/UploadListImage";
 // Props
 type Props = {
@@ -105,8 +106,18 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
   // handle create policy
   const handleCreatePolicy = (newPolicy: CampaignPolicyDto) => {
     setPolicies((prev) => [...prev, newPolicy]);
+
   };
 
+  const handleDeletePolicy = (i:number)=>
+  {
+    
+    toast.success(i)
+    // console.log("index: ",i)
+    // const result = policies;
+    // result.filter((item)=>{ return item.id !=i})
+    // setPolicies(result);
+  }
   const renderLabel = () => {
     const render = tabs.map((item: any, index: number) => {
       return (
@@ -181,6 +192,7 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
               setValue={setValue}
               initData={policies}
               handleCreateNewPolicy={handleCreatePolicy}
+              handleDeletePolicy={handleDeletePolicy}
             />
           )}
         </li>

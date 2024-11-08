@@ -162,25 +162,10 @@ const Campaign = () => {
       render: (campaign: CampaignDto) => campaign.createdAt,
     },
     {
-      label: "Start",
-      render: (campaign: CampaignDto) => campaign.startDate,
-    },
-    {
-      label: "End ",
-      render: (campaign: CampaignDto) => campaign.endDate,
-    },
-    {
-      label: "Status",
-      render: (campaign: CampaignDto) => (
-        <td>
-          <div className="form-check form-switch">{campaign.status}</div>
-        </td>
-      ),
-    },
-    {
       label: "Action",
       render: (campaign: CampaignDto) => {
         return (
+          
           <td className="d-flex">
             <button
               type="button"
