@@ -1,3 +1,5 @@
+import { UserGet } from "./User";
+
   export interface CampaignsResult {
     items: CampaignGet[]
     page: Page
@@ -21,10 +23,18 @@
     createdBy: number
     images: Image[]
     policies: PolicyGet[]
-    donations: any[]
+    donations: DonationGet[]
     campaignReports: CampaignReport[]
   }
 
+  export interface DonationGet {
+    id: number;
+    amount: number;
+    paymentMethod: string;
+    donationDate: string;
+    user: UserGet;
+    transactions?: any;
+  }
 
   export interface CampaignReport {
     id: number
@@ -106,3 +116,4 @@ export interface ViolationActionGet {
     totalPages: number
     pageSize: number
   }
+

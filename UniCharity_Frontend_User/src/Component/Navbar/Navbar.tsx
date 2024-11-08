@@ -1,15 +1,17 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+    const navigate = useNavigate()
     return (
         <div className="navbar navbar-expand-lg bg-light shadow-lg">
             <div className="container">
                 <a className="navbar-brand" href="index.html">
-                    <img src="/images/logo.png" className="logo img-fluid" alt="Kind Heart Charity"/>
-                        <span>
-                            Kind Heart Charity
-                            <small>Non-profit Organization</small>
-                        </span>
+                    <img src="/images/logo.png" className="logo img-fluid" alt="Kind Heart Charity" />
+                    <span>
+                        Đại Học Sài Gòn Charity
+                        <small>Non-profit Organization</small>
+                    </span>
                 </a>
 
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -20,7 +22,9 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
-                            <a className="nav-link click-scroll" href="#top">Home</a>
+                            <a className="nav-link click-scroll"
+                            onClick={() => navigate("/")}
+                            >Home</a>
                         </li>
 
                         <li className="nav-item">

@@ -7,7 +7,7 @@ const Service = () => {
                 <div className="row">
 
                     <div className="col-lg-10 col-12 text-center mx-auto">
-                        <h2 className="mb-5">Welcome to Kind Heart Charity</h2>
+                        <h2 className="mb-5">Welcome to Đại Học Sài Gòn Charity</h2>
                     </div>
 
                     <div className="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">

@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { CampaignGetByIDAPI } from '../../Service/CampaignService';
 import { Slide, toast } from 'react-toastify';
-import { CampaignGet } from '../../Models/Campaign';
+import { CampaignGet, DonationGet } from '../../Models/Campaign';
 import Slider from './Slider';
 import Campaign from '../../Component/Campaign/Campaign';
+import Table from '../../Component/Table/Table';
+import No1Icon from './Ranking/No1Component.svg';
+import No2Icon from './Ranking/No2Component.svg';
+import No3Icon from './Ranking/No3Component.svg';
+
 
 const processHtml = (html: string) => {
   return html
-    .replace(/<img /g, '<img style="width: 100%;" class="img-fluid" ');
+    .replace(/<img /g, '<img style="width: 100%;" c lass="img-fluid" ');
 };
 
 
@@ -29,6 +34,37 @@ const DetailCampaignPage = () => {
     }
   }, [])
 
+  const configs = [
+    {
+      label: "#",
+      render: (don: DonationGet, index: number) => {
+        if (index + 1 === 1) return <img src={No1Icon} alt="My Icon" width="24" height="24" />
+        if (index + 1 === 2) return <img src={No2Icon} alt="My Icon" width="24" height="24" />
+        if (index + 1 === 3) return <img src={No3Icon} alt="My Icon" width="24" height="24" />
+        return index + 1;
+      },
+      
+    },
+    {
+      label: "Tên",
+      render: (don: DonationGet) => `${don.user.name}`,
+    },
+    {
+      label: "Đóng góp",
+      render: (don: DonationGet) => don.amount.
+        toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }),
+    },
+    // {
+    //     label: "Quantity",
+    //     render: (DonationGet: DonationGet) => DonationGet.quantity
+    // },
+    // {
+    //     label: "Total",
+    //     render: (DonationGet: DonationGet) => (DonationGet.quantity * DonationGet.price)
+    //         .toLocaleString('en-US', { style: 'currency', currency: 'USD' }),
+    // },
+  ]
+
   return (
     <section className="news-section section-padding">
       <div className="container">
@@ -40,131 +76,19 @@ const DetailCampaignPage = () => {
           <div className="col-lg-7 col-12">
             <blockquote>{campaignDT?.title}</blockquote>
             <div style={{ maxWidth: "100%" }} dangerouslySetInnerHTML={{ __html: processHtml(a) }} />
+
+            <h5 className="mb-3 pt-4" style={{ borderTop: "solid" }}>Nhà hảo tâm hàng đầu</h5>
+            
+            {campaignDT?.donations && campaignDT?.donations.length > 0 &&
+              <Table configs={configs} data={campaignDT?.donations} />
+            }
           </div>
 
           <div className="col-lg-4 col-12 mx-auto mt-4 mt-lg-0">
-            <h3>Chương trình đang diễn ra</h3>
-            {campaignDT && <Campaign campaign={campaignDT} />}
-
-            <h5 className="mt-5 mb-3">Recent news</h5>
-
-            <div className="news-block news-block-two-col d-flex mt-4">
-              <div className="news-block-two-col-image-wrap">
-                <a href="news-detail.html">
-                  <img src="/images/news/africa-humanitarian-aid-doctor.jpg"
-                    className="news-image img-fluid" alt="" />
-                </a>
-              </div>
-
-              <div className="news-block-two-col-info">
-                <div className="news-block-title mb-2">
-                  <h6><a href="news-detail.html" className="news-block-title-link">Food donation area</a>
-                  </h6>
-                </div>
-
-                <div className="news-block-date">
-                  <p>
-                    <i className="bi-calendar4 custom-icon me-1"></i>
-                    October 16, 2036
-                  </p>
-                </div>
-              </div>
+            <div style={{ position: "sticky", top: "20px", right: "0px" }} >
+              <h3 className='' > Chương trình đang diễn ra</h3>
+              {campaignDT && <Campaign campaign={campaignDT} />}
             </div>
-
-            <div className="news-block news-block-two-col d-flex mt-4">
-              <div className="news-block-two-col-image-wrap">
-                <a href="news-detail.html">
-                  <img src="/images/news/close-up-happy-people-working-together.jpg"
-                    className="news-image img-fluid" alt="" />
-                </a>
-              </div>
-
-              <div className="news-block-two-col-info">
-                <div className="news-block-title mb-2">
-                  <h6><a href="news-detail.html" className="news-block-title-link">Volunteering Clean</a>
-                  </h6>
-                </div>
-
-                <div className="news-block-date">
-                  <p>
-                    <i className="bi-calendar4 custom-icon me-1"></i>
-                    October 20, 2036
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="category-block d-flex flex-column">
-              <h5 className="mb-3">Categories</h5>
-
-              <a href="#" className="category-block-link">
-                Drinking water
-                <span className="badge">20</span>
-              </a>
-
-              <a href="#" className="category-block-link">
-                Food Donation
-                <span className="badge">30</span>
-              </a>
-
-              <a href="#" className="category-block-link">
-                Children Education
-                <span className="badge">10</span>
-              </a>
-
-              <a href="#" className="category-block-link">
-                Poverty Development
-                <span className="badge">15</span>
-              </a>
-
-              <a href="#" className="category-block-link">
-                Clothing Donation
-                <span className="badge">20</span>
-              </a>
-            </div>
-
-            <div className="tags-block">
-              <h5 className="mb-3">Tags</h5>
-
-              <a href="#" className="tags-block-link">
-                Donation
-              </a>
-
-              <a href="#" className="tags-block-link">
-                Clothing
-              </a>
-
-              <a href="#" className="tags-block-link">
-                Food
-              </a>
-
-              <a href="#" className="tags-block-link">
-                Children
-              </a>
-
-              <a href="#" className="tags-block-link">
-                Education
-              </a>
-
-              <a href="#" className="tags-block-link">
-                Poverty
-              </a>
-
-              <a href="#" className="tags-block-link">
-                Clean Water
-              </a>
-            </div>
-
-            <form className="custom-form subscribe-form" action="#" method="post" role="form">
-              <h5 className="mb-4">Newsletter Form</h5>
-
-              <input type="email" name="subscribe-email" id="subscribe-email" pattern="[^ @]*@[^ @]*/"
-                className="form-control" placeholder="Email Address" required />
-
-              <div className="col-lg-12 col-12">
-                <button type="submit" className="form-control">Subscribe</button>
-              </div>
-            </form>
           </div>
 
         </div>
