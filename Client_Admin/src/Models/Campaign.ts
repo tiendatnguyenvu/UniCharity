@@ -1,60 +1,85 @@
 
 
-export class CampaignPostAdminAPI {
+export class CreateCampaignDto {
+    id:number;
     title: string;
     description: string;
     targetAmount: number;
     currentAmount: number;
-    createdAt: string;
-    startDate: string;
-    endDate: string;
+    createdAt: Date|null;
+    startDate: Date|null;
+    endDate: Date|null;
     status: string;
     createdBy: number;
-    policies: CampaignPolicyDto[];
+    policyCreateRequests: CampaignPolicyDto[];
+    
 
     constructor(
-        title: string,
-        description: string,
-        targetAmount: number,
-        currentAmount: number,
-        createdAt: string,
-        startDate: string,
-        endDate: string,
-        status: string,
-        createdBy: number,
-        policies: CampaignPolicyDto[]
+        _title: string,
+        _description: string,
+        _targetAmount: number,
+        _currentAmount: number,
+        _createdAt: Date|null,
+        _startDate: Date|null,
+        _endDate: Date|null,
+        _status: string,
+        _createdBy: number,
+        _policiesDtos: CampaignPolicyDto[]
     ) {
-        this.title = title;
-        this.description = description;
-        this.targetAmount = targetAmount;
-        this.currentAmount = currentAmount;
-        this.createdAt = createdAt;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = status;
-        this.createdBy = createdBy;
-        this.policies = policies;
+        this.id  = 0;
+        this.title = _title;
+        this.description= _description;
+        this.targetAmount=_targetAmount;
+        this.currentAmount=_currentAmount;
+        this.createdAt=_createdAt;
+        this.startDate=_startDate;
+        this.endDate=_endDate;
+        this.status=_status;
+        this.createdBy=_createdBy;
+        this.policyCreateRequests=_policiesDtos;
+        
     }
-
-    
 }
 
+
+export class UploadListImageDto{
+    fileImages: FileList |null
+    constructor(fileImages: FileList | null ) {
+        this.fileImages = fileImages;
+    }
+}
 export interface CampaignDto {
     id: number;
     title: string;
     description: string;
     targetAmount: number;
     currentAmount: number;
-    createdAt: string;
-    startDate: string;
-    endDate: string;
+    createdAt: Date;
+    startDate: Date;
+    endDate: Date;
     status: string;
     createdBy: number;
-    images: CampaignImageDto[];
     policies: CampaignPolicyDto[];
+    images:[];
+    campaignReports:[];
+    donations:[]
 }
 
-export interface CampaignImageDto {
+
+export interface GetCampaignDto {
+    id: number;
+    title: string;
+    description: string;
+    targetAmount: number;
+    currentAmount: number;
+    createdAt: Date;
+    startDate: Date;
+    endDate: Date;
+    status: string;
+    createdBy: number;
+    policiesDtos: CampaignPolicyDto[];
+}
+export interface CampaignFormFiles {
     imageId: number;
     campaignId: number;
     imagePath: string;
@@ -62,29 +87,29 @@ export interface CampaignImageDto {
 }
 
 export class CampaignPolicyDto {
-    policyId: number;
-    campaignId: number;
-    policyDescription: string;
-    eligibilityCriteria: string;
-    approvalRequired: string;
-    createdAt: string | null;
-    updatedAt: string | null;
+        id: number;
+        campaign: number;
+        policyDescription: string;
+        eligibilityCriteria: string;
+        approvalRequired: string;
+        createdAt: Date | null;
+        updatedAt: Date | null;
 
   
-    constructor( _policyId: number,
-        _campaignId: number,
-        _policyDescription: string,
+    constructor( 
+        
+        _policydescription: string,
         _eligibilityCriteria: string,
         _approvalRequired: string,
         
     ){
-            this.policyId = _policyId
-            this.campaignId = _campaignId;
-            this.policyDescription=_policyDescription;
+            this.id = 0;
+            this.campaign = 0;
+            this.policyDescription=_policydescription;
             this.eligibilityCriteria=_eligibilityCriteria;
             this.approvalRequired = _approvalRequired
-            this.createdAt=Date.now().toString();
-            this.updatedAt= Date.now().toString();
+            this.createdAt=new Date();
+            this.updatedAt= new Date();
         }
   
 }

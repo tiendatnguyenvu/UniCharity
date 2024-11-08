@@ -40,7 +40,6 @@ public class Campaign {
     @Column(name = "target_amount", nullable = false)
     private Long targetAmount;
 
-    @NotNull
     @ColumnDefault("0")
     @Column(name = "current_amount", nullable = false)
     private Long currentAmount;
@@ -49,11 +48,9 @@ public class Campaign {
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
 
-    @NotNull
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @NotNull
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 

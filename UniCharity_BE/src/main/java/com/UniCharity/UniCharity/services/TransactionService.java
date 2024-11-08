@@ -28,6 +28,7 @@ import java.time.format.DateTimeParseException;
 public class TransactionService implements ITransactionService {
     DonationRepository donationRepository;
     TransactionRepository transactionRepository;
+    CampaignService campaignService;
     
     @Override
     public TransactionResponse createTransaction(TransactionCreateRequest request) {
@@ -39,7 +40,7 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public TransactionResponse updateTransaction(int transactionId, HttpServletRequest request) {
+    public TransactionResponse updateTransaction(int transactionId, int campaignId, HttpServletRequest request) {
         Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new AppException(ErrorCode.TRANSACTION_NOT_EXISTED));
 
         String transactionCode = request.getParameter("vnp_TransactionNo");
@@ -67,8 +68,10 @@ public class TransactionService implements ITransactionService {
 
         transaction = transactionRepository.save(transaction);
 
+        if(transactionStatus.equals("00")) {
+            campaignService.updateCampaignCurrentAmount(campaignId, amount);
+        }
+
         return TransactionMapper.toTransactionResponse(transaction);
     }
-
-
 }

@@ -107,11 +107,11 @@ CREATE TABLE transactions (
 -- Tạo bảng users (Người dùng)
 CREATE TABLE users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,  -- Khóa chính tự động tăng
-    name VARCHAR(255) NOT NULL,  -- Tên người dùng
-    email VARCHAR(255) NOT NULL,  -- Email người dùng
-    phone VARCHAR(50) DEFAULT NULL,  -- Số điện thoại (tùy chọn)
-    password VARCHAR(255) NOT NULL,  -- Mật khẩu
-    role VARCHAR(255) DEFAULT NULL,  -- Vai trò người dùng (admin, user, etc.)
+    name VARCHAR(255) NULL,  -- Tên người dùng
+    email VARCHAR(255) NULL,  -- Email người dùng
+    phone VARCHAR(50) NULL,  -- Số điện thoại (tùy chọn)
+    password VARCHAR(255) NULL,  -- Mật khẩu
+    role VARCHAR(255) NULL,  -- Vai trò người dùng (admin, user, etc.)
     status TINYINT(1) NOT NULL DEFAULT 1  -- Trạng thái người dùng (1: Hoạt động, 0: Vô hiệu)
 );
 
