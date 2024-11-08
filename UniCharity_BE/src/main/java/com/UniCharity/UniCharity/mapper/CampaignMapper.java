@@ -1,6 +1,7 @@
 package com.UniCharity.UniCharity.mapper;
 
 import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
+import com.UniCharity.UniCharity.dto.request.CampaignRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.campaign.CampaignResponse;
 import com.UniCharity.UniCharity.dto.response.campaign.CampaignSimple;
@@ -34,6 +35,22 @@ public class CampaignMapper {
         return campaign;
     }
 
+    public static Campaign toCampaignFromRequest(CampaignRequest request) {
+        if ( request == null ) {
+            return null;
+        }
+
+        Campaign campaign = new Campaign();
+
+        campaign.setTitle( request.getTitle() );
+        campaign.setDescription( request.getDescription() );
+        campaign.setTargetAmount( request.getTargetAmount() );
+        campaign.setCreatedAt( request.getCreatedAt() );
+        campaign.setStatus("Pending");
+
+        return campaign;
+    }
+
     public static CampaignResponse toCampaignResponse(Campaign campaign) {
         if (campaign == null){
             return null;
@@ -45,10 +62,22 @@ public class CampaignMapper {
         campaignResponse.setTitle(campaign.getTitle());
         campaignResponse.setDescription(campaign.getDescription());
         campaignResponse.setTargetAmount(campaign.getTargetAmount());
-        campaignResponse.setCurrentAmount(campaign.getCurrentAmount());
+        if (campaign.getCurrentAmount() == null) {
+            campaignResponse.setCurrentAmount(null);
+        } else {
+            campaignResponse.setCurrentAmount(campaign.getCurrentAmount());
+        }
         campaignResponse.setCreatedAt(campaign.getCreatedAt());
-        campaignResponse.setStartDate(campaign.getStartDate());
-        campaignResponse.setEndDate(campaign.getEndDate());
+        if (campaign.getStartDate() == null) {
+            campaignResponse.setStartDate(null);
+        } else {
+            campaignResponse.setStartDate(campaign.getStartDate());
+        }
+        if (campaign.getEndDate() == null) {
+            campaignResponse.setEndDate(null);
+        } else {
+            campaignResponse.setEndDate(campaign.getEndDate());
+        }
         campaignResponse.setStatus(campaign.getStatus());
         campaignResponse.setCreatedBy(UserMapper.toUserSimple(campaign.getCreatedBy()));
         campaignResponse.setImages(imageSetToImageResponseList(campaign.getImages()));

@@ -1,6 +1,7 @@
 package com.UniCharity.UniCharity.controllers;
 
 import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
+import com.UniCharity.UniCharity.dto.request.CampaignRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.campaign.CampaignResponse;
@@ -39,13 +40,18 @@ public class CampaignController {
         return ApiResponse.<CampaignResponse>builder().result(campaignResponse).build();
     }
 
+    @PostMapping("/create-request-campaign")
+    ApiResponse<CampaignResponse> createRequest(@RequestBody @Valid CampaignRequest request) {
+        return ApiResponse.<CampaignResponse>builder().result(campaignService.createRequest(request)).build();
+    }
+
     @GetMapping
     ApiResponse<PageResponse<CampaignResponse>> getCampaigns(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sort) {
         return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaigns(page, size, sort)).build();
     }
 
     @GetMapping("/get-by-status/{status}")
-    ApiResponse<PageResponse<CampaignResponse>> getCampaignByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt";) String sort) {
+    ApiResponse<PageResponse<CampaignResponse>> getCampaignByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sort) {
         return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaignsByStatus(status, page, size, sort)).build();
     }
 

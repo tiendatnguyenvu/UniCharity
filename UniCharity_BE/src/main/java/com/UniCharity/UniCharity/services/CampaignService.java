@@ -1,6 +1,7 @@
 package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
+import com.UniCharity.UniCharity.dto.request.CampaignRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.campaign.CampaignResponse;
 import com.UniCharity.UniCharity.dto.response.page.PageResponse;
@@ -37,6 +38,15 @@ public class CampaignService implements ICampaignService {
     public CampaignResponse createCampaign(CampaignCreateRequest request) {
         User user = userRepository.findById(request.getCreatedBy()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         Campaign campaign = CampaignMapper.toCampaign(request);
+        campaign.setCreatedBy(user);
+        campaign = campaignRepository.save(campaign);
+        return CampaignMapper.toCampaignResponse(campaign);
+    }
+
+    @Override
+    public CampaignResponse createRequest(CampaignRequest request) {
+        User user = userRepository.findById(request.getCreatedBy()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        Campaign campaign = CampaignMapper.toCampaignFromRequest(request);
         campaign.setCreatedBy(user);
         campaign = campaignRepository.save(campaign);
         return CampaignMapper.toCampaignResponse(campaign);
