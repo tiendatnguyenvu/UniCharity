@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Editor } from "@tinymce/tinymce-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
 import {
   CampaignDto,
   CampaignPolicyDto,
-  CampaignPostAdminAPI,
+  CampaignFormFiles,
+  UploadListImageDto,
+  CreateCampaignDto,
 } from "../../../Models/Campaign";
 import "../Campaign.scss";
 import { useForm } from "react-hook-form";
@@ -19,55 +21,75 @@ import {
 import CreateCampaign from "./CreateCampaign";
 import InputCampaign from "./InputCampaign";
 import InputPolicy from "./InputPolicy";
+import { useNavigate } from "react-router";
+import ButtonUpload from "../../../Components/UploadImage/ButtonUpload";
+// import UploadListImage from "../../../Components/UploadImage/UploadListImage";
 // Props
 type Props = {
-  handleCampaign: (
-    _formInput: CampaignPostAdminAPI,
-    _images: FileList | null,
-    _Policies: CampaignPolicyDto[] | null
-  ) => void;
-  initData?: CampaignPostAdminAPI | null;
+  handleCampaign: (data: CreateCampaignDto, images: FileList | null) => void;
+  initData?: CreateCampaignDto | null;
   isUpdate: boolean;
   id?: string | null;
 };
 const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
-  // console.log("initDataCampaignForm:", initData);
   const [selectedImages, setSelectedImages] = useState<FileList | null>(null);
+  const [policies, setPolicies] = useState<CampaignPolicyDto[]>([]);
   const [tab, setTab] = useState(TAB_CREATE_CAMPAIGN);
   const [tabs, setTabs] = useState(TABS_CREATE_CAMPAIGN);
- 
+
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
     getValues,
-  } = useForm<CampaignPostAdminAPI>({
+  } = useForm<CreateCampaignDto>({
     // resolver: yupResolver(schema), // Sử dụng schema đơn giản
     defaultValues: initData || {
       title: "",
       description: "",
       targetAmount: 0,
       currentAmount: 0,
-      startDate: Date(),
-      endDate: Date(),
+      startDate:new Date(),
+      endDate:new Date(),
       status: "Pending",
       createdBy: 0,
     },
   });
 
-  // console.log(initData);
+  // hàm tạo CampaignPosst
+  const responseCampaignPost = (
+    data: any,
+    images: FileList | null,
+    policies: CampaignPolicyDto[]
+  ) => {
+    const createdAt = new Date();
+    return new CreateCampaignDto(
+      data.title,
+      getValues("description"),
+      data.targetAmount,
+      0,
+      createdAt,
+      data.startDate,
+      data.endDate,
+      data.status,
+      data.createdBy,
+      policies
+    );
+  };
 
   // Hàm submit
-  const handlePOST = (data: any) => {
-    console.log("submit");
-    console.log(data);
-    console.log(selectedImages);
-    // handleCampaign(data, selectedImages);
+  const onSubmit = (data: any) => {
+    // console.log("sent", data);
+    // console.log("submit");
+    const result = responseCampaignPost(data, selectedImages, policies);
+    handleCampaign(result, selectedImages);
   };
 
   // Hàm thay đổi hình ảnh
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log("change");
     setSelectedImages(event.target.files);
   };
 
@@ -81,7 +103,9 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
   };
 
   // handle create policy
-  const handleCreatePolicy = () => {};
+  const handleCreatePolicy = (newPolicy: CampaignPolicyDto) => {
+    setPolicies((prev) => [...prev, newPolicy]);
+  };
 
   const renderLabel = () => {
     const render = tabs.map((item: any, index: number) => {
@@ -90,19 +114,13 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
           <input
             type="radio"
             name="pcss3t"
-            id={`tab${
-              index + 1 === 1
-                ? "first"
-                : index + 1 === tabs.length
-                ? "last"
-                : index
-            }`}
+            id={`tab${index + 1}`}
             className={`tab-content-${
               index + 1 === 1
                 ? "first"
-                : index + 1 === tabs.length
+                : index + 1 == tabs.length
                 ? "last"
-                : index
+                : index + 1
             }`}
             checked={item.title === tab}
           />
@@ -131,7 +149,7 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
       return (
         <li
           key={item.id}
-          className={` form-create tab-content tab-content-${
+          className={`shadow rounded form-create tab-content tab-content-${
             _index == 0
               ? "first"
               : _index == tabs.length - 1
@@ -139,30 +157,30 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
               : _index + 1
           } typography`}
         >
-          <form onSubmit={handleSubmit(handlePOST)}>
-            {item.title == TAB_CREATE_CAMPAIGN && (
-              // <div className="">campaign</div>
-              <InputCampaign
-                errors={errors}
-                register={register}
-                isUpdate={isUpdate}
-                getValues={getValues}
-                setValue={setValue}
-              />
-            )}
-
-            <button
-              style={{ marginTop: "1.25rem" }}
-              type="submit"
-              className="btn btn-primary"
-            >
-              Submit
-            </button>
-          </form>
-          {item.title == TAB_CREATE_POLICIES && (
-            <InputPolicy
+          {item.title == TAB_CREATE_CAMPAIGN && (
+            // <div className="">campaign</div>
+            <InputCampaign
+              handleEditorChange={handleEditorChange}
+              errors={errors}
+              register={register}
+              initData={initData!}
               isUpdate={isUpdate}
-              initData={initData?.policies || []}
+              getValues={getValues}
+              setValue={setValue}
+              handleChangImage={handleImageChange}
+            />
+          )}
+
+          {item.title == TAB_CREATE_POLICIES && (
+            // <div>policies</div>
+            <InputPolicy
+              errors={errors}
+              register={register}
+              isUpdate={false}
+              getValues={getValues}
+              setValue={setValue}
+              initData={policies}
+              handleCreateNewPolicy={handleCreatePolicy}
             />
           )}
         </li>
@@ -170,16 +188,61 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     });
 
     render.join(" ");
+    // console.log(render);
     return render;
   };
 
+  const handleRouteCampaign = () => {
+    navigate("/admin/campaigns");
+  };
+
+  // console.dir("register:",{...register("title")})
+
+  // console.log("selectedImages:", selectedImages);
+  // console.log("policies",policies)
+
   return (
-    // <div></div>
-    <div className=" my-tab">
-      <div className=" pcss3t pcss3t-effect-scale pcss3t-theme-4">
-        {renderLabel()}
-        <ul>{renderContentTabs()}</ul>
-      </div>
+    <div className="bg-light" style={{ marginTop: 12 }}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* <div className="">
+          <h1>Form Create Campaign (Policies,Images)</h1>
+        </div> */}
+        <div className="">
+          <button
+            style={{
+              marginTop: "1.25rem",
+              marginRight: "12px !important",
+              marginLeft: 12,
+              fontSize: 20,
+            }}
+            type="submit"
+            className="btn btn-danger"
+            onClick={handleRouteCampaign}
+          >
+            Back
+          </button>
+          <button
+            style={{
+              marginTop: "1.25rem",
+              marginRight: "12px !important",
+              fontSize: 20,
+              marginLeft: 12,
+            }}
+            type="submit"
+            className="btn btn-success"
+          >
+            Submit
+          </button>
+          .
+        </div>
+        <div className="p-2 my-tab">
+          <div className=" shadow bg-secondary pcss3t pcss3t-effect-scale pcss3t-theme-">
+            {renderLabel()}
+            <div></div>
+            <ul>{renderContentTabs()}</ul>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };

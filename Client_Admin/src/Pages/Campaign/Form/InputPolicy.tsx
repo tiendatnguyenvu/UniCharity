@@ -4,26 +4,37 @@ import React, { useEffect, useRef, useState } from "react";
 import Table from "../../../Components/Table/Table";
 import {
   CampaignPolicyDto,
-  CampaignPostAdminAPI,
+  CreateCampaignDto,
+  
 } from "../../../Models/Campaign";
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
+import { toast } from "react-toastify";
 
 type Props = {
-  initData: CampaignPolicyDto[];
+  errors: any;
+  register: any;
+  initData?: CampaignPolicyDto[];
   isUpdate: boolean;
+  getValues: UseFormGetValues<CreateCampaignDto>;
+  setValue: UseFormSetValue<CreateCampaignDto>;
+  handleCreateNewPolicy: (newPolicy: CampaignPolicyDto) => void;
 };
 const InputPolicy = ({
-  isUpdate,
+  register,
+  errors,
   initData,
+  handleCreateNewPolicy,
 }: Props) => {
-  // const [policies, setPolicies] = useState<CampaignPolicyDto[]|[]>(()=>[]);
+//   const [policies, setPolicies] = useState<CampaignPolicyDto[] >();
+// // 
+//   useEffect(()=>{
+//     setPolicies(initData)
+//   }
+//     ,[])
 
   // ref
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
   const eligibilityCriteriaRef = useRef<HTMLTextAreaElement | null>(null);
-
-  useEffect(() => {
-  }, [initData]);
 
   const handleClearForm = () => {
     if (descriptionRef.current) {
@@ -34,7 +45,31 @@ const InputPolicy = ({
     }
   };
 
-  const handleCreatePolicy = () => {};
+  const isNullOrEmpty = (value: string | null | undefined): boolean => {
+    return !value || value.trim().length === 0;
+  };
+  const responsePolicy = () => {
+    const description = descriptionRef.current?.value;
+    const eligibilityCriteria = eligibilityCriteriaRef.current?.value;
+
+    if (!isNullOrEmpty(description) && !isNullOrEmpty(eligibilityCriteria)) {
+      return new CampaignPolicyDto(description!, eligibilityCriteria!, "true");
+    } else {
+      toast.error("description and eligibility Criteria is require");
+    }
+    return null;
+
+  };
+
+  const handleCreatePolicy = () => {
+    const result  = responsePolicy();
+    if(result)
+    {
+      // console.log("result:",result)
+      handleCreateNewPolicy(result);
+      // handleClearForm();
+    }
+  };
   const configs = [
     {
       label: "#",
@@ -54,15 +89,13 @@ const InputPolicy = ({
     },
   ];
 
-  // console.log("policiesInitData:--------------------", initData);
-  // console.log("policies:--------------------------", policies);
   return (
     <div>
       <div className=" rounded h-100 p-4">
         <div className="form-floating mb-3">
           <textarea
             className="form-control"
-              placeholder="Write Description"
+            //   placeholder="Leave a comment here"
             id="floatingDescription"
             style={{ height: `100px` }}
             ref={descriptionRef}
@@ -75,7 +108,7 @@ const InputPolicy = ({
           <textarea
             ref={eligibilityCriteriaRef}
             className="form-control"
-              placeholder="Write Eligibility Criteria "
+            //   placeholder="Leave a comment here"
             id="floatingEligibilityCriteria"
             style={{ height: `100px` }}
             // {...register("")}
@@ -85,7 +118,11 @@ const InputPolicy = ({
           </label>
         </div>
         <div className="d-flex">
-          <button type="button" className="btn btn-primary rounded-pill m-2">
+          <button
+            type="button"
+            className="btn btn-primary rounded-pill m-2"
+            onClick={handleCreatePolicy}
+          >
             Insert policy
           </button>
           <button
@@ -100,9 +137,9 @@ const InputPolicy = ({
         <div className="d-flex justify-content-center align-items-center">
           <h1> List Policies</h1>
         </div>
-
-        {isUpdate && initData && <Table data={initData} configs={configs} />}
-        {isUpdate ||  <Table data={initData} configs={configs} />}
+        {initData && (
+          <Table data={initData || []} configs={configs} />
+        )}
       </div>
     </div>
   );

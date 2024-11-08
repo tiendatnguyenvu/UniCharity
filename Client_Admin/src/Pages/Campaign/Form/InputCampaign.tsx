@@ -1,25 +1,35 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Editor } from "@tinymce/tinymce-react";
+import React from "react";
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
-import { CampaignPostAdminAPI } from "../../../Models/Campaign";
+import { CreateCampaignDto } from "../../../Models/Campaign";
 
 type Props = {
   register: any;
   errors: any;
   isUpdate: boolean;
-  initData?: CampaignPostAdminAPI;
-  getValues:UseFormGetValues<CampaignPostAdminAPI>;
-  setValue:UseFormSetValue<CampaignPostAdminAPI>;
+  initData?: CreateCampaignDto;
+  getValues: UseFormGetValues<CreateCampaignDto>;
+  setValue: UseFormSetValue<CreateCampaignDto>;
+  handleChangImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleEditorChange: (content: string) => void;
 };
-const InputCampaign = ({ initData, isUpdate, register, errors,getValues,setValue }: Props) => {
-  
+const InputCampaign = ({
+  initData,
+  isUpdate,
+  register,
+  errors,
+  getValues,
+  setValue,
+  handleEditorChange,
+  handleChangImage,
+}: Props) => {
   // console.dir("register:",{...register("title")})
   // console.log("getVallues:",getValues())
 
-
   return (
-    <div className=" h-100 ">
+    <div className=" rounded h-100 ">
       {/* Title */}
       <div className="form-floating mb-3">
         <input
@@ -105,26 +115,19 @@ const InputCampaign = ({ initData, isUpdate, register, errors,getValues,setValue
 
       {/* Input File for Multiple Images */}
       <div className={`mb-3 ${isUpdate && "d-none"}`}>
-        <label htmlFor="formFileMultiple" className="form-label">
-          Multiple images input
-        </label>
-        <input
-          id="formFileMultiple"
-          type="file"
-          multiple
-          accept="image/*"
-          //   onChange={handleImageChange}
-        />
-      </div>
-      {/* <ImageTable campaignId={campaign.id}/> */}
-      {isUpdate && (
-        <div className={`mb-3"}`}>
+        <div className="mb-3">
           <label htmlFor="formFileMultiple" className="form-label">
-            Multiple images input
+            Multiple files input
           </label>
-          {/* {<ImageTable campaignId={Number(id)} />} */}
+          <input
+            className="form-control"
+            type="file"
+            id="formFileMultiple"
+            multiple
+            onChange={handleChangImage}
+          />
         </div>
-      )}
+      </div>
 
       {/* Word Component for Description */}
       <div className=" form-floating mb-3">
@@ -168,11 +171,13 @@ const InputCampaign = ({ initData, isUpdate, register, errors,getValues,setValue
             },
           }}
           initialValue={initData?.description || ""}
-          //   onEditorChange={handleEditorChange}
+          onEditorChange={handleEditorChange}
         />
         {/* Status */}
-        <div className="form-floating mb-3 mb-4 m
-         ">
+        <div
+          className="form-floating mb-3 mb-4 m
+         "
+        >
           <label htmlFor="floatingSelect">
             <p>Status</p>
           </label>
@@ -182,12 +187,12 @@ const InputCampaign = ({ initData, isUpdate, register, errors,getValues,setValue
             aria-label="Floating label select example"
             {...register("status")}
           >
-            <option value="Cancel" style={{ color: "red" }}>
-              Cancel
+            <option value="Cancelled" style={{ color: "red" }}>
+              Cancelled
             </option>
             <option value="Pending">Pending</option>
             <option value="Active">Active</option>
-            <option value="Complete">Complete</option>
+            <option value="Completed">Completed</option>
           </select>
         </div>
       </div>

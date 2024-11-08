@@ -25,10 +25,10 @@ public class ImageController {
         return ApiResponse.<ImageResponse>builder().result(service.uploadImage(image, campaignId)).build();
     }
 
-    @PostMapping("/upload-list/illustration/{campaignId}")
-    ApiResponse<List<ImageResponse>> createImages(@RequestPart("image")List<MultipartFile> imageList, @PathVariable("campaignId") int campaignId) throws IOException {
-        return ApiResponse.<List<ImageResponse>>builder().result(service.uploadImageList(imageList, campaignId)).build();
-    }
+        @PostMapping("/upload-list/illustration/{campaignId}")
+        ApiResponse<List<ImageResponse>> createImages(@RequestPart("image")List<MultipartFile> imageList, @PathVariable("campaignId") int campaignId) throws IOException {
+            return ApiResponse.<List<ImageResponse>>builder().result(service.uploadImageList(imageList, campaignId)).build();
+        }
 
     @GetMapping("/dowload-by-id/{imageId}")
     ApiResponse<ImageResponse> getImageById(@PathVariable("imageId") int imageId) {

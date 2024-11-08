@@ -1,5 +1,5 @@
-import { CampaignDto, CampaignPostAdminAPI } from "./Campaign";
-import { PageObject } from "./Paging";
+import { CampaignDto, CreateCampaignDto } from "./Campaign";
+import { PageObject } from "./Paginate";
 
 export type ResponseListCampaignAPI = {
   code: number,
@@ -11,9 +11,9 @@ export type ResponseListCampaignAPI = {
 };
 
 
-export type ResponseGetCampaignUpdaytAPI = {
+export type ResponseCreateCampaignAPI = {
   code: number,
-  result: CampaignPostAdminAPI
+  result: CreateCampaignDto
   
 };
 

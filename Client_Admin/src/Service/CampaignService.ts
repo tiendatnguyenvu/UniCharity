@@ -1,52 +1,55 @@
 import { toast } from "react-toastify";
-import { ResponseGetCampaignUpdaytAPI, ResponseListCampaignAPI } from "../Models/ResponseAPI";
 import axiosInstance from "./axios_instance";
-import { CampaignPostAdminAPI } from "../Models/Campaign";
+import { CreateCampaignDto } from "../Models/Campaign";
+import { ResponseCreateCampaignAPI, ResponseListCampaignAPI } from "../Models/ResponseAPI";
 
 const api = "/campaigns";
 
 export const GetListCampaignByStatus = async (
   status: string,
-  page: number ,
-  limit: number 
+  page: number = 1,
+  limit: number = 5
 ) => {
-  
   try {
+    // const x = `${api}/get-by-status/${status}`;
+    // console.log("x:",x);
     const response = await axiosInstance.get<ResponseListCampaignAPI>(
       `${api}/get-by-status/${status}`,
       {
         params: {
           page: page,
-          size: limit,
+          size: limit
         },
       }
     );
+    // console.log("response service:", response);
     return response;
   } catch (error) {
     console.log("error", error);
+    toast.warning("List empty!");
   }
 };
 
 export const GetCampaignById = async (campaignId: string) => {
   try {
-    const response = await axiosInstance.get<ResponseGetCampaignUpdaytAPI| null>(
+    const response = await axiosInstance.get<CreateCampaignDto | null>(
       `${api}/get-by-id/${campaignId}`
     );
-    // console.log("response",response)
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
     toast.error("Campaign does not exist!");
   }
 };
 
-export const CreateCampaignAPI = async (formInput: CampaignPostAdminAPI) => {
+
+export const CreateCampaignAPI = async (formInput: CreateCampaignDto) => {
   try {
-    const response  = await axiosInstance.post(`${api}/create`,formInput);
-    console.log(response);
+    console.log("into:",formInput)
+    const response = await axiosInstance.post<ResponseCreateCampaignAPI>(`${api}/create`,formInput);
     return response;
   } catch (error) {
-    
-    console.log(error)
+    console.log(error);
+    throw error;
   }
-}
+};
