@@ -74,8 +74,14 @@ public class CampaignService implements ICampaignService {
 
     @Override
     public PageResponse<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        Pageable pageable;
+        if (sort.equals("createdAt")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sort));
+        }
         Page<CampaignResponse> campaignPage = campaignRepository.findByStatus(status, pageable).map(CampaignMapper::toCampaignResponse);
+
         return new PageResponse<>(
                 campaignPage.getContent(),
                 com.UniCharity.UniCharity.dto.response.page.Page.builder()
