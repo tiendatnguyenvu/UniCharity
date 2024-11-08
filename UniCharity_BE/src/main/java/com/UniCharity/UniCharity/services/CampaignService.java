@@ -92,6 +92,15 @@ public class CampaignService implements ICampaignService {
     }
 
     @Override
+    public CampaignResponse updateCampaignCurrentAmount(int campaignId, long amout) {
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        long newCurrentAmount = campaign.getCurrentAmount() + (amout/100);
+        campaign.setCurrentAmount(newCurrentAmount);
+        campaignRepository.save(campaign);
+        return CampaignMapper.toCampaignResponse(campaign);
+    }
+
+    @Override
     public List<Donation> getAllUserDonation(int campaignId) {
         Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
         List<Donation> userDonated = new ArrayList<>();

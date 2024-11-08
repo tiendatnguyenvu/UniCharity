@@ -22,7 +22,6 @@ public class User {
     private Integer id;
 
     @Size(max = 255)
-    @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -36,12 +35,12 @@ public class User {
     private String phone;
 
     @Size(max = 255)
-    @NotNull
     @Column(name = "password", nullable = false)
     private String password;
 
     @Size(max = 255)
     @Column(name = "role")
+    @NotNull
     private String role;
 
     @NotNull

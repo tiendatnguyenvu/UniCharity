@@ -52,6 +52,28 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User createUserWithEmail(String email) {
+        User user = new User();
+        user.setEmail(email);
+        user.setRole("user");
+        try {
+            user = userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            // Kiểm tra xem ngoại lệ liên quan đến cột nào
+            if (exception.getCause() instanceof ConstraintViolationException) {
+                ConstraintViolationException constraintViolation = (ConstraintViolationException) exception.getCause();
+                String message = constraintViolation.getSQLException().getMessage();
+                // Kiểm tra thông báo lỗi và phát hiện lỗi trùng cột nào
+                if (message.contains("email")) {
+                    throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+                }
+            }
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+        return user;
+    }
+
+    @Override
     public List<UserResponse> getUsers() {
         return userRepository.findAll().stream().map(UserMapper::toUserResponse).toList().reversed();
     }

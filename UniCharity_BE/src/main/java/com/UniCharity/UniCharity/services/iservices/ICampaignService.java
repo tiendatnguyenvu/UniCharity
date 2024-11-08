@@ -16,4 +16,5 @@ public interface ICampaignService {
     public List<Donation> getAllUserDonation(int campaignId);
     public CampaignResponse updateCampaign(int campaignId, CampaignUpdateRequest request);
     public CampaignResponse updateCampaignStatus(int campaignId);
+    public CampaignResponse updateCampaignCurrentAmount(int campaignId, long amout);
 }
