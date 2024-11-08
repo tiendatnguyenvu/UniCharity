@@ -2,7 +2,7 @@ package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.UserCreateRequest;
 import com.UniCharity.UniCharity.dto.request.UserUpdateRequest;
-import com.UniCharity.UniCharity.dto.response.UserResponse;
+import com.UniCharity.UniCharity.dto.response.user.UserResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.UserMapper;
@@ -26,12 +26,11 @@ import java.util.List;
 @Slf4j
 public class UserService implements IUserService {
     UserRepository userRepository;
-    UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse createUser(UserCreateRequest request) {
-        User user = userMapper.toUser(request);
+        User user = UserMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         try {
             user = userRepository.save(user);
@@ -49,31 +48,31 @@ public class UserService implements IUserService {
             }
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-        return userMapper.toUserResponse(user);
+        return UserMapper.toUserResponse(user);
     }
 
     @Override
     public List<UserResponse> getUsers() {
-        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList().reversed();
+        return userRepository.findAll().stream().map(UserMapper::toUserResponse).toList().reversed();
     }
 
     @Override
     public UserResponse getUser(int userId) {
-        return userMapper.toUserResponse(userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+        return UserMapper.toUserResponse(userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
     @Override
     public UserResponse updateUser(int userId, UserUpdateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        userMapper.updateUser(user, request);
+        UserMapper.updateUser(user, request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        return userMapper.toUserResponse(userRepository.save(user));
+        return UserMapper.toUserResponse(userRepository.save(user));
     }
 
     @Override
     public UserResponse updateUserStatus(int userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         user.setStatus(false);
-        return userMapper.toUserResponse(userRepository.save(user));
+        return UserMapper.toUserResponse(userRepository.save(user));
     }
 }

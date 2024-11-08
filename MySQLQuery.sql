@@ -1,5 +1,5 @@
 -- Tạo database UniversityCharityDB
-CREATE DATABASE if NOT EXISTS UniversityCharityDB;
+CREATE DATABASE IF NOT EXISTS UniversityCharityDB;
 USE UniversityCharityDB;
 
 -- Tạo bảng policies (Điều khoản chính sách)
@@ -39,7 +39,7 @@ CREATE TABLE violation_actions (
 CREATE TABLE campaigns (
     campaign_id INT PRIMARY KEY AUTO_INCREMENT,  -- Khóa chính tự động tăng
     title VARCHAR(255) NOT NULL,  -- Tiêu đề chiến dịch
-    description TINYTEXT NOT NULL,  -- Mô tả ngắn
+    description LONGTEXT NOT NULL,  -- Mô tả chiến dịch (đã thay đổi thành LONGTEXT)
     target_amount BIGINT NOT NULL DEFAULT 0,  -- Mục tiêu quyên góp
     current_amount BIGINT NOT NULL DEFAULT 0,  -- Số tiền hiện tại đã quyên góp
     created_at DATE NOT NULL,  -- Ngày tạo chiến dịch
@@ -77,7 +77,7 @@ CREATE TABLE fund_allocations (
 CREATE TABLE images (
     image_id INT PRIMARY KEY AUTO_INCREMENT,  -- Khóa chính tự động tăng
     campaign_id INT NOT NULL,  -- Khóa ngoại tham chiếu tới bảng campaigns
-    image_path TEXT NOT NULL,  -- Đường dẫn của hình ảnh
+    description LONGTEXT NOT NULL,  -- Đường dẫn của hình ảnh (đã thay đổi từ image_path thành description)
     image_type VARCHAR(50) NOT NULL  -- Loại hình ảnh (vd: JPG, PNG)
 );
 
@@ -88,13 +88,13 @@ CREATE TABLE donations (
     user_id INT NOT NULL,  -- Khóa ngoại tham chiếu tới bảng users
     amount BIGINT NOT NULL,  -- Số tiền quyên góp
     payment_method VARCHAR(50) NOT NULL,  -- Phương thức thanh toán (cash_payment, online_payment)
-    donation_date DATETIME NOT NULL,  -- Ngày quyên góp
+    donation_date DATETIME NOT NULL  -- Ngày quyên góp
 );
 
--- Tạo bảng transactions (Giao dịch quyên góp)
+-- Tạo bảng transactions (Giao dịch quyên góp) với mối quan hệ một-một
 CREATE TABLE transactions (
     transaction_id INT PRIMARY KEY AUTO_INCREMENT,  -- Khóa chính tự động tăng
-    donation_id INT NOT NULL,  -- Khóa ngoại tham chiếu tới bảng donations
+    donation_id INT NOT NULL UNIQUE,  -- Khóa ngoại tham chiếu tới bảng donations và là UNIQUE để đảm bảo quan hệ 1-1
     transaction_code VARCHAR(255) NOT NULL,  -- Mã giao dịch (vnp_TransactionNo)
     payment_gateway VARCHAR(50) NOT NULL,  -- Cổng thanh toán (VNPay, MoMo, PayPel, ...)
     transaction_date DATETIME NOT NULL,  -- Ngày giao dịch (vnp_PayDate)
@@ -146,16 +146,12 @@ ADD FOREIGN KEY (campaign_id) REFERENCES campaigns (campaign_id);
 ALTER TABLE donations 
 ADD FOREIGN KEY (user_id) REFERENCES users (user_id);
 
+-- Khóa ngoại và ràng buộc một-một giữa donations và transactions
 ALTER TABLE transactions 
-ADD FOREIGN KEY (donation_id) REFERENCES donations (donation_id);
+ADD CONSTRAINT fk_donation_transaction 
+FOREIGN KEY (donation_id) REFERENCES donations (donation_id) 
+ON DELETE CASCADE ON UPDATE CASCADE;
 
+-- Ràng buộc duy nhất cho email và name trong bảng users
 ALTER TABLE users ADD CONSTRAINT unique_email UNIQUE (email);
 ALTER TABLE users ADD CONSTRAINT unique_name UNIQUE (name);
-    
-ALTER TABLE `UniversityCharityDB`.`campaigns` 
-CHANGE COLUMN `description` `description` LONGTEXT NOT NULL ;
-
-ALTER TABLE `UniversityCharityDB`.`images` 
-CHANGE COLUMN `image_path` `description` LONGTEXT NOT NULL ;
-
-

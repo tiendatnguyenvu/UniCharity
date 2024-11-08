@@ -1,4 +1,4 @@
-package com.UniCharity.UniCharity.dto.response;
+package com.UniCharity.UniCharity.dto.response.page;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

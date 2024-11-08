@@ -1,19 +1,63 @@
 package com.UniCharity.UniCharity.mapper;
 
 import com.UniCharity.UniCharity.dto.request.DonationCreateRequest;
-import com.UniCharity.UniCharity.dto.response.DonationResponse;
+import com.UniCharity.UniCharity.dto.response.donation.DonationResponse;
+import com.UniCharity.UniCharity.dto.response.donation.DonationSimple;
+import com.UniCharity.UniCharity.dto.response.transaction.TransactionResponse;
 import com.UniCharity.UniCharity.entities.Donation;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import com.UniCharity.UniCharity.entities.Transaction;
 
-@Mapper(componentModel = "spring", uses = {TransactionMapper.class})
-public interface DonationMapper {
-    @Mapping(target = "campaign", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    Donation toDonation(DonationCreateRequest request);
+import java.util.List;
+import java.util.Set;
 
-    @Mapping(source = "campaign.id", target = "campaign")
-    @Mapping(source = "user.id", target = "user")
-    @Mapping(source = "transactions", target = "transactions")
-    DonationResponse toDonationResponse(Donation donation);
+public class DonationMapper {
+    public static Donation toDonation(DonationCreateRequest request) {
+        if(request == null) {
+            return null;
+        }
+
+        Donation donation = new Donation();
+
+        donation.setAmount(request.getAmount());
+        donation.setDonationDate(request.getDonationDate());
+
+        return donation;
+    }
+
+    public static DonationResponse toDonationResponse(Donation donation) {
+        if(donation == null) {
+            return null;
+        }
+
+        DonationResponse.DonationResponseBuilder donationResponse = DonationResponse.builder();
+
+        donationResponse.id(donation.getId());
+        donationResponse.amount(donation.getAmount());
+        donationResponse.paymentMethod(donation.getPaymentMethod());
+        donationResponse.donationDate(donation.getDonationDate());
+        donationResponse.campaign(CampaignMapper.toCampaignSimple(donation.getCampaign()));
+        donationResponse.user(UserMapper.toUserSimple(donation.getUser()));
+
+        return donationResponse.build();
+    }
+
+    public static DonationSimple toDonationSimple(Donation donation) {
+        if (donation == null) {
+            return null;
+        }
+
+        DonationSimple.DonationSimpleBuilder donationSimple = DonationSimple.builder();
+
+        donationSimple.id(donation.getId());
+        donationSimple.amount(donation.getAmount());
+        donationSimple.paymentMethod(donation.getPaymentMethod());
+        donationSimple.donationDate(donation.getDonationDate());
+
+        return donationSimple.build();
+    }
+
+    protected static List<TransactionResponse> transactionSetToTransactionResponseList(Set<Transaction> set) {
+        return null;
+    }
+
 }

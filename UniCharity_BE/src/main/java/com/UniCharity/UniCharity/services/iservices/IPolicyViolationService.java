@@ -2,7 +2,7 @@ package com.UniCharity.UniCharity.services.iservices;
 
 import com.UniCharity.UniCharity.dto.request.PolicyViolationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.PolicyViolationUpdateRequest;
-import com.UniCharity.UniCharity.dto.response.PolicyViolationResponse;
+import com.UniCharity.UniCharity.dto.response.policyViolation.PolicyViolationResponse;
 
 import java.util.List;
 

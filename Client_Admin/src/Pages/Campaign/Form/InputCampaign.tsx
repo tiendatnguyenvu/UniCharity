@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Editor } from "@tinymce/tinymce-react";
-import React from "react";
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 import { CampaignPostAdminAPI } from "../../../Models/Campaign";
 
@@ -16,11 +15,11 @@ type Props = {
 const InputCampaign = ({ initData, isUpdate, register, errors,getValues,setValue }: Props) => {
   
   // console.dir("register:",{...register("title")})
-  console.log("getVallues:",getValues())
+  // console.log("getVallues:",getValues())
 
 
   return (
-    <div className=" rounded h-100 ">
+    <div className=" h-100 ">
       {/* Title */}
       <div className="form-floating mb-3">
         <input

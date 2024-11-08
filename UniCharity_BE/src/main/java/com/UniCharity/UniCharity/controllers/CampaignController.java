@@ -3,15 +3,23 @@ package com.UniCharity.UniCharity.controllers;
 import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
-import com.UniCharity.UniCharity.dto.response.CampaignResponse;
-import com.UniCharity.UniCharity.dto.response.PageResponse;
+import com.UniCharity.UniCharity.dto.response.campaign.CampaignResponse;
+import com.UniCharity.UniCharity.dto.response.image.ImageResponse;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
+import com.UniCharity.UniCharity.dto.response.policy.PolicyResponse;
+import com.UniCharity.UniCharity.entities.Donation;
+import com.UniCharity.UniCharity.entities.Image;
 import com.UniCharity.UniCharity.services.iservices.ICampaignService;
+import com.UniCharity.UniCharity.services.iservices.IImageService;
+import com.UniCharity.UniCharity.services.iservices.IPolicyService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,10 +29,14 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CampaignController {
     ICampaignService campaignService;
+    IPolicyService policyService;
 
     @PostMapping("/create")
     ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request) {
-        return ApiResponse.<CampaignResponse>builder().result(campaignService.createCampaign(request)).build();
+        CampaignResponse campaignResponse = campaignService.createCampaign(request);
+        List<PolicyResponse> policyResponseList = policyService.createPolicyList(request.getPolicyCreateRequests(), campaignResponse.getId());
+        campaignResponse = campaignService.getCampaign(campaignResponse.getId());
+        return ApiResponse.<CampaignResponse>builder().result(campaignResponse).build();
     }
 
     @GetMapping
@@ -40,6 +52,11 @@ public class CampaignController {
     @GetMapping("/get-by-id/{campaignId}")
     ApiResponse<CampaignResponse> getCampaign(@PathVariable("campaignId") int campaignId) {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.getCampaign(campaignId)).build();
+    }
+
+    @GetMapping("/get-users-donated/{campaignId}")
+    ApiResponse<List<Donation>> getAllUserDonated(@PathVariable("campaignId") int campaignId) {
+        return  ApiResponse.<List<Donation>>builder().result(campaignService.getAllUserDonation(campaignId)).build();
     }
 
     @PutMapping("/update/{campaignId}")

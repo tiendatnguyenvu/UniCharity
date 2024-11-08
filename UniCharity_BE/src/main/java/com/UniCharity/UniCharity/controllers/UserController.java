@@ -3,7 +3,7 @@ package com.UniCharity.UniCharity.controllers;
 import com.UniCharity.UniCharity.dto.request.UserCreateRequest;
 import com.UniCharity.UniCharity.dto.request.UserUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
-import com.UniCharity.UniCharity.dto.response.UserResponse;
+import com.UniCharity.UniCharity.dto.response.user.UserResponse;
 import com.UniCharity.UniCharity.services.iservices.IUserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;

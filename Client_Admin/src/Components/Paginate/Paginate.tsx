@@ -13,26 +13,28 @@ const Paginate = ({
     page,
     onPageChange,
 }: Props) => {
+
     const handlePrevious = () => {
-        if (page.currentPage > 1) {
+
+        if (page.currentPage >=1) {
             onPageChange(page.currentPage - 1);
         }
     };
 
     const handleNext = () => {
-        if (page.currentPage < page.totalPages) {
+        if (page.currentPage < page.totalPages-1) {
             onPageChange(page.currentPage + 1);
         }
     };
 
     const renderPageNumbers = () => {
         let pages = [];
-        for (let i = 0; i < page.totalPages; i++) {
+        for (let i = 1; i <= page.totalPages; i++) {
             pages.push(
                 <button
                     key={i}
-                    className={`pagination__number ${i === page.currentPage ? 'pagination__number--active' : ''}`}
-                    onClick={() => onPageChange(i)}
+                    className={`pagination__number ${i-1 === page.currentPage ? 'pagination__number--active' : ''}`}
+                    onClick={() => onPageChange(i-1)}
                 >
                     {i}
                 </button>
@@ -50,7 +52,7 @@ const Paginate = ({
 
                 <button
                     className="pagination__arrow"
-                    disabled={page.currentPage === 1}
+                    disabled={page.currentPage === 0}
                     onClick={handlePrevious}
                 >
                     <span className="pagination__arrow-half"></span>

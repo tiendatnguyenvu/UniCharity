@@ -1,6 +1,6 @@
 package com.UniCharity.UniCharity.services.iservices;
 
-import com.UniCharity.UniCharity.dto.response.ImageResponse;
+import com.UniCharity.UniCharity.dto.response.image.ImageResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

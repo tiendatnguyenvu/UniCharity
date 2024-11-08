@@ -1,5 +1,7 @@
-package com.UniCharity.UniCharity.dto.response;
+package com.UniCharity.UniCharity.dto.response.policy;
 
+import com.UniCharity.UniCharity.dto.response.campaign.CampaignSimple;
+import com.UniCharity.UniCharity.dto.response.policyViolation.PolicyViolationResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -19,7 +21,7 @@ public class PolicyResponse {
     LocalDate createdAt;
     LocalDate updatedAt;
 
-    int campaign;
+    CampaignSimple campaign;
 
     List<PolicyViolationResponse> policyViolations;
 }

@@ -1,19 +1,16 @@
-package com.UniCharity.UniCharity.dto.response;
+package com.UniCharity.UniCharity.dto.response.campaignReport;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CampaignReportResponse {
+public class CampaignReportSimple {
     Integer id;
     Long totalDonations;
     Long totalRecipients;
@@ -22,8 +19,4 @@ public class CampaignReportResponse {
     LocalDate reportDate;
     LocalDate createdAt;
     LocalDate updatedAt;
-
-    int campaign;
-
-    List<FundAllocationResponse> fundAllocations;
 }

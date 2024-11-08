@@ -1,6 +1,6 @@
 
 
-export interface CampaignPostAdminAPI {
+export class CampaignPostAdminAPI {
     title: string;
     description: string;
     targetAmount: number;
@@ -10,12 +10,37 @@ export interface CampaignPostAdminAPI {
     endDate: string;
     status: string;
     createdBy: number;
-    imageDto: CampaignImageDto[];
-    policyDtos: CampaignPolicyDto[];
+    policies: CampaignPolicyDto[];
+
+    constructor(
+        title: string,
+        description: string,
+        targetAmount: number,
+        currentAmount: number,
+        createdAt: string,
+        startDate: string,
+        endDate: string,
+        status: string,
+        createdBy: number,
+        policies: CampaignPolicyDto[]
+    ) {
+        this.title = title;
+        this.description = description;
+        this.targetAmount = targetAmount;
+        this.currentAmount = currentAmount;
+        this.createdAt = createdAt;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.createdBy = createdBy;
+        this.policies = policies;
+    }
+
+    
 }
 
 export interface CampaignDto {
-    campaignId: number;
+    id: number;
     title: string;
     description: string;
     targetAmount: number;
@@ -25,8 +50,8 @@ export interface CampaignDto {
     endDate: string;
     status: string;
     createdBy: number;
-    imageDto: CampaignImageDto[];
-    policyDtos: CampaignPolicyDto[];
+    images: CampaignImageDto[];
+    policies: CampaignPolicyDto[];
 }
 
 export interface CampaignImageDto {

@@ -18,7 +18,6 @@ public class CampaignCreateRequest {
     String title;
 
     @NotBlank(message = "DESCRIPTION_IS_REQUIRED")
-    @Size(max = 1000, message = "DESCRIPTION_TOO_LONG")
     String description;
 
     @Positive(message = "TARGET_AMOUNT_MUST_BE_POSITIVE")
@@ -40,7 +39,7 @@ public class CampaignCreateRequest {
     int createdBy;
 
     @NotBlank(message = "STATUS_CANNOT_BE_BLANK")
-    @Pattern(regexp = "active|inactive|completed|cancelled", message = "INVALID_STATUS_VALUE")
+    @Pattern(regexp = "Active|Pending|Completed|Cancelled", message = "INVALID_STATUS_VALUE")
     String status;
 
     List<PolicyCreateRequest> policyCreateRequests;

@@ -1,7 +1,7 @@
 package com.UniCharity.UniCharity.controllers;
 
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
-import com.UniCharity.UniCharity.dto.response.ImageResponse;
+import com.UniCharity.UniCharity.dto.response.image.ImageResponse;
 import com.UniCharity.UniCharity.services.iservices.IImageService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

@@ -2,8 +2,8 @@ package com.UniCharity.UniCharity.services.iservices;
 
 import com.UniCharity.UniCharity.dto.request.AuthenticationRequest;
 import com.UniCharity.UniCharity.dto.request.IntrospectRequest;
-import com.UniCharity.UniCharity.dto.response.AuthenticationResponse;
-import com.UniCharity.UniCharity.dto.response.IntrospectResponse;
+import com.UniCharity.UniCharity.dto.response.authentication.AuthenticationResponse;
+import com.UniCharity.UniCharity.dto.response.authentication.IntrospectResponse;
 import com.nimbusds.jose.JOSEException;
 
 import java.text.ParseException;

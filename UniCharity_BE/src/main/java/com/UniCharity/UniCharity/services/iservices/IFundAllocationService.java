@@ -2,7 +2,7 @@ package com.UniCharity.UniCharity.services.iservices;
 
 import com.UniCharity.UniCharity.dto.request.FundAllocationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.FundAllocationUpdateRequest;
-import com.UniCharity.UniCharity.dto.response.FundAllocationResponse;
+import com.UniCharity.UniCharity.dto.response.fundAllocation.FundAllocationResponse;
 
 import java.util.List;
 

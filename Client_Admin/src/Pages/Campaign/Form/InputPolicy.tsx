@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Table from "../../../Components/Table/Table";
 import {
   CampaignPolicyDto,
@@ -9,20 +9,21 @@ import {
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
 
 type Props = {
-  errors: any;
-  register: any;
-  initData?: CampaignPostAdminAPI ;
+  initData: CampaignPolicyDto[];
   isUpdate: boolean;
-  getValues: UseFormGetValues<CampaignPostAdminAPI>;
-  setValue:UseFormSetValue<CampaignPostAdminAPI>;
-
 };
-const InputPolicy = ({ register, errors, initData }: Props) => {
-  const [policies, setPolicies] = useState<CampaignPolicyDto[] | null>();
+const InputPolicy = ({
+  isUpdate,
+  initData,
+}: Props) => {
+  // const [policies, setPolicies] = useState<CampaignPolicyDto[]|[]>(()=>[]);
 
   // ref
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
   const eligibilityCriteriaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+  }, [initData]);
 
   const handleClearForm = () => {
     if (descriptionRef.current) {
@@ -49,17 +50,19 @@ const InputPolicy = ({ register, errors, initData }: Props) => {
     },
     {
       label: "Action",
-      render: (policy:CampaignPolicyDto) => <h1>Action</h1>
+      render: (policy: CampaignPolicyDto) => <h1>Action</h1>,
     },
   ];
 
+  // console.log("policiesInitData:--------------------", initData);
+  // console.log("policies:--------------------------", policies);
   return (
-      <div>
+    <div>
       <div className=" rounded h-100 p-4">
         <div className="form-floating mb-3">
           <textarea
             className="form-control"
-            //   placeholder="Leave a comment here"
+              placeholder="Write Description"
             id="floatingDescription"
             style={{ height: `100px` }}
             ref={descriptionRef}
@@ -72,7 +75,7 @@ const InputPolicy = ({ register, errors, initData }: Props) => {
           <textarea
             ref={eligibilityCriteriaRef}
             className="form-control"
-            //   placeholder="Leave a comment here"
+              placeholder="Write Eligibility Criteria "
             id="floatingEligibilityCriteria"
             style={{ height: `100px` }}
             // {...register("")}
@@ -97,8 +100,9 @@ const InputPolicy = ({ register, errors, initData }: Props) => {
         <div className="d-flex justify-content-center align-items-center">
           <h1> List Policies</h1>
         </div>
-        {initData &&  <Table data={initData?.policyDtos || []} configs={configs} />}
-       
+
+        {isUpdate && initData && <Table data={initData} configs={configs} />}
+        {isUpdate ||  <Table data={initData} configs={configs} />}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-package com.UniCharity.UniCharity.dto.response;
+package com.UniCharity.UniCharity.dto.response.user;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,10 +8,11 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ImageResponse {
+public class UserSimple {
     Integer id;
-    String imagePath;
-    String imageType;
-
-    int campaign;
+    String name;
+    String email;
+    String phone;
+    String password;
+    String role;
 }

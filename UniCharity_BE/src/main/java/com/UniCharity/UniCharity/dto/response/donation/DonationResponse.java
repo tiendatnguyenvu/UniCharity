@@ -1,7 +1,8 @@
-package com.UniCharity.UniCharity.dto.response;
+package com.UniCharity.UniCharity.dto.response.donation;
 
-import com.UniCharity.UniCharity.entities.Campaign;
-import com.UniCharity.UniCharity.entities.User;
+import com.UniCharity.UniCharity.dto.response.campaign.CampaignSimple;
+import com.UniCharity.UniCharity.dto.response.user.UserSimple;
+import com.UniCharity.UniCharity.dto.response.transaction.TransactionResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -19,8 +20,8 @@ public class DonationResponse {
     String paymentMethod;
     LocalDateTime donationDate;
 
-    int campaign;
-    int user;
+    CampaignSimple campaign;
+    UserSimple user;
 
     List<TransactionResponse> transactions;
 }

@@ -3,7 +3,7 @@ package com.UniCharity.UniCharity.controllers;
 import com.UniCharity.UniCharity.dto.request.PolicyViolationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.PolicyViolationUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
-import com.UniCharity.UniCharity.dto.response.PolicyViolationResponse;
+import com.UniCharity.UniCharity.dto.response.policyViolation.PolicyViolationResponse;
 import com.UniCharity.UniCharity.services.iservices.IPolicyViolationService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;

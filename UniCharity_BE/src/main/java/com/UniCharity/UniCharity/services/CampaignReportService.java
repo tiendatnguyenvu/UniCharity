@@ -2,8 +2,8 @@ package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.CampaignReportCreateRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignReportUpdateRequest;
-import com.UniCharity.UniCharity.dto.response.CampaignReportResponse;
-import com.UniCharity.UniCharity.dto.response.PageResponse;
+import com.UniCharity.UniCharity.dto.response.campaignReport.CampaignReportResponse;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.CampaignReportMapper;
@@ -22,8 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -31,24 +29,23 @@ import java.util.List;
 public class CampaignReportService implements ICampaignReportService {
     CampaignReportRepository campaignReportRepository;
     CampaignRepository campaignRepository;
-    CampaignReportMapper campaignReportMapper;
 
     @Override
     public CampaignReportResponse createCampaignReport(CampaignReportCreateRequest request) {
         Campaign campaign = campaignRepository.findById(request.getCampaign()).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
-        CampaignReport campaignReport = campaignReportMapper.toCamportReport(request);
+        CampaignReport campaignReport = CampaignReportMapper.toCampaignReport(request);
         campaignReport.setCampaign(campaign);
         campaignReportRepository.save(campaignReport);
-        return campaignReportMapper.toCamportRequestResponse(campaignReport);
+        return CampaignReportMapper.toCampaignReportResponse(campaignReport);
     }
 
     @Override
     public PageResponse<CampaignReportResponse> getCampaignReports(int page, int size, String sort) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        Page<CampaignReportResponse> campaignReportPage = campaignReportRepository.findAll(pageable).map(campaignReportMapper::toCamportRequestResponse);
+        Page<CampaignReportResponse> campaignReportPage = campaignReportRepository.findAll(pageable).map(CampaignReportMapper::toCampaignReportResponse);
         return new PageResponse<>(
                 campaignReportPage.getContent(),
-                com.UniCharity.UniCharity.dto.response.Page.builder()
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
                         .totalItem(campaignReportPage.getTotalElements())
                         .currentPage(campaignReportPage.getNumber())
                         .totalPages(campaignReportPage.getTotalPages())
@@ -59,13 +56,13 @@ public class CampaignReportService implements ICampaignReportService {
 
     @Override
     public CampaignReportResponse getCampaignReport(int camportReportId) {
-        return campaignReportMapper.toCamportRequestResponse(campaignReportRepository.findById(camportReportId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_REPORT_NOT_EXISTED)));
+        return CampaignReportMapper.toCampaignReportResponse(campaignReportRepository.findById(camportReportId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_REPORT_NOT_EXISTED)));
     }
 
     @Override
     public CampaignReportResponse updateCampaignReport(int camportReportId, CampaignReportUpdateRequest request) {
         CampaignReport campaignReport = campaignReportRepository.findById(camportReportId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_REPORT_NOT_EXISTED));
-        campaignReportMapper.updateCampaignReport(campaignReport, request);
-        return campaignReportMapper.toCamportRequestResponse(campaignReportRepository.save(campaignReport));
+        CampaignReportMapper.updateCampaignReport(campaignReport, request);
+        return CampaignReportMapper.toCampaignReportResponse(campaignReportRepository.save(campaignReport));
     }
 }
