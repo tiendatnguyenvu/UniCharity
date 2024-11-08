@@ -31,11 +31,15 @@ public class DonationService implements IDonationService {
     CampaignRepository campaignRepository;
     UserRepository userRepository;
     DonationRepository donationRepository;
+    UserService userService;
 
     @Override
     public DonationResponse createDonation(DonationCreateRequest request, String paymentMethod) {
         Campaign campaign = campaignRepository.findById(request.getCampaign()).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
-        User user = userRepository.findById(request.getUser()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        User user = userRepository.findByEmail(request.getEmail()).orElse(null);
+        if(user == null) {
+            user = userService.createUserWithEmail(request.getEmail());
+        }
         Donation donation = DonationMapper.toDonation(request);
         donation.setCampaign(campaign);
         donation.setUser(user);

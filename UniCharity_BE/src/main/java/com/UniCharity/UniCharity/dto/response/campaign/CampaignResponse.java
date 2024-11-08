@@ -20,8 +20,8 @@ public class CampaignResponse {
     Integer id;
     String title;
     String description;
-    long targetAmount;
-    long currentAmount;
+    Long targetAmount;
+    Long currentAmount;
     LocalDate createdAt;
     LocalDate startDate;
     LocalDate endDate;

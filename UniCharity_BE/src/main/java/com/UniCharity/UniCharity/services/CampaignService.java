@@ -1,6 +1,7 @@
 package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.CampaignCreateRequest;
+import com.UniCharity.UniCharity.dto.request.CampaignRequest;
 import com.UniCharity.UniCharity.dto.request.CampaignUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.campaign.CampaignResponse;
 import com.UniCharity.UniCharity.dto.response.page.PageResponse;
@@ -43,8 +44,22 @@ public class CampaignService implements ICampaignService {
     }
 
     @Override
+    public CampaignResponse createRequest(CampaignRequest request) {
+        User user = userRepository.findById(request.getCreatedBy()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        Campaign campaign = CampaignMapper.toCampaignFromRequest(request);
+        campaign.setCreatedBy(user);
+        campaign = campaignRepository.save(campaign);
+        return CampaignMapper.toCampaignResponse(campaign);
+    }
+
+    @Override
     public PageResponse<CampaignResponse> getCampaigns(int page, int size, String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        Pageable pageable;
+        if (sort.equals("createdAt")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sort));
+        }
         Page<CampaignResponse> campaignPage = campaignRepository.findAll(pageable).map(CampaignMapper::toCampaignResponse);
         return new PageResponse<>(
                 campaignPage.getContent(),
@@ -89,6 +104,15 @@ public class CampaignService implements ICampaignService {
         Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
         campaign.setStatus("canceled");
         return CampaignMapper.toCampaignResponse(campaignRepository.save(campaign));
+    }
+
+    @Override
+    public CampaignResponse updateCampaignCurrentAmount(int campaignId, long amout) {
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        long newCurrentAmount = campaign.getCurrentAmount() + (amout/100);
+        campaign.setCurrentAmount(newCurrentAmount);
+        campaignRepository.save(campaign);
+        return CampaignMapper.toCampaignResponse(campaign);
     }
 
     @Override
