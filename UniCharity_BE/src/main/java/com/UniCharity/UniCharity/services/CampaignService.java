@@ -54,7 +54,12 @@ public class CampaignService implements ICampaignService {
 
     @Override
     public PageResponse<CampaignResponse> getCampaigns(int page, int size, String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        Pageable pageable;
+        if (sort.equals("createdAt")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sort));
+        }
         Page<CampaignResponse> campaignPage = campaignRepository.findAll(pageable).map(CampaignMapper::toCampaignResponse);
         return new PageResponse<>(
                 campaignPage.getContent(),
