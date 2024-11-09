@@ -14,7 +14,10 @@ const UpdateCampaign = () => {
     GetCampaignById(id!)
       .then((res) => {
         // console.log("res Update",res)
-        setInitData(res!);
+        if(res)
+        {
+        setInitData(res?.result);
+        }
       })
       .catch(() => {
         toast.error("campaign is not exist!");
@@ -22,7 +25,7 @@ const UpdateCampaign = () => {
   }, []);
 
   const handleSubmit = (data: CreateCampaignDto, images: FileList | null) => {};
-  // console.log("initData Update",initData)
+  console.log("initData Update",initData)
   return (
     <div>
       {initData && (

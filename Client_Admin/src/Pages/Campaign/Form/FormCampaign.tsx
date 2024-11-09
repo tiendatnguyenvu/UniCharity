@@ -34,7 +34,10 @@ type Props = {
 };
 const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
   const [selectedImages, setSelectedImages] = useState<FileList | null>(null);
-  const [policies, setPolicies] = useState<CampaignPolicyDto[]>([]);
+  const [policies, setPolicies] = useState<CampaignPolicyDto[]>(()=>{
+    if(initData) return initData.policies;
+    else return []
+  });
   const [tab, setTab] = useState(TAB_CREATE_CAMPAIGN);
   const [tabs, setTabs] = useState(TABS_CREATE_CAMPAIGN);
 
@@ -111,12 +114,12 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
 
   const handleDeletePolicy = (i:number)=>
   {
-    
+
     toast.success(i)
     // console.log("index: ",i)
-    // const result = policies;
-    // result.filter((item)=>{ return item.id !=i})
-    // setPolicies(result);
+    const result = policies;
+    result.splice(i, 1);  
+    setPolicies(result);
   }
   const renderLabel = () => {
     const render = tabs.map((item: any, index: number) => {
@@ -129,20 +132,15 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
             className={`tab-content-${
               index + 1 === 1
                 ? "first"
-                : index + 1 == tabs.length
+                : (index + 1 == tabs.length
                 ? "last"
-                : index + 1
+                : index + 1)
             }`}
             checked={item.title === tab}
           />
           <label
             htmlFor={`tab${
-              index + 1 === 1
-                ? "first"
-                : index + 1 === tabs.length
-                ? "last"
-                : index
-            }`}
+              index + 1}`}
             onClick={() => handleClickTab(item.title)}
           >
             <i className="icon-picture"></i>
@@ -155,6 +153,8 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     return render;
   };
 
+
+  // console.log("policies Form", policies)
   const renderContentTabs = () => {
     const render = tabs.map((item: any, _index: number) => {
       return (
@@ -182,7 +182,7 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
             />
           )}
 
-          {item.title == TAB_CREATE_POLICIES && (
+          { item.title == TAB_CREATE_POLICIES && (
             // <div>policies</div>
             <InputPolicy
               errors={errors}
@@ -213,6 +213,7 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
   // console.log("selectedImages:", selectedImages);
   // console.log("policies",policies)
 
+  console.log("init Form: ",initData)
   return (
     <div className="bg-light" style={{ marginTop: 12 }}>
       <form onSubmit={handleSubmit(onSubmit)}>

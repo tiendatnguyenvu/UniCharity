@@ -28,6 +28,7 @@ const InputPolicy = ({
   handleCreateNewPolicy,
   handleDeletePolicy
 }: Props) => {
+  // console.log("init policy", initData)
 //   const [policies, setPolicies] = useState<CampaignPolicyDto[] >();
 // // 
 //   useEffect(()=>{
@@ -56,7 +57,7 @@ const InputPolicy = ({
     const eligibilityCriteria = eligibilityCriteriaRef.current?.value;
 
     if (!isNullOrEmpty(description) && !isNullOrEmpty(eligibilityCriteria)) {
-      return new CampaignPolicyDto(description!, eligibilityCriteria!, "true");
+      return new CampaignPolicyDto(description!, eligibilityCriteria!, "pending");
     } else {
       toast.error("description and eligibility Criteria is require");
     }
@@ -76,7 +77,7 @@ const InputPolicy = ({
 
 
   const handleDelete= (i:number) => {
-   toast.success("index:"+i )
+  //  toast.success("index:"+i )
    handleDeletePolicy(i)
   }
   const configs = [

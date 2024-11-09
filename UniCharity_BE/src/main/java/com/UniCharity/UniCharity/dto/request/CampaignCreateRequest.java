@@ -42,5 +42,5 @@ public class CampaignCreateRequest {
     @Pattern(regexp = "Active|Pending|Completed|Cancelled", message = "INVALID_STATUS_VALUE")
     String status;
 
-    List<PolicyCreateRequest> policyCreateRequests;
+    List<PolicyCreateRequest> policies;
 }

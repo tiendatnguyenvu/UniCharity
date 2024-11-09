@@ -73,7 +73,7 @@ const Campaign = () => {
             _index+1 == 1 ? "first" :( _index+1 == tabs.length ? "last" : _index + 1)
           } typography`}
         >
-          {campaigns && (
+          {(campaigns && campaigns.length > 0) ? (
             <div>
               {" "}
               <Paginate
@@ -83,7 +83,7 @@ const Campaign = () => {
               />
               <Table data={campaigns} configs={configs} />
             </div>
-          )}
+          ):<h1>No record</h1>}
         </li>
       );
     });
@@ -113,6 +113,7 @@ const Campaign = () => {
     GetListCampaignByStatus(status, page, limit)
       .then((res) => {
         if (res?.data) {
+          // console.log("campaigns",res)
           setCampaigns(res?.data?.result.items);
           setPageObject(res?.data?.result.page);
         }
@@ -147,6 +148,15 @@ const Campaign = () => {
         return campaign.title;
       },
     },
+    {
+      label: "Create By",
+      render: (campaign: CampaignDto) => campaign.createdBy.name
+    },
+    
+    {
+      label: "Created date",
+      render: (campaign: CampaignDto) => campaign.createdAt,
+    },
 
     {
       label: "Target amount",
@@ -157,10 +167,6 @@ const Campaign = () => {
       render: (campaign: CampaignDto) => campaign.currentAmount,
     },
 
-    {
-      label: "Created date",
-      render: (campaign: CampaignDto) => campaign.createdAt,
-    },
     {
       label: "Action",
       render: (campaign: CampaignDto) => {
