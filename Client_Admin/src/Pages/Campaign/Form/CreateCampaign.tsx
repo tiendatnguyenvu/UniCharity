@@ -19,20 +19,15 @@ const CreateCampaign = () => {
     images: FileList | null
   ) => {
     try {
-      // console.log("input", _formInput);
-      // console.log("images", images);
+      console.log("input", _formInput);
+      console.log("images", images);
 
       CreateCampaignAPI(_formInput).then((res) => {
-        // console.log("success create campaign: ", res);
+        console.log("success create campaign: ", res);
         if (res?.status == 200 && res?.data) {
-          UploadListCampaignImagesAPI(res.data?.result.id, images).then(
-            (res) => {
-              if (res.status == 200) {
-                navigate("/admin/campaigns");
-                toast.success("Create Successfully!");
-              }
-            }
-          );
+          UploadListCampaignImagesAPI(res.data.result.id, images)
+          navigate("/admin/campaigns");
+          toast.success("Create a Campaign Successfully!");
         }
       });
     } catch (error) {

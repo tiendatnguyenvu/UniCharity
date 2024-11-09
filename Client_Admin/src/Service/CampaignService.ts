@@ -32,7 +32,7 @@ export const GetListCampaignByStatus = async (
 
 export const GetCampaignById = async (campaignId: string) => {
   try {
-    const response = await axiosInstance.get<CreateCampaignDto | null>(
+    const response = await axiosInstance.get<ResponseCreateCampaignAPI | null>(
       `${api}/get-by-id/${campaignId}`
     );
     return response.data;

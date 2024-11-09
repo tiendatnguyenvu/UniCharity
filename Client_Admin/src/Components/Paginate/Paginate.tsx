@@ -10,20 +10,20 @@ export type PagingProps = {
 
 const Paginate = ({ page, onPageChange }: PagingProps) => {
   const handlePrevious = () => {
-    if (page.currentPage > 1) {
+    if (page.currentPage >= 1) {
       onPageChange(page.currentPage - 1);
     }
   };
 
   const handleNext = () => {
-    if (page.currentPage < page.totalPages) {
+    if (page.currentPage < page.totalPages-1) {
       onPageChange(page.currentPage + 1);
     }
   };
 
   const renderPageNumbers = () => {
     let pages: any[] = [];
-    for (let i = 1; i <= page.totalPages; i++) {
+    for (let i = 0; i < page.totalPages; i++) {
       pages.push(
         <button
           key={i}
@@ -49,7 +49,7 @@ const Paginate = ({ page, onPageChange }: PagingProps) => {
 
         <button
           className="pagination__arrow"
-          disabled={page.currentPage === 1}
+          disabled={page.currentPage === 0}
           onClick={handlePrevious}
         >
           <span className="pagination__arrow-half"></span>

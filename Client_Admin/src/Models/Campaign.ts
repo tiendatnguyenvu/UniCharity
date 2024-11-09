@@ -1,3 +1,4 @@
+import { User } from "./User";
 
 
 export class CreateCampaignDto {
@@ -11,7 +12,7 @@ export class CreateCampaignDto {
     endDate: Date|null;
     status: string;
     createdBy: number;
-    policyCreateRequests: CampaignPolicyDto[];
+    policies: CampaignPolicyDto[];
     
 
     constructor(
@@ -24,6 +25,47 @@ export class CreateCampaignDto {
         _endDate: Date|null,
         _status: string,
         _createdBy: number,
+        _policiesDtos: CampaignPolicyDto[]
+    ) {
+        this.id  = 0;
+        this.title = _title;
+        this.description= _description;
+        this.targetAmount=_targetAmount;
+        this.currentAmount=_currentAmount;
+        this.createdAt=_createdAt;
+        this.startDate=_startDate;
+        this.endDate=_endDate;
+        this.status=_status;
+        this.createdBy=_createdBy;
+        this.policies=_policiesDtos;
+        
+    }
+}
+
+export class UpdateCampaignDto {
+    id:number;
+    title: string;
+    description: string;
+    targetAmount: number;
+    currentAmount: number;
+    createdAt: Date|null;
+    startDate: Date|null;
+    endDate: Date|null;
+    status: string;
+    createdBy: User;
+    policyCreateRequests: CampaignPolicyDto[];
+    
+
+    constructor(
+        _title: string,
+        _description: string,
+        _targetAmount: number,
+        _currentAmount: number,
+        _createdAt: Date|null,
+        _startDate: Date|null,
+        _endDate: Date|null,
+        _status: string,
+        _createdBy: User,
         _policiesDtos: CampaignPolicyDto[]
     ) {
         this.id  = 0;
@@ -58,7 +100,7 @@ export interface CampaignDto {
     startDate: Date;
     endDate: Date;
     status: string;
-    createdBy: number;
+    createdBy: User;
     policies: CampaignPolicyDto[];
     images:[];
     campaignReports:[];
@@ -87,7 +129,6 @@ export interface CampaignFormFiles {
 }
 
 export class CampaignPolicyDto {
-        id: number;
         campaign: number;
         policyDescription: string;
         eligibilityCriteria: string;
@@ -103,7 +144,6 @@ export class CampaignPolicyDto {
         _approvalRequired: string,
         
     ){
-            this.id = 0;
             this.campaign = 0;
             this.policyDescription=_policydescription;
             this.eligibilityCriteria=_eligibilityCriteria;

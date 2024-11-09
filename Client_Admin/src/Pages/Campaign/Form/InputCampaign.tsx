@@ -61,7 +61,7 @@ const InputCampaign = ({
       </div>
 
       {/* Created By */}
-      <div className="form-floating mb-3">
+      {isUpdate || (<div className="form-floating mb-3">
         <input
           type="number"
           className={`form-control ${errors.createdBy ? "is-invalid" : ""}`}
@@ -74,7 +74,7 @@ const InputCampaign = ({
         {errors.createdBy && (
           <div className="invalid-feedback">{errors.createdBy.message}</div>
         )}
-      </div>
+      </div>)}
 
       {/* Start Date */}
       {/* create */}
