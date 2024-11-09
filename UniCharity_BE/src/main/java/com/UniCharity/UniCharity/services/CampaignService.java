@@ -9,7 +9,9 @@ import com.UniCharity.UniCharity.entities.*;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.CampaignMapper;
+import com.UniCharity.UniCharity.mapper.PolicyMapper;
 import com.UniCharity.UniCharity.repositories.CampaignRepository;
+import com.UniCharity.UniCharity.repositories.PolicyRepository;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.ICampaignService;
 import lombok.AccessLevel;
@@ -32,6 +34,8 @@ import java.util.List;
 public class CampaignService implements ICampaignService {
     CampaignRepository campaignRepository;
     UserRepository userRepository;
+    PolicyRepository policyRepository;
+    PolicyService policyService;
 
 
     @Override
@@ -101,7 +105,12 @@ public class CampaignService implements ICampaignService {
     @Override
     public CampaignResponse updateCampaign(int campaignId, CampaignUpdateRequest request) {
         Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        User user = userRepository.findById(request.getCreateBy()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         CampaignMapper.updateCampaign(campaign, request);
+        campaign.setCreatedBy(user);
+        List<Policy> policies = policyRepository.findAllPolicyByCampaignId(campaignId);
+        policyRepository.deleteAll(policies);
+        policyService.createPolicyList(request.getPolicies(), campaignId);
         return CampaignMapper.toCampaignResponse(campaignRepository.save(campaign));
     }
 

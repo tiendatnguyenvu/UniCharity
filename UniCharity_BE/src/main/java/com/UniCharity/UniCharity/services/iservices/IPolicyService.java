@@ -13,4 +13,5 @@ public interface IPolicyService  {
     public PolicyResponse getPolicy(int policyId);
     public PolicyResponse updatePolicy(int policyId, PolicyUpdateRequest request);
     public List<PolicyResponse> updateListPolicies (int campaignId);
+    public void deleteAllPoliciesByCampaignId (int campaignId);
 }

@@ -113,6 +113,7 @@ public class CampaignMapper {
         campaign.setDescription(request.getDescription());
         campaign.setTargetAmount(request.getTargetAmount());
         campaign.setCurrentAmount(request.getCurrentAmount());
+        campaign.setCreatedAt(request.getCreateAt());
         campaign.setStartDate(request.getStartDate());
         campaign.setEndDate(request.getEndDate());
         campaign.setStatus(request.getStatus());

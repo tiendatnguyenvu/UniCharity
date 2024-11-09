@@ -67,10 +67,15 @@ public class PolicyService implements IPolicyService {
 
     @Override
     public List<PolicyResponse> updateListPolicies(int campaignId) {
-
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        policyRepository.deleteAll(campaign.getPolicies());
 
         return List.of();
     }
 
-
+    @Override
+    public void deleteAllPoliciesByCampaignId(int campaignId) {
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        policyRepository.deleteAll(campaign.getPolicies());
+    }
 }
