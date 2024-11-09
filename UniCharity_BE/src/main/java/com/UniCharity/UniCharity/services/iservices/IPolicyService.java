@@ -12,4 +12,5 @@ public interface IPolicyService  {
     public List<PolicyResponse> getPolicies();
     public PolicyResponse getPolicy(int policyId);
     public PolicyResponse updatePolicy(int policyId, PolicyUpdateRequest request);
+    public List<PolicyResponse> updateListPolicies (int campaignId);
 }

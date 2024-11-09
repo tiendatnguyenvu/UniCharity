@@ -52,9 +52,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User createUserWithEmail(String email) {
+    public User createUserWithEmail(String email, String name) {
         User user = new User();
         user.setEmail(email);
+        user.setName(name);
         user.setRole("user");
         try {
             user = userRepository.save(user);

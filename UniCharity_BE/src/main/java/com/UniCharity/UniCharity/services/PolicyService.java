@@ -3,7 +3,6 @@ package com.UniCharity.UniCharity.services;
 import com.UniCharity.UniCharity.dto.request.PolicyCreateRequest;
 import com.UniCharity.UniCharity.dto.request.PolicyUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.policy.PolicyResponse;
-import com.UniCharity.UniCharity.dto.response.policy.PolicySimple;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.entities.Campaign;
@@ -18,7 +17,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -66,4 +64,13 @@ public class PolicyService implements IPolicyService {
         PolicyMapper.updatePolicy(policy, request);
         return PolicyMapper.toPolicyResponse(policyRepository.save(policy));
     }
+
+    @Override
+    public List<PolicyResponse> updateListPolicies(int campaignId) {
+
+
+        return List.of();
+    }
+
+
 }

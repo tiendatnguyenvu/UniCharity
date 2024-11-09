@@ -38,7 +38,7 @@ public class DonationService implements IDonationService {
         Campaign campaign = campaignRepository.findById(request.getCampaign()).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
         User user = userRepository.findByEmail(request.getEmail()).orElse(null);
         if(user == null) {
-            user = userService.createUserWithEmail(request.getEmail());
+            user = userService.createUserWithEmail(request.getEmail(), request.getName());
         }
         Donation donation = DonationMapper.toDonation(request);
         donation.setCampaign(campaign);

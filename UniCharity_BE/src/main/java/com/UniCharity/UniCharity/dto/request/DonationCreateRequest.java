@@ -17,4 +17,5 @@ public class DonationCreateRequest {
     LocalDateTime donationDate = LocalDateTime.now();
     @Email(message = "Email không hợp lệ")
     String email;
+    String name;
 }
