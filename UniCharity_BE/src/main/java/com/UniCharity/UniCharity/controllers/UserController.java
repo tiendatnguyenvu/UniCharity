@@ -3,6 +3,7 @@ package com.UniCharity.UniCharity.controllers;
 import com.UniCharity.UniCharity.dto.request.UserCreateRequest;
 import com.UniCharity.UniCharity.dto.request.UserUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 import com.UniCharity.UniCharity.dto.response.user.UserResponse;
 import com.UniCharity.UniCharity.services.iservices.IUserService;
 import jakarta.validation.Valid;
@@ -26,9 +27,14 @@ public class UserController {
     }
 
     @GetMapping
-    ApiResponse<List<UserResponse>> getUsers() {
-        return ApiResponse.<List<UserResponse>>builder().result(userService.getUsers()).build();
+    public ApiResponse<PageResponse<UserResponse>> getUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        PageResponse<UserResponse> users = userService.getUsers(page, size);
+        return ApiResponse.<PageResponse<UserResponse>>builder().result(users).build();
     }
+
 
     @GetMapping("/{userId}")
     ApiResponse<UserResponse> getUser(@PathVariable("userId") int userId) {

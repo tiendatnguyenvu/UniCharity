@@ -29,7 +29,7 @@ const Sidebar = () => {
                         </div>
                     </div>
                     <a onClick={() => navigate("campaigns")} className="nav-item nav-link"><i className="fa fa-th me-2"></i>Campaign</a>
-                    <a onClick={() => navigate("/attribute")} className="nav-item nav-link"><i className="fa fa-th me-2"></i>Attribute</a>
+                    <a onClick={() => navigate("/user")} className="nav-item nav-link"><i className="fa fa-th me-2"></i>User</a>
                     <a onClick={() => navigate("/banner")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Banner</a>
                     <a onClick={() => navigate("/category")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Category</a>
                     <a href="chart.html" className="nav-item nav-link"><i className="fa fa-chart-bar me-2"></i>Charts</a>
