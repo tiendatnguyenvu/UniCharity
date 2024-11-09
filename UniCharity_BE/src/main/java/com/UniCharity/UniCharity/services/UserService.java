@@ -2,6 +2,7 @@ package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.UserCreateRequest;
 import com.UniCharity.UniCharity.dto.request.UserUpdateRequest;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 import com.UniCharity.UniCharity.dto.response.user.UserResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
@@ -15,10 +16,16 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -75,8 +82,18 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<UserResponse> getUsers() {
-        return userRepository.findAll().stream().map(UserMapper::toUserResponse).toList().reversed();
+    public PageResponse<UserResponse> getUsers(int page, int size, String sort) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+        Page<UserResponse> userResponsePage = userRepository.findAll(pageable).map(UserMapper::toUserResponse);
+        return new PageResponse<>(
+                userResponsePage.getContent(),
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
+                        .totalItem(userResponsePage.getTotalElements())
+                        .currentPage(userResponsePage.getNumber())
+                        .totalPages(userResponsePage.getTotalPages())
+                        .pageSize(userResponsePage.getSize())
+                        .build()
+        );
     }
 
     @Override
