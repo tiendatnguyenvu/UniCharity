@@ -28,37 +28,38 @@ public class SecurityConfig {
     };
     @Value("${jwt.signerKey}")
     private String signerKey;
-// JWT
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity.authorizeHttpRequests(request ->
-//                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
-//                .anyRequest().authenticated());
-//        httpSecurity.oauth2ResourceServer(oauth2 ->
-//                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
-//        );
-//        httpSecurity.csrf(AbstractHttpConfigurer::disable);
-//        return httpSecurity.build();
-//    }
-//
-//    @Bean
-//    JwtDecoder jwtDecoder() {
-//        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
-//        return NimbusJwtDecoder
-//                .withSecretKey(secretKeySpec)
-//                .macAlgorithm(MacAlgorithm.HS512)
-//                .build();
-//    }
 
+    //  JWT
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        // Cho phép tất cả các request
         httpSecurity.authorizeHttpRequests(request ->
-                request.anyRequest().permitAll()); // Cho phép tất cả mọi request mà không cần xác thực
-        httpSecurity.oauth2ResourceServer(AbstractHttpConfigurer::disable); // Vô hiệu hóa OAuth2 Resource Server
-        httpSecurity.csrf(AbstractHttpConfigurer::disable); // Vô hiệu hóa CSRF cho API
+                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
+                .anyRequest().authenticated());
+        httpSecurity.oauth2ResourceServer(oauth2 ->
+                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
+        );
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
         return httpSecurity.build();
     }
+
+    @Bean
+    JwtDecoder jwtDecoder() {
+        SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
+        return NimbusJwtDecoder
+                .withSecretKey(secretKeySpec)
+                .macAlgorithm(MacAlgorithm.HS512)
+                .build();
+    }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        // Cho phép tất cả các request
+//        httpSecurity.authorizeHttpRequests(request ->
+//                request.anyRequest().permitAll()); // Cho phép tất cả mọi request mà không cần xác thực
+//        httpSecurity.oauth2ResourceServer(AbstractHttpConfigurer::disable); // Vô hiệu hóa OAuth2 Resource Server
+//        httpSecurity.csrf(AbstractHttpConfigurer::disable); // Vô hiệu hóa CSRF cho API
+//        return httpSecurity.build();
+//    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

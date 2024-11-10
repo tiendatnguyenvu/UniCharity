@@ -18,11 +18,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,14 +54,19 @@ public class CampaignService implements ICampaignService {
     }
 
     @Override
-    public PageResponse<CampaignResponse> getCampaigns(int page, int size, String sort) {
-        Pageable pageable;
-        if (sort.equals("createdAt")) {
-            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        } else {
-            pageable = PageRequest.of(page, size, Sort.by(sort));
-        }
-        Page<CampaignResponse> campaignPage = campaignRepository.findAll(pageable).map(CampaignMapper::toCampaignResponse);
+    public PageResponse<CampaignResponse> getCampaigns(int page, int size, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
+
+        List<CampaignResponse> campaignResponses = campaignRepository.findAll(sort).stream().map(CampaignMapper::toCampaignResponse).toList();
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), campaignResponses.size());
+        Page<CampaignResponse> campaignPage = new PageImpl<>(campaignResponses.subList(start, end), pageable, campaignResponses.size());
+
         return new PageResponse<>(
                 campaignPage.getContent(),
                 com.UniCharity.UniCharity.dto.response.page.Page.builder()
@@ -77,14 +79,18 @@ public class CampaignService implements ICampaignService {
     }
 
     @Override
-    public PageResponse<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sort) {
-        Pageable pageable;
-        if (sort.equals("createdAt")) {
-            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        } else {
-            pageable = PageRequest.of(page, size, Sort.by(sort));
-        }
-        Page<CampaignResponse> campaignPage = campaignRepository.findByStatus(status, pageable).map(CampaignMapper::toCampaignResponse);
+    public PageResponse<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
+
+        List<CampaignResponse> campaignResponses = campaignRepository.findByStatus(status, sort).stream().map(CampaignMapper::toCampaignResponse).toList();
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), campaignResponses.size());
+        Page<CampaignResponse> campaignPage = new PageImpl<>(campaignResponses.subList(start, end), pageable, campaignResponses.size());
 
         return new PageResponse<>(
                 campaignPage.getContent(),

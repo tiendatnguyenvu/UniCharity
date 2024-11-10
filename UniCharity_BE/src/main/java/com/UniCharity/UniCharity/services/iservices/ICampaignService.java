@@ -12,8 +12,8 @@ import java.util.List;
 public interface ICampaignService {
     public CampaignResponse createCampaign(CampaignCreateRequest request);
     public CampaignResponse createRequest(CampaignRequest request);
-    public PageResponse<CampaignResponse> getCampaigns(int page, int size, String sort);
-    public PageResponse<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sort);
+    public PageResponse<CampaignResponse> getCampaigns(int page, int size, String sortField, String sortDirection);
+    public PageResponse<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sortField, String sortDirection);
     public CampaignResponse getCampaign(int campaignId);
     public List<Donation> getAllUserDonation(int campaignId);
     public CampaignResponse updateCampaign(int campaignId, CampaignUpdateRequest request);
