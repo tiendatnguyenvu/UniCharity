@@ -14,6 +14,9 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -50,7 +53,7 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     @Override
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request, HttpServletResponse response) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         boolean authentication = passwordEncoder.matches(request.getPassword(), user.getPassword());
@@ -58,6 +61,7 @@ public class AuthenticationService implements IAuthenticationService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
         var token = generateToken(user);
+        addTokenToCookie(response, token);
         return AuthenticationResponse.builder().token(token).authenticated(true).build();
     }
 
@@ -82,5 +86,14 @@ public class AuthenticationService implements IAuthenticationService {
             log.error("Cannot create token", e);
             throw new RuntimeException(e);
         }
+    }
+
+    private void addTokenToCookie(HttpServletResponse response, String token) {
+        // Lưu token vào cookie với các thuộc tính bảo mật
+        Cookie cookie = new Cookie("auth_token", token);
+        cookie.setHttpOnly(true); // Bảo vệ cookie khỏi các cuộc tấn công XSS
+        cookie.setSecure(true); // Chỉ sử dụng cookie qua HTTPS
+        cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
+        response.addCookie(cookie);
     }
 }

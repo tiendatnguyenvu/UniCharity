@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,9 +22,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINT = {
-            "/users",
             "/auth/token",
             "/auth/introspect"
     };
@@ -35,6 +38,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
                 .anyRequest().authenticated());
+
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
         );
@@ -50,16 +54,6 @@ public class SecurityConfig {
                 .macAlgorithm(MacAlgorithm.HS512)
                 .build();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        // Cho phép tất cả các request
-//        httpSecurity.authorizeHttpRequests(request ->
-//                request.anyRequest().permitAll()); // Cho phép tất cả mọi request mà không cần xác thực
-//        httpSecurity.oauth2ResourceServer(AbstractHttpConfigurer::disable); // Vô hiệu hóa OAuth2 Resource Server
-//        httpSecurity.csrf(AbstractHttpConfigurer::disable); // Vô hiệu hóa CSRF cho API
-//        return httpSecurity.build();
-//    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

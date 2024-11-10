@@ -7,6 +7,7 @@ import com.UniCharity.UniCharity.dto.response.authentication.AuthenticationRespo
 import com.UniCharity.UniCharity.dto.response.authentication.IntrospectResponse;
 import com.UniCharity.UniCharity.services.iservices.IAuthenticationService;
 import com.nimbusds.jose.JOSEException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,8 +26,8 @@ public class AuthencationController {
     IAuthenticationService service;
 
     @PostMapping("/token")
-    ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
-        return ApiResponse.<AuthenticationResponse>builder().result(service.authenticate(request)).build();
+    ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request, HttpServletResponse response) {
+        return ApiResponse.<AuthenticationResponse>builder().result(service.authenticate(request, response)).build();
     }
 
     @PostMapping("/introspect")
