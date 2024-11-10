@@ -11,7 +11,7 @@ import java.util.List;
 public interface IUserService {
     public UserResponse createUser(UserCreateRequest request);
     public User createUserWithEmail(String email, String name);
-    public PageResponse<UserResponse> getUsers(int page, int size, String sort);
+    public PageResponse<UserResponse> getUsers(int page, int size, String sortField, String sortDirection);
     public UserResponse getUser(int userId);
     public UserResponse updateUser(int userId, UserUpdateRequest request);
     public UserResponse updateUserStatus(int userId);

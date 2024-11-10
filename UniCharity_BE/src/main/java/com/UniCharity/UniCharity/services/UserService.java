@@ -2,6 +2,7 @@ package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.UserCreateRequest;
 import com.UniCharity.UniCharity.dto.request.UserUpdateRequest;
+import com.UniCharity.UniCharity.dto.response.campaign.CampaignResponse;
 import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 import com.UniCharity.UniCharity.dto.response.user.UserResponse;
 import com.UniCharity.UniCharity.exception.AppException;
@@ -16,16 +17,15 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -82,16 +82,26 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public PageResponse<UserResponse> getUsers(int page, int size, String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        Page<UserResponse> userResponsePage = userRepository.findAll(pageable).map(UserMapper::toUserResponse);
+    public PageResponse<UserResponse> getUsers(int page, int size, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
+
+        List<UserResponse> userResponses = userRepository.findAll(sort).stream().map(UserMapper::toUserResponse).toList();
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), userResponses.size());
+        Page<UserResponse> usersPage = new PageImpl<>(userResponses.subList(start, end), pageable, userResponses.size());
+
         return new PageResponse<>(
-                userResponsePage.getContent(),
+                usersPage.getContent(),
                 com.UniCharity.UniCharity.dto.response.page.Page.builder()
-                        .totalItem(userResponsePage.getTotalElements())
-                        .currentPage(userResponsePage.getNumber())
-                        .totalPages(userResponsePage.getTotalPages())
-                        .pageSize(userResponsePage.getSize())
+                        .totalItem(usersPage.getTotalElements())
+                        .currentPage(usersPage.getNumber())
+                        .totalPages(usersPage.getTotalPages())
+                        .pageSize(usersPage.getSize())
                         .build()
         );
     }
