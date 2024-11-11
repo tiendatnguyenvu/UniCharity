@@ -30,6 +30,7 @@ logging:
 
 jwt:
   signerKey: "K1YJD9Mt3V3wklqFpuYQXZhKSMdh6UZyLBb/nvXKBk1Lw3yXtRYTcpLqwOa8ACsc"
+  expirationTime: 259200000
 
 
 
