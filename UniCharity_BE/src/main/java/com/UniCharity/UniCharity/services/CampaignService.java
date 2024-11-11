@@ -110,12 +110,16 @@ public class CampaignService implements ICampaignService {
 
     @Override
     public CampaignResponse updateCampaign(int campaignId, CampaignUpdateRequest request) {
+        // kiểm tra campaign có tồn tại hay không
         Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+//      // kiểm tra user có tồn tại hay không
         User user = userRepository.findById(request.getCreateBy()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
         CampaignMapper.updateCampaign(campaign, request);
-        campaign.setCreatedBy(user);
+
         List<Policy> policies = policyRepository.findAllPolicyByCampaignId(campaignId);
         policyRepository.deleteAll(policies);
+
         policyService.createPolicyList(request.getPolicies(), campaignId);
         return CampaignMapper.toCampaignResponse(campaignRepository.save(campaign));
     }

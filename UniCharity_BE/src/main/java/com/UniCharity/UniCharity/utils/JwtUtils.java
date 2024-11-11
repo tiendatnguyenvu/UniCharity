@@ -75,6 +75,17 @@ public class JwtUtils {
         }
     }
 
+    public static String getUserRoleFromJWT(String token) {
+        try {
+            SecretKey key = Keys.hmacShaKeyFor(JWT_SECRET.getBytes());
+            Claims claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+            return claims.get("role", String.class);
+        } catch (JwtException | IllegalArgumentException e) {
+            log.error("Invalid or expired JWT token", e);
+            return null;
+        }
+    }
+
     public static boolean validateToken(String authToken) throws Exception {
         try {
             SecretKey key = Keys.hmacShaKeyFor(JWT_SECRET.getBytes());
