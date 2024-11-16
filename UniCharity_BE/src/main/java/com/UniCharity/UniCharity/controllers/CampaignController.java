@@ -27,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/campaigns")
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CampaignController {
@@ -48,7 +48,6 @@ public class CampaignController {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.createRequest(request)).build();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     ApiResponse<PageResponse<CampaignResponse>> getCampaigns(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
         return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaigns(page, size, sortField, sortDirection)).build();

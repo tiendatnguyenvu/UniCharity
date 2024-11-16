@@ -4,9 +4,11 @@ import com.UniCharity.UniCharity.dto.request.AuthenticationRequest;
 import com.UniCharity.UniCharity.dto.request.IntrospectRequest;
 import com.UniCharity.UniCharity.dto.response.authentication.AuthenticationResponse;
 import com.UniCharity.UniCharity.dto.response.authentication.IntrospectResponse;
+import com.UniCharity.UniCharity.dto.response.user.UserResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.entities.User;
+import com.UniCharity.UniCharity.mapper.UserMapper;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.IAuthenticationService;
 import com.UniCharity.UniCharity.utils.JwtUtils;
@@ -55,8 +57,10 @@ public class AuthenticationService implements IAuthenticationService {
         if(!authentication) {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
+        UserResponse userResponse = UserMapper.toUserResponse(user);
+
         var token = JwtUtils.generateToken(user);
         JwtUtils.addTokenToCookie(response, token);
-        return AuthenticationResponse.builder().token(token).authenticated(true).build();
+        return AuthenticationResponse.builder().token(token).authenticated(true).user(userResponse).build();
     }
 }
