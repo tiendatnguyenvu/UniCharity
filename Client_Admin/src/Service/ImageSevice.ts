@@ -1,8 +1,10 @@
 import { toast } from "react-toastify";
 import axiosInstance from "./axios_instance";
+import { ResponseDeleteImageAPI, ResponseListImageByCampaignIdAPI } from "../Models/ResponseAPI";
 
 const api = "/images/";
 
+// upload list images
 export const UploadListCampaignImagesAPI = async (
   campaignId: number,
   images: FileList | null
@@ -33,3 +35,29 @@ export const UploadListCampaignImagesAPI = async (
     throw error;
   }
 };
+
+// Dowload list image by campaign's id
+export const DowloadListCampaignImagesAPI = ( campaignId:string)=>{
+ try {
+  const response = axiosInstance.get<ResponseListImageByCampaignIdAPI>(`${api}dowload-by-campaignId/${campaignId}`);
+  console.log("list images service: ", response)
+  return response;
+ } catch (error) {
+  console.log(error);
+  toast.error("No Images");
+  
+ }
+
+}
+
+export const DeleteImageAPI = async (imageId: number) => {
+  try {
+    const response = axiosInstance.get<ResponseDeleteImageAPI>(`${api}delete/${imageId}`);
+    console.log("delete images service: ", response)
+    return response;
+   } catch (error) {
+    console.log(error);
+    toast.error("No Images");
+   }
+
+}

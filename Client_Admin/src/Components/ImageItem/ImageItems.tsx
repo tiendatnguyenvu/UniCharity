@@ -1,18 +1,19 @@
 import React from 'react'
-import VariantImage from './ButtonUpload'
+import ImageItem from './ImageItem'
+import { ImageGet } from '../../Models/Image'
 
 type Props = {
     images: ImageGet[]
     handleDelete: (idImgae: number) => void
 }
 
-const VariantImages = ({ images, handleDelete }: Props) => {
+const ImageItems = ({ images, handleDelete }: Props) => {
     return (
         <>
             {images.map((image, index) => (
-                <VariantImage
+                <ImageItem
                     handleDelete={handleDelete}
-                    key={image.imageId}
+                    key={image.id}
                     image={image}
                     index={index + 1}
                 />
@@ -21,4 +22,4 @@ const VariantImages = ({ images, handleDelete }: Props) => {
     )
 }
 
-export default VariantImages
+export default ImageItems

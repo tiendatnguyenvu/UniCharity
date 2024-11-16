@@ -18,7 +18,7 @@ export const GetListCampaignByStatus = async (
       {
         params: {
           page: page,
-          size: limit
+          size: limit,
         },
       }
     );

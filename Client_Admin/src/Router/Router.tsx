@@ -3,6 +3,7 @@ import AdminLayout from "../Layout/AdminLayout";
 import Campaign from "../Pages/Campaign/Campaign";
 import CreateCampaign from "../Pages/Campaign/Form/CreateCampaign";
 import UpdateCampaign from "../Pages/Campaign/Form/UpdateCampaign";
+import CampaignImagesDetail from "../Pages/Campaign/Form/CampaignImagesDetail";
 
 const Router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const Router = createBrowserRouter([
             {
                 path:"campaigns/update/:id",
                 element: <UpdateCampaign/>
+            },
+            {
+                path:"campaigns/update-images/:id",
+                element: <CampaignImagesDetail/>
             },
         ]
             

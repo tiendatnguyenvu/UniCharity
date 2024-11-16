@@ -8,6 +8,8 @@ const axiosInstance = axios.create({
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
+    "Set-Cookie": `auth_token=eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZ0ZXJpYS5jb20iLCJzdWIiOiIxMyIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNzMxMjM4MDg0LCJpYXQiOjE3MzEyMzQ0ODQsImVtYWlsIjoidGllbmRhdEBnbWFpbC5jb20ifQ.Y-MrqBWUrgwit3GBPW0e0C5Ge6Pl6gdyZKjCOhkAKf9QblNuwH-65lU7mNuYIW2PYF3QPXCUzWItl_5bJWpk3A; Path=/; Secure; HttpOnly
+`
   }
 });
 

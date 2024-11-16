@@ -166,6 +166,12 @@ const Campaign = () => {
       label: "Current amount",
       render: (campaign: CampaignDto) => campaign.currentAmount,
     },
+    {
+      label: "Images",
+      render: (campaign: CampaignDto) => <button className="btn-sm btn-info rounded" onClick={() =>
+        navigate(`/admin/campaigns/update-images/${campaign.id}`)
+      }>Detail</button>,
+    },
 
     {
       label: "Action",
