@@ -45,19 +45,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
-                .anyRequest().authenticated());
-
-        httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
-        );
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity
+                .cors(Customizer.withDefaults()) // Kích hoạt CORS (nếu cần)
+                .authorizeHttpRequests(request -> request
+                        .anyRequest().permitAll() // Cho phép tất cả các endpoint truy cập
+                )
+                .csrf(csrf -> csrf.disable()); // Vô hiệu hóa CSRF (nếu không cần)
 
         return httpSecurity.build();
     }
+
+
+
+
 
     @Bean
     JwtDecoder jwtDecoder() {
@@ -73,3 +73,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder(10);
     }
 }
+
