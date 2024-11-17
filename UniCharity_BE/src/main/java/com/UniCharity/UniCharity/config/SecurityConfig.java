@@ -30,7 +30,9 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINT = {
             "/auth/token",
-            "/auth/introspect"
+            "/auth/introspect",
+            "/vnpay/create_payment",
+            "/vnpay/payment-return"
     };
     @Value("${jwt.signerKey}")
     private String signerKey;
