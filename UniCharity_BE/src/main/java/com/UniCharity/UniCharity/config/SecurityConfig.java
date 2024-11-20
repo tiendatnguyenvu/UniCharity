@@ -1,11 +1,13 @@
 package com.UniCharity.UniCharity.config;
 
+import com.UniCharity.UniCharity.config.security.JwtAuthenticationFilter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,12 +20,13 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINT = {
             "/auth/token",
@@ -34,17 +37,25 @@ public class SecurityConfig {
 
     //  JWT
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINT).permitAll()
-                .anyRequest().authenticated());
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
 
-        httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))
-        );
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .cors(Customizer.withDefaults()) // Kích hoạt CORS (nếu cần)
+                .authorizeHttpRequests(request -> request
+                        .anyRequest().permitAll() // Cho phép tất cả các endpoint truy cập
+                )
+                .csrf(csrf -> csrf.disable()); // Vô hiệu hóa CSRF (nếu không cần)
+
         return httpSecurity.build();
     }
+
+
+
+
 
     @Bean
     JwtDecoder jwtDecoder() {
@@ -60,3 +71,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder(10);
     }
 }
+

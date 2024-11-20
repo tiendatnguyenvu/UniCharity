@@ -4,18 +4,17 @@ import com.UniCharity.UniCharity.dto.request.AuthenticationRequest;
 import com.UniCharity.UniCharity.dto.request.IntrospectRequest;
 import com.UniCharity.UniCharity.dto.response.authentication.AuthenticationResponse;
 import com.UniCharity.UniCharity.dto.response.authentication.IntrospectResponse;
+import com.UniCharity.UniCharity.dto.response.user.UserResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.entities.User;
+import com.UniCharity.UniCharity.mapper.UserMapper;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.IAuthenticationService;
+import com.UniCharity.UniCharity.utils.JwtUtils;
 import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
-import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +27,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Service
@@ -60,40 +57,10 @@ public class AuthenticationService implements IAuthenticationService {
         if(!authentication) {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
-        var token = generateToken(user);
-        addTokenToCookie(response, token);
-        return AuthenticationResponse.builder().token(token).authenticated(true).build();
-    }
+        UserResponse userResponse = UserMapper.toUserResponse(user);
 
-    private String generateToken(User user) {
-        JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getId() + "")
-                .claim("role", user.getRole())
-                .claim("email", user.getEmail())
-                .issuer("devteria.com")
-                .issueTime(new Date())
-                .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
-                ))
-                .build();
-        Payload payload = new Payload(jwtClaimsSet.toJSONObject());
-        JWSObject jwsObject = new JWSObject(header, payload);
-        try {
-            jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
-            return jwsObject.serialize();
-        } catch (JOSEException e) {
-            log.error("Cannot create token", e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void addTokenToCookie(HttpServletResponse response, String token) {
-        // Lưu token vào cookie với các thuộc tính bảo mật
-        Cookie cookie = new Cookie("auth_token", token);
-        cookie.setHttpOnly(true); // Bảo vệ cookie khỏi các cuộc tấn công XSS
-        cookie.setSecure(true); // Chỉ sử dụng cookie qua HTTPS
-        cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
-        response.addCookie(cookie);
+        var token = JwtUtils.generateToken(user);
+        JwtUtils.addTokenToCookie(response, token);
+        return AuthenticationResponse.builder().token(token).authenticated(true).user(userResponse).build();
     }
 }
