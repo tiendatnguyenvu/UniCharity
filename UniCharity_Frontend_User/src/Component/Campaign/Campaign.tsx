@@ -8,9 +8,10 @@ import { useNavigate } from 'react-router-dom';
 export type Props = {
     campaign: CampaignGet;
     className?: string;
+    handleDonateNowClick: () => void
 }
 
-const Campaign = ({ campaign, className }: Props) => {
+const Campaign = ({ campaign, className, handleDonateNowClick }: Props) => {
     const navigate = useNavigate()
     return (
         <div key={campaign.id}
@@ -46,6 +47,7 @@ const Campaign = ({ campaign, className }: Props) => {
                         </div>
                     </div>
                     <a
+                        onClick={handleDonateNowClick}
                         className="custom-btn btn">Donate now
                     </a>
                 </div>
