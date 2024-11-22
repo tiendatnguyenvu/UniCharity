@@ -45,6 +45,7 @@ public class TransactionService implements ITransactionService {
     public String updateTransaction(int transactionId, int campaignId, HttpServletRequest request) {
         Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new AppException(ErrorCode.TRANSACTION_NOT_EXISTED));
 
+        // Lấy dữ liệu từ response
         String transactionCode = request.getParameter("vnp_TransactionNo");
         String paymentGateway = "VNPay";
         // xử lý thời gian
@@ -77,6 +78,7 @@ public class TransactionService implements ITransactionService {
         }
         String completeUrl = urlBuilder.toString();
 
+        // Lưu database
         transaction.setTransactionCode(transactionCode);
         transaction.setPaymentGateway(paymentGateway);
         transaction.setTransactionDate(transactionDate);
@@ -84,9 +86,7 @@ public class TransactionService implements ITransactionService {
         transaction.setAmount(amount);
         transaction.setResponseCode(responseCode);
         transaction.setTransactionDescription(transactionDescription);
-
         transaction = transactionRepository.save(transaction);
-
         if(transactionStatus.equals("00")) {
             campaignService.updateCampaignCurrentAmount(campaignId, amount);
         }
