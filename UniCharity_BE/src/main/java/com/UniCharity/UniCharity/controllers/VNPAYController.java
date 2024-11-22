@@ -38,7 +38,7 @@ public class VNPAYController {
     // Chuyển hướng người dùng đến cổng thanh toán VNPAY
     @PostMapping("/create_payment")
     public ApiResponse<String> submidOrder(HttpServletRequest request, @RequestBody @Valid DonationCreateRequest donationCreateRequest) {
-        String baseUrl = "http://localhost:5173/banking/success";
+        String baseUrl = "http://localhost:8080";
         this.donationResponse = donationService.createDonation(donationCreateRequest, "online_payment");
         this.transactionResponse = transactionService.createTransaction(new TransactionCreateRequest(donationResponse.getId(), "pending"));
         campaignResponse = campaignService.getCampaign(donationResponse.getCampaign().getId());
@@ -57,7 +57,8 @@ public class VNPAYController {
 
     // Sau khi hoàn tất thanh toán, VNPAY sẽ chuyển hướng trình duyệt về URL này
     @GetMapping("/payment-return")
-    public ApiResponse<TransactionResponse> paymentCompleted(HttpServletRequest request) {
-        return ApiResponse.<TransactionResponse>builder().result(transactionService.updateTransaction(this.transactionResponse.getId(), campaignResponse.getId(), request)).build();
+    public ApiResponse<String> paymentCompleted(HttpServletRequest request) {
+        System.out.println(request.getRequestURI());
+        return ApiResponse.<String>builder().result(transactionService.updateTransaction(this.transactionResponse.getId(), campaignResponse.getId(), request)).build();
     }
 }
