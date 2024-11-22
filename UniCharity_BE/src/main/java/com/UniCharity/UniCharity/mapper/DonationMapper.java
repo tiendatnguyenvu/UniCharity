@@ -4,9 +4,11 @@ import com.UniCharity.UniCharity.dto.request.DonationCreateRequest;
 import com.UniCharity.UniCharity.dto.response.donation.DonationResponse;
 import com.UniCharity.UniCharity.dto.response.donation.DonationSimple;
 import com.UniCharity.UniCharity.dto.response.transaction.TransactionResponse;
+import com.UniCharity.UniCharity.dto.response.transaction.TransactionSimple;
 import com.UniCharity.UniCharity.entities.Donation;
 import com.UniCharity.UniCharity.entities.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +39,7 @@ public class DonationMapper {
         donationResponse.donationDate(donation.getDonationDate());
         donationResponse.campaign(CampaignMapper.toCampaignSimple(donation.getCampaign()));
         donationResponse.user(UserMapper.toUserSimple(donation.getUser()));
+        donationResponse.transactions(transactionSetToTransactionResponseList(donation.getTransactions()));
 
         return donationResponse.build();
     }
@@ -56,8 +59,16 @@ public class DonationMapper {
         return donationSimple.build();
     }
 
-    protected static List<TransactionResponse> transactionSetToTransactionResponseList(Set<Transaction> set) {
-        return null;
+    protected static List<TransactionSimple> transactionSetToTransactionResponseList(Set<Transaction> set) {
+        if (set == null) {
+            return null;
+        }
+
+        List<TransactionSimple> list = new ArrayList<>(set.size());
+        for (Transaction transaction : set) {
+            list.add(TransactionMapper.toTransactionSimple(transaction));
+        }
+        return list;
     }
 
 }
