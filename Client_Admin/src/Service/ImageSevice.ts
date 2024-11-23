@@ -52,7 +52,7 @@ export const DowloadListCampaignImagesAPI = ( campaignId:string)=>{
 
 export const DeleteImageAPI = async (imageId: number) => {
   try {
-    const response = axiosInstance.get<ResponseDeleteImageAPI>(`${api}delete/${imageId}`);
+    const response = axiosInstance.delete<ResponseDeleteImageAPI>(`${api}delete/${imageId}`);
     console.log("delete images service: ", response)
     return response;
    } catch (error) {

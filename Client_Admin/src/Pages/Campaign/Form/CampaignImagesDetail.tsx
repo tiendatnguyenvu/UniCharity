@@ -58,6 +58,7 @@ const CampaignImagesDetail = () => {
        DeleteImageAPI(idImage)
         .then((res) => {
           if (res?.status === 204) {
+            setImages(res.data.result)
             toast.success("Delete successfully!");
           }
         })

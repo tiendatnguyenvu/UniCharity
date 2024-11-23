@@ -19,10 +19,11 @@ export const GetListCampaignByStatus = async (
         params: {
           page: page,
           size: limit,
+          sortDirection:"sn"
         },
       }
     );
-    // console.log("response service:", response);
+    console.log("response service:", response);
     return response;
   } catch (error) {
     console.log("error", error);
