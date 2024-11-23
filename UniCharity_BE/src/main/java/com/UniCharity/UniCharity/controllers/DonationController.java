@@ -22,8 +22,13 @@ public class DonationController {
         return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonations(page, size, sort)).build();
     }
 
-    @GetMapping("get-by-id/{donationId}")
+    @GetMapping("/get-by-id/{donationId}")
     ApiResponse<DonationResponse> getDonation (@PathVariable("donationId") int donationId) {
         return ApiResponse.<DonationResponse>builder().result(donationService.getDonation(donationId)).build();
+    }
+
+    @GetMapping("/get-by-user-id/{userId}")
+    ApiResponse<PageResponse<DonationResponse>> getDonationsByUserId(@PathVariable("userId") int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "donation_date") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonationsByUserId(userId, page, size, sortField, sortDirection)).build();
     }
 }

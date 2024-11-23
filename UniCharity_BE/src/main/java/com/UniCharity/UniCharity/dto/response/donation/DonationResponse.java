@@ -1,6 +1,7 @@
 package com.UniCharity.UniCharity.dto.response.donation;
 
 import com.UniCharity.UniCharity.dto.response.campaign.CampaignSimple;
+import com.UniCharity.UniCharity.dto.response.transaction.TransactionSimple;
 import com.UniCharity.UniCharity.dto.response.user.UserSimple;
 import com.UniCharity.UniCharity.dto.response.transaction.TransactionResponse;
 import lombok.*;
@@ -23,5 +24,5 @@ public class DonationResponse {
     CampaignSimple campaign;
     UserSimple user;
 
-    List<TransactionResponse> transactions;
+    List<TransactionSimple> transactions;
 }

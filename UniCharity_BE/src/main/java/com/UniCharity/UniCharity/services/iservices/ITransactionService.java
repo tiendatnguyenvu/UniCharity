@@ -6,5 +6,5 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface ITransactionService {
     public TransactionResponse createTransaction(TransactionCreateRequest request);
-    public TransactionResponse updateTransaction(int transactionId, int campaignId, HttpServletRequest request);
+    public String updateTransaction(int transactionId, int campaignId, HttpServletRequest request);
 }

@@ -20,3 +20,11 @@ export const loginAPI = async (email: string, password: string) => {
         console.log(error);
     }
 };
+
+export interface DonationPost {
+    campaign: string
+    amount: string
+    email: string
+    name: string
+  }
+

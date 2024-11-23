@@ -16,7 +16,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;import java.text.NumberFormat;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/vnpay")
@@ -37,18 +38,27 @@ public class VNPAYController {
     // Chuyển hướng người dùng đến cổng thanh toán VNPAY
     @PostMapping("/create_payment")
     public ApiResponse<String> submidOrder(HttpServletRequest request, @RequestBody @Valid DonationCreateRequest donationCreateRequest) {
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String baseUrl = "http://localhost:8080";
         this.donationResponse = donationService.createDonation(donationCreateRequest, "online_payment");
         this.transactionResponse = transactionService.createTransaction(new TransactionCreateRequest(donationResponse.getId(), "pending"));
         campaignResponse = campaignService.getCampaign(donationResponse.getCampaign().getId());
-        String orderInfor = "Dong gop '" + campaignResponse.getTitle() + "', so tien " + donationResponse.getAmount();
+
+        // Định dạng tiền VNĐ
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        String formattedAmount = currencyFormatter.format(donationResponse.getAmount());
+
+        // Loại bỏ ký hiệu tiền tệ (₫) nếu không cần
+        formattedAmount = formattedAmount.replace("₫", "").trim() + " VNĐ";
+
+        String orderInfor = "Đóng góp '" + campaignResponse.getTitle() + "', Số tiền " + formattedAmount;
         String vnpayUrl = vnPayService.createOrder(request, donationResponse.getAmount(), orderInfor, baseUrl);
         return ApiResponse.<String>builder().result(vnpayUrl).build();
     }
 
     // Sau khi hoàn tất thanh toán, VNPAY sẽ chuyển hướng trình duyệt về URL này
     @GetMapping("/payment-return")
-    public ApiResponse<TransactionResponse> paymentCompleted(HttpServletRequest request) {
-        return ApiResponse.<TransactionResponse>builder().result(transactionService.updateTransaction(this.transactionResponse.getId(), campaignResponse.getId(), request)).build();
+    public ApiResponse<String> paymentCompleted(HttpServletRequest request) {
+        System.out.println(request.getRequestURI());
+        return ApiResponse.<String>builder().result(transactionService.updateTransaction(this.transactionResponse.getId(), campaignResponse.getId(), request)).build();
     }
 }
