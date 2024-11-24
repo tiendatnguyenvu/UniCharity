@@ -2,6 +2,7 @@ package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.PolicyCreateRequest;
 import com.UniCharity.UniCharity.dto.request.PolicyUpdateRequest;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 import com.UniCharity.UniCharity.dto.response.policy.PolicyResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
@@ -15,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,14 +51,60 @@ public class PolicyService implements IPolicyService {
 
 
     @Override
-    public List<PolicyResponse> getPolicies() {
-        return policyRepository.findAll().stream().map(PolicyMapper::toPolicyResponse).toList().reversed();
+    public PageResponse<PolicyResponse> getPolicies(int page, int size, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
+
+        List<PolicyResponse> policyResponses = policyRepository.findAll(sort).stream().map(PolicyMapper::toPolicyResponse).toList();
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), policyResponses.size());
+        Page<PolicyResponse> policyPage = new PageImpl<>(policyResponses.subList(start, end), pageable, policyResponses.size());
+
+        return new PageResponse<>(
+                policyPage.getContent(),
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
+                        .totalItem(policyPage.getTotalElements())
+                        .currentPage(policyPage.getNumber())
+                        .totalPages(policyPage.getTotalPages())
+                        .pageSize(policyPage.getSize())
+                        .build()
+        );
     }
 
     @Override
     public PolicyResponse getPolicy(int policyId) {
         return PolicyMapper.toPolicyResponse(policyRepository.findById(policyId).orElseThrow(() -> new AppException(ErrorCode.POLICY_NOT_EXISTED)));
     }
+
+    @Override
+    public PageResponse<PolicyResponse> getPoliciesByCampaignId(int campaignId, int page, int size, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
+
+        List<PolicyResponse> policyResponses = policyRepository.findAllByCampaignId(campaignId, sort).stream().map(PolicyMapper::toPolicyResponse).toList();
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), policyResponses.size());
+        Page<PolicyResponse> policyPage = new PageImpl<>(policyResponses.subList(start, end), pageable, policyResponses.size());
+
+        return new PageResponse<>(
+                policyPage.getContent(),
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
+                        .totalItem(policyPage.getTotalElements())
+                        .currentPage(policyPage.getNumber())
+                        .totalPages(policyPage.getTotalPages())
+                        .pageSize(policyPage.getSize())
+                        .build()
+        );
+    }
+
 
     @Override
     public PolicyResponse updatePolicy(int policyId, PolicyUpdateRequest request) {

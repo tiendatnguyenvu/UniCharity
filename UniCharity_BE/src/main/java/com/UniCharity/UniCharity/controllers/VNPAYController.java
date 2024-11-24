@@ -38,7 +38,6 @@ public class VNPAYController {
     // Chuyển hướng người dùng đến cổng thanh toán VNPAY
     @PostMapping("/create_payment")
     public ApiResponse<String> submidOrder(HttpServletRequest request, @RequestBody @Valid DonationCreateRequest donationCreateRequest) {
-        String baseUrl = "http://localhost:8080";
         this.donationResponse = donationService.createDonation(donationCreateRequest, "online_payment");
         this.transactionResponse = transactionService.createTransaction(new TransactionCreateRequest(donationResponse.getId(), "pending"));
         campaignResponse = campaignService.getCampaign(donationResponse.getCampaign().getId());
@@ -51,7 +50,7 @@ public class VNPAYController {
         formattedAmount = formattedAmount.replace("₫", "").trim() + " VNĐ";
 
         String orderInfor = "Đóng góp '" + campaignResponse.getTitle() + "', Số tiền " + formattedAmount;
-        String vnpayUrl = vnPayService.createOrder(request, donationResponse.getAmount(), orderInfor, baseUrl);
+        String vnpayUrl = vnPayService.createOrder(request, donationResponse.getAmount(), orderInfor);
         return ApiResponse.<String>builder().result(vnpayUrl).build();
     }
 

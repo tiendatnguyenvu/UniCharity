@@ -9,5 +9,4 @@ public class UniCharityApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UniCharityApplication.class, args);
 	}
-
 }

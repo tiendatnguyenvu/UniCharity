@@ -41,6 +41,7 @@ public enum ErrorCode {
     STATUS_CANNOT_BE_BLANK(1058, "Status cannot be blank", HttpStatus.BAD_REQUEST),
     INVALID_STATUS_VALUE(1059, "Status must be one of: active, inactive, completed, cancelled", HttpStatus.BAD_REQUEST),
     CAMPAIGN_ID_MUST_BE_POSITIVE(1060, "ID chiến dịch phải là số dương", HttpStatus.BAD_REQUEST),
+    CAMPAIGN_STATUS_NOT_PENDING(1061, "Campaign status must be 'Pending'", HttpStatus.BAD_REQUEST),
 
     // CampaignReport
     CAMPAIGN_REPORT_NOT_EXISTED(2001, "Campaign reposrt not existed", HttpStatus.NOT_FOUND),
