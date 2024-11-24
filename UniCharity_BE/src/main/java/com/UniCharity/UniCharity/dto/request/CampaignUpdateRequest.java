@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Setter
 public class CampaignUpdateRequest {
     @NotBlank(message = "CAMPAIGN_TITLE_IS_REQUIRED")
     String title;
@@ -20,9 +21,9 @@ public class CampaignUpdateRequest {
     String description;
 
     @Positive(message = "TARGET_AMOUNT_MUST_BE_POSITIVE")
-    long targetAmount = 0;
+    long targetAmount;
 
-    long currentAmount = 0;
+    long currentAmount;
 
     LocalDate createAt;
 
@@ -30,7 +31,7 @@ public class CampaignUpdateRequest {
 
     LocalDate endDate;
 
-    int createBy;
+    int createdBy;
 
     @NotBlank(message = "STATUS_CANNOT_BE_BLANK")
     @Pattern(regexp = "Active|Pending|Completed|Cancelled", message = "INVALID_STATUS_VALUE")

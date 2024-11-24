@@ -55,10 +55,6 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-
-
-
-
     @Bean
     JwtDecoder jwtDecoder() {
         SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
