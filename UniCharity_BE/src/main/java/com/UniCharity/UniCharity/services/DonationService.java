@@ -14,6 +14,7 @@ import com.UniCharity.UniCharity.repositories.CampaignRepository;
 import com.UniCharity.UniCharity.repositories.DonationRepository;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.IDonationService;
+import com.UniCharity.UniCharity.utils.SortUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -77,7 +78,7 @@ public class DonationService implements IDonationService {
                 ? Sort.by(sortField).ascending()
                 : Sort.by(sortField).descending();
 
-        List<DonationResponse> donationResponses = donationRepository.findByUserId(userId).stream().map(DonationMapper::toDonationResponse).toList();
+        List<DonationResponse> donationResponses = donationRepository.findAllByUserId(userId).stream().map(DonationMapper::toDonationResponse).toList();
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -96,5 +97,26 @@ public class DonationService implements IDonationService {
         );
     }
 
+    @Override
+    public PageResponse<DonationResponse> getDonationsByCampaignId(int campaignId, int page, int size, String sortField, String sortDirection) {
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
 
+        List<DonationResponse> donationResponses = donationRepository.findAllByCampaignId(campaignId).stream().map(DonationMapper::toDonationResponse).toList();
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), donationResponses.size());
+        Page<DonationResponse> donationPage = new PageImpl<>(donationResponses.subList(start, end), pageable, donationResponses.size());
+
+        return new PageResponse<>(
+                donationPage.getContent(),
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
+                        .totalItem(donationPage.getTotalElements())
+                        .currentPage(donationPage.getNumber())
+                        .totalPages(donationPage.getTotalPages())
+                        .pageSize(donationPage.getSize())
+                        .build()
+        );
+    }
 }
