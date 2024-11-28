@@ -1,4 +1,4 @@
-package com.UniCharity.UniCharity.enums;
+package com.UniCharity.UniCharity.constant;
 
 public enum Roles {
     ROLE_ADMIN,

@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface DonationRepository extends JpaRepository<Donation, Integer> {
     List<Donation> findAllByUserId(int userId);
-    List<Donation> findAllByCampaignId(@Param("campaignId") int campaignId);
+    List<Donation> findAllByCampaignId(int campaignId);
 }
