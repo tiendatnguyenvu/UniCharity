@@ -56,30 +56,12 @@ const DetailCampaignPage = () => {
     try {
       const response = await donateAPI(data);
       if (response?.data.code === 1000) {
-        toast.success("Quyên góp thành công! Cảm ơn bạn đã đóng góp.");
         setIsModalOpen(false);
 
         // Lấy URL thanh toán từ API
         const paymentUrl = response?.data.result;
         if (paymentUrl) {
-          console.log(paymentUrl);
-          
-          // Gửi request đến VNPay qua axios
-          const paymentResponse = await axios.get(paymentUrl, {
-            withCredentials: false, // VNPay không yêu cầu gửi cookies từ client
-          });
-
-          // Xử lý phản hồi từ VNPay
-          if (paymentResponse?.data.responseCode === "00") {
-            toast.success("Thanh toán thành công!");
-            // Cập nhật thông tin chiến dịch
-            const updatedCampaign = await CampaignGetByIDAPI(Number(id));
-            if (updatedCampaign?.data.code === 1000) {
-              setCampaignDT(updatedCampaign?.data.result);
-            }
-          } else {
-            toast.error("Thanh toán thất bại. Vui lòng thử lại.");
-          }
+          window.location.href = paymentUrl
         } else {
           toast.error("Không tìm thấy URL thanh toán VNPay.");
         }
@@ -142,7 +124,7 @@ const DetailCampaignPage = () => {
         <div className="row">
           <div className="col-lg-7 col-12">
             <blockquote>{campaignDT?.title}</blockquote>
-            <div style={{ maxWidth: "100%" }} dangerouslySetInnerHTML={{ __html: processHtml(campaignDT?.description ?? `<p><strong>Chưa có dữ liệu</strong></p>`) }} />
+            <div style={{ maxWidth: "100%" }} dangerouslySetInnerHTML={{ __html: processHtml(campaignDT?.description ?? `<p><strong>Chưa có due7</strong></p>`) }} />
             <h5 className="mb-3 pt-4" style={{ borderTop: "solid" }}>Nhà hảo tâm hàng đầu</h5>
             {campaignDT?.donations && campaignDT?.donations.length > 0 && (
               <Table configs={configs} data={campaignDT?.donations} />
