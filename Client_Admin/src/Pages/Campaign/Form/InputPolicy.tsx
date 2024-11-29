@@ -75,7 +75,8 @@ const InputPolicy = ({
     const eligibilityCriteria = eligibilityCriteriaRef.current?.value;
 
     if (!isNullOrEmpty(description) && !isNullOrEmpty(eligibilityCriteria)) {
-      return new UpdateCampaignPolicyDto(description!, eligibilityCriteria!, "approved");
+      const date = new Date().toUTCString;
+      return new UpdateCampaignPolicyDto(description!, eligibilityCriteria!, "approved",date,date);
     } else {
       toast.error("description and eligibility Criteria is require");
     }

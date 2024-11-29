@@ -20,7 +20,7 @@ export const UploadListCampaignImagesAPI = async (
 
   try {
     const response = await axiosInstance.post<ResponseListImageByCampaignIdAPI>(
-      `${api}dowload-by-campaignId/${campaignId}`,
+      `${api}upload-images/${campaignId}`,
       formData,
       {
         headers: {

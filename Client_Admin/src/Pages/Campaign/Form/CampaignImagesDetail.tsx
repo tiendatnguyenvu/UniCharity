@@ -43,9 +43,11 @@ const CampaignImagesDetail = () => {
       UploadListCampaignImagesAPI(Number(id),selectedImages)
         .then((res) => {
           if (res?.status == 200) {
-            setImages(res?.data.result);
+            if(res?.data)
+            {
+            setImages(prev => [...prev, ...res.data.result]);
             toast.success("Images uploaded successfully!");
-            
+          }
           }
         })
         .catch((error) => toast.error(error));
