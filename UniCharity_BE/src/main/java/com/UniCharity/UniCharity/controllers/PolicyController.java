@@ -3,6 +3,7 @@ package com.UniCharity.UniCharity.controllers;
 import com.UniCharity.UniCharity.dto.request.PolicyCreateRequest;
 import com.UniCharity.UniCharity.dto.request.PolicyUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 import com.UniCharity.UniCharity.dto.response.policy.PolicyResponse;
 import com.UniCharity.UniCharity.services.iservices.IPolicyService;
 import jakarta.validation.Valid;
@@ -26,13 +27,18 @@ public class PolicyController {
     }
 
     @GetMapping
-    ApiResponse<List<PolicyResponse>> getPolicies() {
-        return ApiResponse.<List<PolicyResponse>>builder().result(policyService.getPolicies()).build();
+    ApiResponse<PageResponse<PolicyResponse>> getPolicies(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<PolicyResponse>>builder().result(policyService.getPolicies(page, size, sortField, sortDirection)).build();
     }
 
     @GetMapping("/get-by-id/{policyId}")
     ApiResponse<PolicyResponse> getPolicy(@PathVariable("policyId") int policyId) {
         return ApiResponse.<PolicyResponse>builder().result(policyService.getPolicy(policyId)).build();
+    }
+
+    @GetMapping("/get-by-campaign-id/{campaignId}")
+    ApiResponse<PageResponse<PolicyResponse>> getPoliciesByCampaignId(@PathVariable("campaignId") int campaignId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<PolicyResponse>>builder().result(policyService.getPoliciesByCampaignId(campaignId, page, size, sortField, sortDirection)).build();
     }
 
     @PutMapping("/update/{policyId}")

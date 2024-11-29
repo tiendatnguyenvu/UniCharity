@@ -17,6 +17,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -40,9 +42,10 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public TransactionResponse updateTransaction(int transactionId, int campaignId, HttpServletRequest request) {
+    public String updateTransaction(int transactionId, int campaignId, HttpServletRequest request) {
         Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(() -> new AppException(ErrorCode.TRANSACTION_NOT_EXISTED));
 
+        // Lấy dữ liệu từ response
         String transactionCode = request.getParameter("vnp_TransactionNo");
         String paymentGateway = "VNPay";
         // xử lý thời gian
@@ -58,6 +61,24 @@ public class TransactionService implements ITransactionService {
         String responseCode = request.getParameter("vnp_ResponseCode");
         String transactionDescription = request.getParameter("vnp_OrderInfo");
 
+        // Tạo đường dẫn điều hướng
+        String baseUrl = "http://localhost:5173/banking/success";
+        StringBuilder urlBuilder = new StringBuilder(baseUrl);
+        urlBuilder.append("?");
+        try {
+            urlBuilder.append("transactionCode=").append(URLEncoder.encode(transactionCode, StandardCharsets.UTF_8.name()));
+            urlBuilder.append("&paymentGateway=").append(URLEncoder.encode(paymentGateway, StandardCharsets.UTF_8.name()));
+            urlBuilder.append("&transactionDate=").append(URLEncoder.encode(transactionDate.format(formatter), StandardCharsets.UTF_8.name()));
+            urlBuilder.append("&transactionStatus=").append(URLEncoder.encode(transactionStatus, StandardCharsets.UTF_8.name()));
+            urlBuilder.append("&amount=").append(amount);
+            urlBuilder.append("&responseCode=").append(URLEncoder.encode(responseCode, StandardCharsets.UTF_8.name()));
+            urlBuilder.append("&transactionDescription=").append(URLEncoder.encode(transactionDescription, StandardCharsets.UTF_8.name()));
+        } catch (Exception e) {
+            throw new RuntimeException("Error building URL", e);
+        }
+        String completeUrl = urlBuilder.toString();
+
+        // Lưu database
         transaction.setTransactionCode(transactionCode);
         transaction.setPaymentGateway(paymentGateway);
         transaction.setTransactionDate(transactionDate);
@@ -65,13 +86,11 @@ public class TransactionService implements ITransactionService {
         transaction.setAmount(amount);
         transaction.setResponseCode(responseCode);
         transaction.setTransactionDescription(transactionDescription);
-
         transaction = transactionRepository.save(transaction);
-
         if(transactionStatus.equals("00")) {
             campaignService.updateCampaignCurrentAmount(campaignId, amount);
         }
 
-        return TransactionMapper.toTransactionResponse(transaction);
+        return completeUrl;
     }
 }

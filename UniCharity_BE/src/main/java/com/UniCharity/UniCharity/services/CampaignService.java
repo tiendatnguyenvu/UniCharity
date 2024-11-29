@@ -14,6 +14,8 @@ import com.UniCharity.UniCharity.repositories.CampaignRepository;
 import com.UniCharity.UniCharity.repositories.PolicyRepository;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.ICampaignService;
+import com.UniCharity.UniCharity.utils.PageUtils;
+import com.UniCharity.UniCharity.utils.SortUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -59,13 +62,9 @@ public class CampaignService implements ICampaignService {
                 ? Sort.by(sortField).ascending()
                 : Sort.by(sortField).descending();
 
-        List<CampaignResponse> campaignResponses = campaignRepository.findAll(sort).stream().map(CampaignMapper::toCampaignResponse).toList();
+        List<CampaignResponse> campaignResponses = campaignRepository.findAll(sort).stream().map(CampaignMapper::toCampaignResponse).collect(Collectors.toList());
 
-        Pageable pageable = PageRequest.of(page, size);
-
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), campaignResponses.size());
-        Page<CampaignResponse> campaignPage = new PageImpl<>(campaignResponses.subList(start, end), pageable, campaignResponses.size());
+        Page<CampaignResponse> campaignPage = PageUtils.paginateList(campaignResponses, page, size);
 
         return new PageResponse<>(
                 campaignPage.getContent(),
@@ -86,11 +85,7 @@ public class CampaignService implements ICampaignService {
 
         List<CampaignResponse> campaignResponses = campaignRepository.findByStatus(status, sort).stream().map(CampaignMapper::toCampaignResponse).toList();
 
-        Pageable pageable = PageRequest.of(page, size);
-
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), campaignResponses.size());
-        Page<CampaignResponse> campaignPage = new PageImpl<>(campaignResponses.subList(start, end), pageable, campaignResponses.size());
+        Page<CampaignResponse> campaignPage = PageUtils.paginateList(campaignResponses, page, size);
 
         return new PageResponse<>(
                 campaignPage.getContent(),
@@ -110,14 +105,13 @@ public class CampaignService implements ICampaignService {
 
     @Override
     public CampaignResponse updateCampaign(int campaignId, CampaignUpdateRequest request) {
-        // kiểm tra campaign có tồn tại hay không
         Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
-//      // kiểm tra user có tồn tại hay không
-        User user = userRepository.findById(request.getCreateBy()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        if(!campaign.getStatus().equals("Pending")) throw new AppException(ErrorCode.CAMPAIGN_STATUS_NOT_PENDING);
+        User user = userRepository.findById(request.getCreatedBy()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         CampaignMapper.updateCampaign(campaign, request);
 
-        List<Policy> policies = policyRepository.findAllPolicyByCampaignId(campaignId);
+        List<Policy> policies = policyRepository.findAllByCampaignId(campaignId);
         policyRepository.deleteAll(policies);
 
         policyService.createPolicyList(request.getPolicies(), campaignId);
