@@ -19,8 +19,8 @@ public class DonationController {
     IDonationService donationService;
 
     @GetMapping
-    ApiResponse<PageResponse<DonationResponse>> getDonations (@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "donationDate") String sort) {
-        return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonations(page, size, sort)).build();
+    ApiResponse<PageResponse<DonationResponse>> getDonations (@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "donationDate") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonations(page, size, sortField, sortDirection)).build();
     }
 
     @GetMapping("/get-by-id/{donationId}")
@@ -34,7 +34,6 @@ public class DonationController {
     }
 
     @GetMapping("get-by-campaign-id/{campaignId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     ApiResponse<PageResponse<DonationResponse>> getDonationsByCamppaignId(@PathVariable("campaignId") int campaignId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "donationDate") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
         return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonationsByCampaignId(campaignId, page, size, sortField, sortDirection)).build();
     }
