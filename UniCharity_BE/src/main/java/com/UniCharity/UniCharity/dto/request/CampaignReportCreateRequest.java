@@ -24,19 +24,14 @@ public class CampaignReportCreateRequest {
     Long totalRecipients;
 
     @NotBlank(message = "SUMMARY_CANNOT_BE_BLANK")
-    @Size(max = 1000, message = "SUMMARY_TOO_LONG")
     String resultsSummary;
 
     @NotBlank(message = "LESSONS_LEARNED_CANNOT_BE_BLANK")
-    @Size(max = 1000, message = "LESSONS_LEARNED_TOO_LONG")
     String lessonsLearned;
 
-    @PastOrPresent(message = "CREATED_DATE_MUST_BE_PAST_OR_PRESENT")
     LocalDate createdAt = LocalDate.now();
 
-    @FutureOrPresent(message = "REPORT_DATE_MUST_BE_FUTURE_OR_PRESENT")
     LocalDate reportDate;
 
-    @PastOrPresent(message = "UPDATE_DATE_MUST_BE_PAST_OR_PRESENT")
     LocalDate updatedAt;
 }
