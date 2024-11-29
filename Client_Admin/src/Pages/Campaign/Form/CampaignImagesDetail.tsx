@@ -45,7 +45,7 @@ const CampaignImagesDetail = () => {
           if (res?.status == 200) {
             if(res?.data)
             {
-            setImages(prev => [...prev, ...res?.data.result]);
+            setImages(prev => [...prev, ...res.data.result]);
             toast.success("Images uploaded successfully!");
           }
           }
