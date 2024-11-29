@@ -7,6 +7,7 @@ import com.UniCharity.UniCharity.services.iservices.IDonationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,8 +29,13 @@ public class DonationController {
     }
 
     @GetMapping("/get-by-user-id/{userId}")
-    ApiResponse<PageResponse<DonationResponse>> getDonationsByUserId(@PathVariable("userId") int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "donation_date") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+    ApiResponse<PageResponse<DonationResponse>> getDonationsByUserId(@PathVariable("userId") int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "donationDate") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
         return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonationsByUserId(userId, page, size, sortField, sortDirection)).build();
     }
 
+    @GetMapping("get-by-campaign-id/{campaignId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    ApiResponse<PageResponse<DonationResponse>> getDonationsByCamppaignId(@PathVariable("campaignId") int campaignId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "donationDate") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonationsByCampaignId(campaignId, page, size, sortField, sortDirection)).build();
+    }
 }
