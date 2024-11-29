@@ -23,7 +23,6 @@ const validationSchema = yup.object().shape({
 
 const Login = () => {
     const { login, user } = useAuth()
-    console.log(user);
 
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInput>({
         resolver: yupResolver(validationSchema)
@@ -40,6 +39,9 @@ const Login = () => {
 
                     <div className="col-lg-6 col-12">
                         <h2 className="text-white mb-4">Đăng nhập</h2>
+                        <p className="text-white mb-4">
+                            Hãy đăng nhập để tiếp tục hành trình đóng góp và giúp đỡ cộng đồng.
+                        </p>
 
                         <form
                             className="custom-form volunteer-form mb-5 mb-lg-0"
@@ -50,7 +52,7 @@ const Login = () => {
                                     type="email"
                                     id="email"
                                     className="form-control"
-                                    placeholder="Jackdoe@gmail.com"
+                                    placeholder="Nhập email của bạn"
                                     {...register('email')}
                                 />
                                 {errors.email && (
@@ -63,7 +65,7 @@ const Login = () => {
                                     type="password"
                                     id="password"
                                     className="form-control"
-                                    placeholder="Mật khẩu"
+                                    placeholder="Nhập mật khẩu của bạn"
                                     {...register('password')}
                                 />
                                 {errors.password && (
@@ -81,18 +83,17 @@ const Login = () => {
                         <img
                             src="images/smiling-casual-woman-dressed-volunteer-t-shirt-with-badge.jpg"
                             className="volunteer-image img-fluid"
-                            alt=""
+                            alt="Hình ảnh từ thiện"
                         />
 
                         <div className="custom-block-body text-center">
-                            <h4 className="text-white mt-lg-3 mb-lg-3">About Volunteering</h4>
+                            <h4 className="text-white mt-lg-3 mb-lg-3">Tại sao nên tham gia?</h4>
                             <p className="text-white">
-                                Lorem Ipsum dolor sit amet, consectetur adipsicing kengan omeg kohm tokito
-                                Professional charity theme based
+                                Cùng nhau xây dựng một thế giới tốt đẹp hơn qua những hoạt động từ thiện. 
+                                Hãy tham gia để lan tỏa sự yêu thương và mang lại hy vọng cho mọi người.
                             </p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>

@@ -14,7 +14,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CampaignCreateRequest {
     @NotBlank(message = "CAMPAIGN_TITLE_IS_REQUIRED")
-    @Size(max = 100, message = "CAMPAIGN_TITLE_TOO_LONG")
     String title;
 
     @NotBlank(message = "DESCRIPTION_IS_REQUIRED")

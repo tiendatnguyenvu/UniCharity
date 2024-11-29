@@ -49,7 +49,7 @@ public class VNPAYController {
         // Loại bỏ ký hiệu tiền tệ (₫) nếu không cần
         formattedAmount = formattedAmount.replace("₫", "").trim() + " VNĐ";
 
-        String orderInfor = "Đóng góp '" + campaignResponse.getTitle() + "', Số tiền " + formattedAmount;
+        String orderInfor = "Đóng góp '" + campaignResponse.getTitle() + "' , Số tiền " + formattedAmount;
         String vnpayUrl = vnPayService.createOrder(request, donationResponse.getAmount(), orderInfor);
         return ApiResponse.<String>builder().result(vnpayUrl).build();
     }
