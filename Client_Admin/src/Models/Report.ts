@@ -71,4 +71,39 @@ export interface ReportRoot {
     totalPages: number
     pageSize: number
   }
+
+  //create
+
+  export class CreateReport {
+    campaign: number;
+    totalDonations: number;
+    totalRecipients: number;
+    resultsSummary: string;
+    lessonsLearned: string;
+    createdAt: string;
+    reportDate: string;
+    updatedAt: string;
+  
+    constructor(
+      campaign: number,
+      totalDonations: number,
+      totalRecipients: number,
+      resultsSummary: string,
+      lessonsLearned: string,
+      createdAt: string,
+      reportDate: string,
+      updatedAt: string
+    ) {
+      this.campaign = campaign;
+      this.totalDonations = totalDonations;
+      this.totalRecipients = totalRecipients;
+      this.resultsSummary = resultsSummary;
+      this.lessonsLearned = lessonsLearned;
+      this.createdAt = createdAt;
+      this.reportDate = reportDate;
+      this.updatedAt = updatedAt;
+    }
+  }
+  
+  
   
