@@ -45,7 +45,6 @@ export const CampaignGetByIDAPI = async (idCam: number = 4) => {
                 Authorization: `Bearer ${token}` // Thêm Bearer token vào header
             }
         });
-        console.log(data?.data);
         return data;
     } catch (error) {
         handleError(error);

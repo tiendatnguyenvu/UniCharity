@@ -23,7 +23,6 @@ const validationSchema = yup.object().shape({
 
 const Login = () => {
     const { login, user } = useAuth()
-    console.log(user);
 
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInput>({
         resolver: yupResolver(validationSchema)
