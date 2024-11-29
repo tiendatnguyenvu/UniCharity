@@ -10,8 +10,7 @@ const dataLogin = {
 
 export const loginAPI = async (email: string, password: string) => {
     try {
-
-        const data = await axios.post<AuthenRes>(`${BASE_URL}/auth/token`, {
+        const data = await axios.post<AuthenRes>(`${BASE_URL}/auth/login`, {
             email, password
         });
         return data;
