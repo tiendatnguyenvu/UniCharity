@@ -4,13 +4,10 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useAuth } from '../../Context/UseAuth'
 import { CampaignFormRequest } from '../../Models/Campaign'
-import { CampaignRequest } from '../../Service/CampaignService'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { CampaignRequest } from '../../Service/CampaignService'
 
-
-
-// Xác thực form với Yup
 const validationSchema = yup.object().shape({
     title: yup
         .string()
@@ -27,35 +24,42 @@ const validationSchema = yup.object().shape({
         .positive('ID của người tạo phải lớn hơn 0.')
 })
 
+const navigate = useNavigate()
+
 const CreateCampaign = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<CampaignFormRequest>({
         resolver: yupResolver(validationSchema)
     })
 
-    const { user } = useAuth()
-    const navigate = useNavigate()
+    const { isLoggedIn, user } = useAuth()
 
     const onSubmit = (data: CampaignFormRequest) => {
         CampaignRequest(data)
-            .then(res => {
-                if (res?.data?.code === 1000) {
-                    navigate("/")
-                    toast.success(`Bạn đã gửi yêu cầu tạo chiến dịch ${res?.data?.result.title} thành công`)
+            .then((response) => {
+                if (response?.data.code === 1000) {
+                    toast.success('Tạo chiến dịch thành công!');
+                    navigate('/campaigns'); 
+                } else {
+                    toast.error('Đã xảy ra lỗi khi tạo chiến dịch.');
                 }
-            }).catch(err => toast.error(err))
+            })
+            .catch((error) => {
+                toast.error('Lỗi kết nối tới server.');
+            });
     }
 
     return (
+        isLoggedIn() 
+        ?
         <section className="volunteer-section section-padding" id="section_4">
             <div className="container">
                 <div className="row">
-
                     <div className="col-lg-6 col-12">
                         <h2 className="text-white mb-4">Yêu cầu tạo 1 chiến dịch Campaign</h2>
 
                         <form
                             className="custom-form volunteer-form mb-5 mb-lg-0"
-                            onSubmit={handleSubmit(onSubmit)}
+                            onSubmit={handleSubmit(onSubmit)} // Gọi hàm handleSubmit với onSubmit
                         >
                             <div className="mb-3">
                                 <input
@@ -135,6 +139,9 @@ const CreateCampaign = () => {
                 </div>
             </div>
         </section>
+        : <div className='d-flex justify-content-center align-items-center' >
+            <h2>Please Login</h2>
+        </div>
     )
 }
 
