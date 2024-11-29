@@ -142,7 +142,7 @@ const DetailCampaignPage = () => {
         <div className="row">
           <div className="col-lg-7 col-12">
             <blockquote>{campaignDT?.title}</blockquote>
-            <div style={{ maxWidth: "100%" }} dangerouslySetInnerHTML={{ __html: processHtml(a) }} />
+            <div style={{ maxWidth: "100%" }} dangerouslySetInnerHTML={{ __html: processHtml(campaignDT?.description ?? `<p><strong>Chưa có dữ liệu</strong></p>`) }} />
             <h5 className="mb-3 pt-4" style={{ borderTop: "solid" }}>Nhà hảo tâm hàng đầu</h5>
             {campaignDT?.donations && campaignDT?.donations.length > 0 && (
               <Table configs={configs} data={campaignDT?.donations} />
@@ -216,4 +216,3 @@ const DetailCampaignPage = () => {
 
 export default DetailCampaignPage;
 
-const a = `<p><strong>Người ta thường ví vùng...</strong></p>`;
