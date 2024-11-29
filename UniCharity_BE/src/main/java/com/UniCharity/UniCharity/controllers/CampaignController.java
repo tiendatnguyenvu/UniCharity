@@ -74,6 +74,11 @@ public class CampaignController {
         return  ApiResponse.<List<Donation>>builder().result(campaignService.getAllUserDonation(campaignId)).build();
     }
 
+    @GetMapping("/get-by-year/{year}")
+    ApiResponse<PageResponse<CampaignResponse>> getCampaignsByYear(@PathVariable("year") int year, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaignsByYear(year, page, size, sortField, sortDirection)).build();
+    }
+
     @GetMapping("/count-by-month/{year}")
     ApiResponse<Map<Integer, Long>> countCampaignsByMonth(@PathVariable("year") int year) {
         return ApiResponse.<Map<Integer, Long>>builder().result(campaignService.countCampaignsByMonth(year)).build();

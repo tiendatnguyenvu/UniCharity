@@ -20,4 +20,6 @@ public interface CampaignRepository extends JpaRepository<Campaign, Integer> {
             "GROUP BY MONTH(c.created_at) " +
             "ORDER BY month ASC", nativeQuery = true)
     List<Object[]> countCampaignsByMonth(@Param("year") int year);
+    @Query("SELECT c FROM Campaign c WHERE FUNCTION('YEAR', c.createdAt) = :year")
+    List<Campaign> findCampaignsByYear(@Param("year") int year);
 }

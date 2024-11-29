@@ -20,6 +20,7 @@ public interface ICampaignService {
     public PageResponse<CampaignResponse> getCampaignsByTitle(String title, int page, int size, String sortField, String sortDirection);
     public List<Donation> getAllUserDonation(int campaignId);
     public Map<Integer, Long> countCampaignsByMonth(int year);
+    public PageResponse<CampaignResponse> getCampaignsByYear(int year, int page, int size, String sortField, String sortDirection);
 
     public CampaignResponse updateCampaign(int campaignId, CampaignUpdateRequest request);
     public CampaignResponse updateCampaignStatus(int campaignId);

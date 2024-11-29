@@ -14,6 +14,7 @@ import com.UniCharity.UniCharity.repositories.PolicyRepository;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.ICampaignService;
 import com.UniCharity.UniCharity.utils.PageUtils;
+import com.UniCharity.UniCharity.utils.SortUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -190,5 +191,24 @@ public class CampaignService implements ICampaignService {
             campaignsByMonth.put(month, count);
         }
         return campaignsByMonth;
+    }
+
+    @Override
+    public PageResponse<CampaignResponse> getCampaignsByYear(int year, int page, int size, String sortField, String sortDirection) {
+        List<CampaignResponse> campaignResponses = campaignRepository.findCampaignsByYear(year).stream().map(CampaignMapper::toCampaignResponse).collect(Collectors.toList());
+
+        SortUtils.sortList(campaignResponses, sortField, sortDirection);
+
+        Page<CampaignResponse> campaignPage = PageUtils.paginateList(campaignResponses, page, size);
+
+        return new PageResponse<>(
+                campaignPage.getContent(),
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
+                        .totalItem(campaignPage.getTotalElements())
+                        .currentPage(campaignPage.getNumber())
+                        .totalPages(campaignPage.getTotalPages())
+                        .pageSize(campaignPage.getSize())
+                        .build()
+        );
     }
 }
