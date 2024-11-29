@@ -21,6 +21,7 @@ const DetailCampaignPage = () => {
   const { id } = useParams();
   const [campaignDT, setCampaignDT] = useState<CampaignGet>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [donationCount, setDonationCount] = useState(5);  // Set initial donation count
   const navigate = useNavigate();
 
   // Fetch campaign details
@@ -41,7 +42,10 @@ const DetailCampaignPage = () => {
   }, [id]);
 
   console.log(campaignDT);
-  
+
+  const handleSeeMore = () => {
+    setDonationCount(donationCount + 5);
+  };
 
   const handleDonate = async (values: any) => {
     if (!id) return;
@@ -72,7 +76,6 @@ const DetailCampaignPage = () => {
       toast.error("Không thể hoàn tất quyên góp. Vui lòng kiểm tra lại thông tin.");
     }
   };
-
 
   const formik = useFormik({
     initialValues: {
@@ -127,7 +130,21 @@ const DetailCampaignPage = () => {
             <div style={{ maxWidth: "100%" }} dangerouslySetInnerHTML={{ __html: processHtml(campaignDT?.description ?? `<p><strong>Chưa có due7</strong></p>`) }} />
             <h5 className="mb-3 pt-4" style={{ borderTop: "solid" }}>Nhà hảo tâm hàng đầu</h5>
             {campaignDT?.donations && campaignDT?.donations.length > 0 && (
-              <Table configs={configs} data={campaignDT?.donations} />
+              <>
+                <Table
+                  configs={configs}
+                  data={campaignDT?.donations
+                    .sort((a, b) => b.amount - a.amount)
+                    .slice(0, donationCount)}
+                />
+                {campaignDT.donations.length > donationCount && (
+                  <div className="d-flex justify-content-center" > 
+                    <button onClick={handleSeeMore} className="btn custom-btn mt-3">
+                      Xem thêm
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
           <div className="col-lg-4 col-12 mx-auto mt-4 mt-lg-0">
@@ -156,7 +173,6 @@ const DetailCampaignPage = () => {
           <div>
             <input
               type="text"
-              name="name"
               className="form-control"
               placeholder="Tên của bạn"
               {...formik.getFieldProps("name")}
@@ -168,7 +184,6 @@ const DetailCampaignPage = () => {
           <div>
             <input
               type="email"
-              name="email"
               className="form-control"
               placeholder="Jackdoe@gmail.com"
               {...formik.getFieldProps("email")}
@@ -180,7 +195,6 @@ const DetailCampaignPage = () => {
           <div>
             <input
               type="text"
-              name="amount"
               className="form-control"
               placeholder="Số tiền (VND)"
               {...formik.getFieldProps("amount")}
@@ -197,4 +211,3 @@ const DetailCampaignPage = () => {
 };
 
 export default DetailCampaignPage;
-

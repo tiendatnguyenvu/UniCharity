@@ -46,11 +46,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .cors(Customizer.withDefaults()) // Kích hoạt CORS (nếu cần)
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .anyRequest().permitAll() // Cho phép tất cả các endpoint truy cập
+                        .anyRequest().permitAll()
                 )
-                .csrf(csrf -> csrf.disable()); // Vô hiệu hóa CSRF (nếu không cần)
+                .csrf(csrf -> csrf.disable());
 
         return httpSecurity.build();
     }

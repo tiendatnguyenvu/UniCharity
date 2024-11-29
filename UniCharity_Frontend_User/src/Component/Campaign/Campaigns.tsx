@@ -4,6 +4,7 @@ import { CampaignGetByStatusAPI } from '../../Service/CampaignService';
 import { CAMPAIGN_PAGE_LIT, STATUS_ACTIVE } from '../../Utils/Constant';
 import Paginations from '../Paginations/Paginations';
 import Campaign from './Campaign';
+import DecoSection from './DecoSection';
 
 const Campaigns: React.FC = () => {
     const [campaigns, setCampaigns] = useState<CampaignGet[]>([]);
@@ -31,29 +32,31 @@ const Campaigns: React.FC = () => {
     };
 
     return (
-        <section className="section-padding" id="section_3">
-            <div className="container">
-                <div className="row">
-                    <div className="col-lg-12 col-12 text-center mb-4">
-                        <h2>Our Causes</h2>
+        <>
+            <section className="section-padding" id="section_3">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12 col-12 text-center mb-4">
+                            <h2>Our Causes</h2>
+                        </div>
+                        {campaigns.map(campaign => (
+                            <Campaign campaign={campaign} className="col-lg-4 col-md-6 col-12" />
+                        ))}
+                        {page && (
+                            <Paginations
+                                totalItem={page.totalItem}
+                                currentPage={page.currentPage}
+                                totalPages={page.totalPages}
+                                pageSize={page.pageSize}
+                                onPageChange={handlePageChange}
+                            />
+                        )}
                     </div>
-
-                    {campaigns.map(campaign => (
-                       <Campaign campaign={campaign} className="col-lg-4 col-md-6 col-12" />
-                    ))}
-
-                    {page && (
-                        <Paginations
-                            totalItem={page.totalItem}
-                            currentPage={page.currentPage}
-                            totalPages={page.totalPages}
-                            pageSize={page.pageSize}
-                            onPageChange={handlePageChange}
-                        />
-                    )}
                 </div>
-            </div>
-        </section>
+            </section>
+
+            <DecoSection />
+        </>
     );
 };
 

@@ -5,7 +5,12 @@ import DefaultUser from '/images/avatar/DefaultUser.png'
 
 const Navbar = () => {
     const navigate = useNavigate()
-    const { isLoggedIn, user } = useAuth()
+    const { isLoggedIn, logout, user } = useAuth()
+
+    const handleLoggout = () => {
+        logout()
+    }
+
     return (
         <div className="navbar navbar-expand-lg bg-light shadow-lg">
             <div className="container">
@@ -34,35 +39,37 @@ const Navbar = () => {
                         <li className="nav-item">
                             <a className="nav-link click-scroll"
                                 style={{ cursor: "pointer" }}
+                                onClick={() => navigate("/about")}
+                            >About</a>
+                        </li>
+
+                        <li className="nav-item">
+                            <a className="nav-link click-scroll"
+                                style={{ cursor: "pointer" }}
                                 onClick={() => navigate("/request-campaign")}
                             >Request Campaign</a>
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link click-scroll" href="#section_6">History donation</a>
+                            <a className="nav-link click-scroll"
+                                onClick={() => navigate("/history-donation")}
+                            >History donation</a>
                         </li>
                         {isLoggedIn() ? (
                             <div className="btn-group">
-                                <button
-                                    type="button"
-                                    className="btn btn-sm btn-light dropdown-toggle"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    {user?.name || "Dropdown"}
-                                </button>
-                                <ul className="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <button className="dropdown-item" type="button">
-                                            Profile
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button className="dropdown-item" type="button">
-                                            Log out
-                                        </button>
-                                    </li>
-                                </ul>
+                                <div className="dropdown">
+                                    <button style={{ color: "#5bc1ac", marginTop: "13px" }} className="btn dropdown-toggle btn-group"
+                                        type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {user?.name || "Dropdown"}
+                                    </button>
+                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        {/* <a className="dropdown-item" href="#">Profile</a> */}
+                                        <a className="dropdown-item"
+                                            style={{cursor: "pointer"}}
+                                            onClick={handleLoggout}
+                                        >Log out</a>
+                                    </div>
+                                </div>
 
                                 <div className="btn-group mx-2 btn-group mx-2 d-flex align-items-center">
                                     <img src={DefaultUser} style={{ height: "36px", width: "36px" }} alt="" />
