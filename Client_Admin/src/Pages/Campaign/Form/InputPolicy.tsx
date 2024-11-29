@@ -6,6 +6,7 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import {
   CampaignPolicyDto,
   CreateCampaignDto,
+  UpdateCampaignPolicyDto,
   
 } from "../../../Models/Campaign";
 import { UseFormGetValues, UseFormSetValue } from "react-hook-form";
@@ -18,7 +19,7 @@ type Props = {
   isUpdate: boolean;
   getValues: UseFormGetValues<CreateCampaignDto>;
   setValue: UseFormSetValue<CreateCampaignDto>;
-  handleCreateNewPolicy: (newPolicy: CampaignPolicyDto) => void;
+  handleCreateNewPolicy: (newPolicy: any) => void;
   handleDeletePolicy: (i: number) => void
 };
 const InputPolicy = ({
@@ -26,7 +27,8 @@ const InputPolicy = ({
   errors,
   initData,
   handleCreateNewPolicy,
-  handleDeletePolicy
+  handleDeletePolicy,
+  isUpdate
 }: Props) => {
   // console.log("init policy", initData)
 //   const [policies, setPolicies] = useState<CampaignPolicyDto[] >();
@@ -52,6 +54,7 @@ const InputPolicy = ({
   const isNullOrEmpty = (value: string | null | undefined): boolean => {
     return !value || value.trim().length === 0;
   };
+  
   const responsePolicy = () => {
     const description = descriptionRef.current?.value;
     const eligibilityCriteria = eligibilityCriteriaRef.current?.value;
@@ -65,41 +68,66 @@ const InputPolicy = ({
 
   };
 
+
+    
+  const responseUpdatePolicy = () => {
+    const description = descriptionRef.current?.value;
+    const eligibilityCriteria = eligibilityCriteriaRef.current?.value;
+
+    if (!isNullOrEmpty(description) && !isNullOrEmpty(eligibilityCriteria)) {
+      const date = new Date().toUTCString;
+      return new UpdateCampaignPolicyDto(description!, eligibilityCriteria!, "approved",date,date);
+    } else {
+      toast.error("description and eligibility Criteria is require");
+    }
+    return null;
+
+  };
+
   const handleCreatePolicy = () => {
-    const result  = responsePolicy();
-    if(result)
+    if(!isUpdate)
     {
-      // console.log("result:",result)
-      handleCreateNewPolicy(result);
-      // handleClearForm();
+      const result  = responsePolicy();
+      if(result)
+      {
+        // console.log("result:",result)
+        handleCreateNewPolicy(result);
+        // handleClearForm();
+      }
+    } 
+    else
+    {
+      const result  = responseUpdatePolicy();
+      if(result)
+      {
+        handleCreateNewPolicy(result);
+      }
     }
   };
 
 
   const handleDelete= (i:number) => {
-  //  toast.success("index:"+i )
    handleDeletePolicy(i)
   }
   const configs = [
     {
       label: "#",
-      render: (policy: CampaignPolicyDto, index: number) => index + 1,
+      render: (policy: any, index: number) => index + 1,
     },
     {
       label: "Description",
-      render: (policy: CampaignPolicyDto) => policy.policyDescription,
+      render: (policy: any) => policy.policyDescription,
     },
     {
       label: "eligibility Criteria",
-      render: (policy: CampaignPolicyDto) => policy.eligibilityCriteria,
+      render: (policy: any) => policy.eligibilityCriteria,
     },
     {
       label: "Action",
-      render: (policy: CampaignPolicyDto,index:number) => (<div>
+      render: (policy: any,index:number) => (<div>
         <button className="btn btn-danger"
         onClick={()=>handleDelete(index)}
         >  <RiDeleteBin6Fill /></button>
-      
       </div>),
     },
   ];

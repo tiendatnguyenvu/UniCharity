@@ -7,10 +7,15 @@ import { DonationPost } from "./AuthService";
 export const donateAPI = async (dataPost: DonationPost) => {
     try {
         
-        const data = await axios.post<DonationRes>(`${BASE_URL}/vnpay/create_payment`, dataPost);
-        return data;
+        return axios.post<DonationRes>(`${BASE_URL}/vnpay/create_payment`, dataPost);
+        // return data;
     } catch (error) {
         handleError(error);
-        console.log(error);
     }
 };
+
+// import axios from "axios";
+
+// export const donateAPI = async (data: DonationPost) => {
+//   return axios.post("/api/donation", data);
+// };

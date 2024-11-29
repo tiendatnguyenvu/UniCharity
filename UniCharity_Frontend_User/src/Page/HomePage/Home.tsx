@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react'
 import Hero from '../../Component/Hero/Hero'
 import Service from '../../Component/Service/Service'
-import Campaign from '../../Component/Campaign/Campaigns'
+import Campaigns from '../../Component/Campaign/Campaigns'
 
 const Home = () => {
   return (
     <>
         <Hero />
         <Service />
-        <Campaign />
+        <Campaigns />
     </>
   )
 }

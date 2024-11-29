@@ -1,8 +1,11 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../Context/UseAuth'
+import DefaultUser from '/images/avatar/DefaultUser.png'
 
 const Navbar = () => {
     const navigate = useNavigate()
+    const { isLoggedIn, user } = useAuth()
     return (
         <div className="navbar navbar-expand-lg bg-light shadow-lg">
             <div className="container">
@@ -23,41 +26,61 @@ const Navbar = () => {
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
                             <a className="nav-link click-scroll"
-                            onClick={() => navigate("/")}
+                                style={{ cursor: "pointer" }}
+                                onClick={() => navigate("/")}
                             >Home</a>
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link click-scroll" href="#section_2">About</a>
+                            <a className="nav-link click-scroll"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => navigate("/request-campaign")}
+                            >Request Campaign</a>
                         </li>
 
                         <li className="nav-item">
-                            <a className="nav-link click-scroll" href="#section_3">Causes</a>
+                            <a className="nav-link click-scroll" href="#section_6">History donation</a>
                         </li>
+                        {isLoggedIn() ? (
+                            <div className="btn-group">
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-light dropdown-toggle"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    {user?.name || "Dropdown"}
+                                </button>
+                                <ul className="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <button className="dropdown-item" type="button">
+                                            Profile
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button className="dropdown-item" type="button">
+                                            Log out
+                                        </button>
+                                    </li>
+                                </ul>
 
-                        <li className="nav-item">
-                            <a className="nav-link click-scroll" href="#section_4">Volunteer</a>
-                        </li>
+                                <div className="btn-group mx-2 btn-group mx-2 d-flex align-items-center">
+                                    <img src={DefaultUser} style={{ height: "36px", width: "36px" }} alt="" />
+                                </div>
+                            </div>
 
-                        <li className="nav-item dropdown">
-                            <a className="nav-link click-scroll dropdown-toggle" href="#section_5"
-                                id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">News</a>
 
-                            <ul className="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                                <li><a className="dropdown-item" href="news.html">News Listing</a></li>
+                        ) : <>
+                            <li className="nav-item ms-3"
+                                onClick={() => navigate("/login")}
+                            >
+                                <a className="nav-link custom-btn custom-border-btn btn">Login</a>
+                            </li>
 
-                                <li><a className="dropdown-item" href="news-detail.html">News Detail</a></li>
-                            </ul>
-                        </li>
-
-                        <li className="nav-item">
-                            <a className="nav-link click-scroll" href="#section_6">Contact</a>
-                        </li>
-
-                        <li className="nav-item ms-3">
-                            <a className="nav-link custom-btn custom-border-btn btn" href="donate.html">Donate</a>
-                        </li>
+                            <li className="nav-item ms-3">
+                                <a className="nav-link custom-btn custom-border-btn btn">Register</a>
+                            </li>
+                        </>}
                     </ul>
                 </div>
             </div>

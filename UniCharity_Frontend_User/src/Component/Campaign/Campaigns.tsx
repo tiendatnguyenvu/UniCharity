@@ -15,7 +15,6 @@ const Campaigns: React.FC = () => {
                 if (res?.data) {
                     setCampaigns(res.data.result.items);
                     setPage(res.data.result.page);
-                    console.log(res.data.result.page);
                 }
             })
             .catch(err => {

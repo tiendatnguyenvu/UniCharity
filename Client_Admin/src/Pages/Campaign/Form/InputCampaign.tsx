@@ -175,8 +175,7 @@ const InputCampaign = ({
         />
         {/* Status */}
         <div
-          className="form-floating mb-3 mb-4 m
-         "
+          className="form-floating mb-3 mb-4 m"
         >
           <label htmlFor="floatingSelect">
             <p>Status</p>

@@ -1,7 +1,7 @@
 export const STATUS_PENDING = "Pending";
 export const STATUS_ACTIVE = "Active";
 export const STATUS_COMPLETE = "Completed";
-export const STATUS_CANCLE = "Canclled";
+export const STATUS_CANCLE = "Cancelled";
 
 export const TAB_CREATE_CAMPAIGN = "Campaign";
 export const TAB_CREATE_POLICIES = "Policies";
@@ -14,7 +14,7 @@ export const CAMPAIGN_STATUS = [
 ];
 
 export const PAGE_CAMPAIGN = 0;
-export const LIMIT_CAMPAIGN = 25;
+export const LIMIT_CAMPAIGN = 30;
 
 export const TABS_CREATE_CAMPAIGN = [
   { id: TAB_CREATE_CAMPAIGN, title: TAB_CREATE_CAMPAIGN },

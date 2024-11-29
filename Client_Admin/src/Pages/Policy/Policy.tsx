@@ -18,7 +18,7 @@ import { PageObject } from "../../Models/Paginate";
 import Paginate from "../../Components/Paginate/Paginate";
 
 
-const Campaign = () => {
+const Policy = () => {
   const [campaigns, setCampaigns] = useState<CampaignDto[] | null>(null);
   const [pageObject, setPageObject] = useState<PageObject>();
   const [tabs, setTabs] = useState(CAMPAIGN_STATUS);
@@ -62,48 +62,6 @@ const Campaign = () => {
     render.join("")
       return render;
   }
-
-  //render content
-  const renderContentTabs = () => {
-    const render = tabs.map((item:any,_index:number) => {
-      return (
-        <li
-          key={item.id}
-          className={`form-create tab-content tab-content-${
-            _index+1 == 1 ? "first" :( _index+1 == tabs.length ? "last" : _index + 1)
-          } typography`}
-        >
-          {(campaigns && campaigns.length > 0) ? (
-            <div>
-              {" "}
-              <Paginate
-                onPageChange={handlePageChange}
-                page= {pageObject!}
-                
-              />
-              <Table data={campaigns} configs={configs} />
-            </div>
-          ):
-          <div className="d-flex justify-content-center align-items-center vh-100">
-          <h2 className="display-5" >(No record)</h2>
-        </div>
-          }
-        </li>
-      );
-    });
-
-    // <div className="shadow m-3 my-tab">
-    //   <div className="pcss3t pcss3t-effect-scale pcss3t-theme-1">
-    //   {renderLabel()}
-    //   <ul></ul>
-    // </div>
-    // </div>
-    
-
-    render.join(" ");
-    // console.log(render);
-    return render;
-  };
 
   const handleClickTab = (tab: string) => {
     // console.log(tab);
@@ -181,10 +139,8 @@ const Campaign = () => {
       label: "Action",
       render: (campaign: CampaignDto) => {
         return (
+          
           <td className="d-flex">
-          
-         {status == "Pending" &&
-          
             <button
               type="button"
               className="btn-sm btn-success d-flex align-items-center me-2"
@@ -194,10 +150,6 @@ const Campaign = () => {
             >
               Update
             </button>
-
-         
-        }
-         
             <button
               type="button"
               className="btn-sm btn-warning d-flex align-items-center me-2"
@@ -216,30 +168,24 @@ const Campaign = () => {
   return (
     <div>
       <div className="container-fluid pt-4 px-4">
-        <h1 className="py-3">Campaign Management</h1>
+        <h1 className="py-3">Policies Management</h1>
         <div className="col-12">
           <div className="shadow rounded bg-light custom-container  h-100 p-4">
             <div className="d-flex py-2">
-              <h6 className="mb-4">Campaign List</h6>
-              <button
+              <h6 className="mb-4">Policies List</h6>
+              {/* <button
                 className="btn btn-primary ms-auto"
                 onClick={() => {
                   navigate("/admin/campaigns/create");
                 }}
               >
                 Create a new campaign
-              </button>
+              </button> */}
             </div>
             <div className="bg-light rounded  table-responsive"></div>
             {campaigns ? (
               <div>
-                {" "}
-                <div className="shadow my-tab">
-                  <div className="pcss3t pcss3t-effect-scale pcss3t-theme-1">
-                    {renderLabel()}
-                    <ul>{renderContentTabs()}</ul>
-                  </div>
-                </div>
+               {/* content */}
               </div>
             ) : (
               <h1>Loading...</h1>
@@ -251,4 +197,4 @@ const Campaign = () => {
   );
 };
 
-export default Campaign;
+export default Policy;
