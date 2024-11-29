@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as Yup from "yup"; // Import Yup
 import { yupResolver } from "@hookform/resolvers/yup"; // Import Yup Resolver
-import { CreateReport } from "../../../Models/Report";
+import { CreateReportDto } from "../../../Models/Report";
 
 type Props = {
-  handle : (data:CreateReport)=>void
+  handle : (data:CreateReportDto)=>void
 }
 const ReportForm = ({handle}:Props) => {
   // Schema validation với Yup
@@ -43,7 +43,7 @@ const ReportForm = ({handle}:Props) => {
 
   const onSubmit = () => {
     const currentDate = new Date().toISOString().split("T")[0]; 
-    const enrichedData = new CreateReport(Number(getValues("campaignId")),getValues("total_donations"),getValues("total_recipients"),getValues("results_summary"),getValues("lessons_learned"),currentDate,currentDate,currentDate)
+    const enrichedData = new CreateReportDto(Number(getValues("campaignId")),getValues("total_donations"),getValues("total_recipients"),getValues("results_summary"),getValues("lessons_learned"),currentDate,currentDate,currentDate)
     handle(enrichedData);
   };
   

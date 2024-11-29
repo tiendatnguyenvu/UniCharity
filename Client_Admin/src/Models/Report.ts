@@ -74,7 +74,7 @@ export interface ReportRoot {
 
   //create
 
-  export class CreateReport {
+  export class CreateReportDto {
     campaign: number;
     totalDonations: number;
     totalRecipients: number;
@@ -103,6 +103,39 @@ export interface ReportRoot {
       this.reportDate = reportDate;
       this.updatedAt = updatedAt;
     }
+  }
+  
+
+  //response create
+
+  export interface ResponseCreateReport {
+    code: number
+    result: ResultCreateReport
+  }
+  
+  export interface ResultCreateReport {
+    id: number
+    totalDonations: number
+    totalRecipients: number
+    resultsSummary: string
+    lessonsLearned: string
+    reportDate: string
+    createdAt: string
+    updatedAt: string
+    campaign: CampaignCreateReport
+    // fundAllocations: any[]
+  }
+  
+  export interface CampaignCreateReport {
+    id: number
+    title: string
+    description: string
+    targetAmount: number
+    currentAmount: number
+    createdAt: string
+    startDate: string
+    endDate: string
+    status: string
   }
   
   

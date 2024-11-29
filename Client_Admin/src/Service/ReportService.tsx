@@ -1,3 +1,4 @@
+import { CreateReportDto, ResponseCreateReport } from "../Models/Report";
 import { PAGE_REPORT, SIZE_REPORT } from "../Utils/ReportConstant";
 import axiosInstance from "./axios_instance";
 
@@ -25,6 +26,16 @@ export const getAllReportByCampaignIdAPI=async (campaignId:number,page:number=PA
                 size:size
             }
         });
+        return response;
+    } catch (error) {
+        console.log(error+"")
+    }
+}
+
+
+export const CreateReportAPI=async (data:CreateReportDto)=>{
+    try {
+        const response  = await axiosInstance.post<ResponseCreateReport>(api+`/create`,data);
         return response;
     } catch (error) {
         console.log(error+"")
