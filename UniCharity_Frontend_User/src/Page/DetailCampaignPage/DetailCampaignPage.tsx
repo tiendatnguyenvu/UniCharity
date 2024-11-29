@@ -40,6 +40,9 @@ const DetailCampaignPage = () => {
     fetchCampaign();
   }, [id]);
 
+  console.log(campaignDT);
+  
+
   const handleDonate = async (values: any) => {
     if (!id) return;
 
