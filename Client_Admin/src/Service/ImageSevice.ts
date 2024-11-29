@@ -19,7 +19,7 @@ export const UploadListCampaignImagesAPI = async (
   });
 
   try {
-    const response = await axiosInstance.post(
+    const response = await axiosInstance.post<ResponseListImageByCampaignIdAPI>(
       `${api}upload-list/illustration/${campaignId}`,
       formData,
       {
@@ -29,7 +29,7 @@ export const UploadListCampaignImagesAPI = async (
       }
     );
     console.log("service list images:", response);
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Error uploading images:", error);
     throw error;

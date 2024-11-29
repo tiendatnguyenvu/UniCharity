@@ -9,6 +9,8 @@ import {
   CampaignFormFiles,
   UploadListImageDto,
   CreateCampaignDto,
+  UpdateCampaignDto,
+  UpdateCampaignPolicyDto,
 } from "../../../Models/Campaign";
 import "../Campaign.scss";
 import { useForm } from "react-hook-form";
@@ -22,21 +24,20 @@ import CreateCampaign from "./CreateCampaign";
 import InputCampaign from "./InputCampaign";
 import InputPolicy from "./InputPolicy";
 import { useNavigate } from "react-router";
-import ButtonUpload from "../../../Components/UploadImage/ButtonUpload";
 import { toast } from "react-toastify";
 // import UploadListImage from "../../../Components/UploadImage/UploadListImage";
 // Props
 type Props = {
-  handleCampaign: (data: CreateCampaignDto, images: FileList | null) => void;
+  handleCampaign: (data: any, images: FileList | null) => void;
   initData?: CreateCampaignDto | null;
   isUpdate: boolean;
   id?: string | null;
 };
 const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
   const [selectedImages, setSelectedImages] = useState<FileList | null>(null);
-  const [policies, setPolicies] = useState<CampaignPolicyDto[]>(()=>{
-    if(initData) return initData.policies;
-    else return []
+  const [policies, setPolicies] = useState<any[]>(() => {
+    if (initData) return initData.policies;
+    else return [];
   });
   const [tab, setTab] = useState(TAB_CREATE_CAMPAIGN);
   const [tabs, setTabs] = useState(TABS_CREATE_CAMPAIGN);
@@ -55,15 +56,15 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
       description: "",
       targetAmount: 0,
       currentAmount: 0,
-      startDate:new Date(),
-      endDate:new Date(),
+      startDate: new Date(),
+      endDate: new Date(),
       status: "Pending",
       createdBy: 0,
     },
   });
 
   // hàm tạo CampaignPosst
-  const responseCampaignPost = (
+  const resquestCreateCampaignPost = (
     data: any,
     images: FileList | null,
     policies: CampaignPolicyDto[]
@@ -83,12 +84,41 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     );
   };
 
+  const resquestUpdateCampaignPost = (
+    data: any,
+    images: FileList | null,
+    policies: UpdateCampaignPolicyDto[]
+  ) => {
+    console.log("list policy:",policies)
+        return new UpdateCampaignDto(
+      data.title,
+      getValues("description"),
+      data.targetAmount,
+      0,
+      data.createdAt,
+      data.startDate,
+      data.endDate,
+      data.status,
+      data.createdBy.id,
+      policies
+    );
+  };
+
   // Hàm submit
   const onSubmit = (data: any) => {
-    // console.log("sent", data);
-    // console.log("submit");
-    const result = responseCampaignPost(data, selectedImages, policies);
-    handleCampaign(result, selectedImages);
+    console.log("sent", data);
+    console.log("submit");
+
+    if (isUpdate) {
+      console.log("Updata++++++++")
+      const result = resquestUpdateCampaignPost(data, null, policies);
+      console.log("result", result)
+
+      handleCampaign(result, null);
+    } else {
+      const result = resquestCreateCampaignPost(data, selectedImages, policies);
+      handleCampaign(result, selectedImages);
+    }
   };
 
   // Hàm thay đổi hình ảnh
@@ -107,20 +137,17 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
   };
 
   // handle create policy
-  const handleCreatePolicy = (newPolicy: CampaignPolicyDto) => {
+  const handleCreatePolicy = (newPolicy: any) => {
     setPolicies((prev) => [...prev, newPolicy]);
-
   };
 
-  const handleDeletePolicy = (i:number)=>
-  {
-
-    toast.success(i)
+  const handleDeletePolicy = (i: number) => {
+    toast.success(i);
     // console.log("index: ",i)
     const result = policies;
-    result.splice(i, 1);  
+    result.splice(i, 1);
     setPolicies(result);
-  }
+  };
   const renderLabel = () => {
     const render = tabs.map((item: any, index: number) => {
       return (
@@ -132,15 +159,14 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
             className={`tab-content-${
               index + 1 === 1
                 ? "first"
-                : (index + 1 == tabs.length
+                : index + 1 == tabs.length
                 ? "last"
-                : index + 1)
+                : index + 1
             }`}
             checked={item.title === tab}
           />
           <label
-            htmlFor={`tab${
-              index + 1}`}
+            htmlFor={`tab${index + 1}`}
             onClick={() => handleClickTab(item.title)}
           >
             <i className="icon-picture"></i>
@@ -152,7 +178,6 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     render.join("");
     return render;
   };
-
 
   // console.log("policies Form", policies)
   const renderContentTabs = () => {
@@ -182,12 +207,12 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
             />
           )}
 
-          { item.title == TAB_CREATE_POLICIES && (
+          {item.title == TAB_CREATE_POLICIES && (
             // <div>policies</div>
             <InputPolicy
               errors={errors}
               register={register}
-              isUpdate={false}
+              isUpdate={isUpdate}
               getValues={getValues}
               setValue={setValue}
               initData={policies}
@@ -213,7 +238,7 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
   // console.log("selectedImages:", selectedImages);
   // console.log("policies",policies)
 
-  console.log("init Form: ",initData)
+  // console.log("init Form: ", initData);
   return (
     <div className="bg-light" style={{ marginTop: 12 }}>
       <form onSubmit={handleSubmit(onSubmit)}>

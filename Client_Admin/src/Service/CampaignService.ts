@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import axiosInstance from "./axios_instance";
-import { CreateCampaignDto } from "../Models/Campaign";
-import { ResponseCreateCampaignAPI, ResponseListCampaignAPI } from "../Models/ResponseAPI";
+import { CreateCampaignDto, UpdateCampaignDto } from "../Models/Campaign";
+import { ResponseCreateCampaignAPI, ResponseListCampaignAPI, ResponseUpdateCampaignAPI } from "../Models/ResponseAPI";
 
 const api = "/campaigns";
 
@@ -52,5 +52,17 @@ export const CreateCampaignAPI = async (formInput: CreateCampaignDto) => {
   } catch (error) {
     console.log(error);
     throw error;
+  }
+};
+
+export const UpdateCampaignAPI = async (campaitnId: number,formInput: UpdateCampaignDto) => {
+  try {
+    console.log("into:",formInput)
+    console.log("+++++++++++++++++++++++==============")
+    const response = await axiosInstance.put<ResponseUpdateCampaignAPI>(`${api}/update/${campaitnId}`,formInput);
+    console.log("Update Campaign response: ", response)
+    return response;
+  } catch (error) {
+    console.dir(error);
   }
 };

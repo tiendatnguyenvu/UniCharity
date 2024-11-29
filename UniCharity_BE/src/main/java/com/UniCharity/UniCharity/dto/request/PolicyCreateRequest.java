@@ -24,7 +24,6 @@ public class PolicyCreateRequest {
     String eligibilityCriteria;
 
     @NotBlank(message = "APPROVAL_REQUEST_CANNOT_BE_BLANK")
-    @Pattern(regexp = "Approved|Pending", message = "INVALID_APPROVAL_REQUEST")
     String approvalRequired;
 
     @PastOrPresent(message = "CREATED_DATE_MUST_BE_PAST_OR_PRESENT")

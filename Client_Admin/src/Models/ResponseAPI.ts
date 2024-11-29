@@ -17,6 +17,11 @@ export type ResponseCreateCampaignAPI = {
   result: CreateCampaignDto
   
 };
+export type ResponseUpdateCampaignAPI = {
+  code: number,
+  result: CampaignDto
+  
+};
 
 
 export type ResponseListImageByCampaignIdAPI = {
@@ -26,6 +31,7 @@ export type ResponseListImageByCampaignIdAPI = {
 
 export type ResponseDeleteImageAPI = {
   code:number,
-  result: ImageGet
+  result: ImageGet[]
 }
+
 

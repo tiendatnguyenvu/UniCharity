@@ -34,8 +34,6 @@ const CampaignImagesDetail = () => {
     fetchImages();
   }, [id]);
 
-
-
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedImages(event.target.files);
   };
@@ -45,8 +43,9 @@ const CampaignImagesDetail = () => {
       UploadListCampaignImagesAPI(Number(id),selectedImages)
         .then((res) => {
           if (res?.status == 200) {
-            setImages(res?.data);
+            setImages(res?.data.result);
             toast.success("Images uploaded successfully!");
+            
           }
         })
         .catch((error) => toast.error(error));
@@ -57,8 +56,8 @@ const CampaignImagesDetail = () => {
     if (idImage) {
        DeleteImageAPI(idImage)
         .then((res) => {
-          if (res?.status === 204) {
-            setImages(res.data.result)
+          if (res?.status === 200) {
+            setImages(res?.data.result)
             toast.success("Delete successfully!");
           }
         })
@@ -85,7 +84,7 @@ const CampaignImagesDetail = () => {
         </div>
 
         <div className="row g-4 justify-content-center">
-          <ImageItems images={images} handleDelete={handleDelete} />
+      {images && <ImageItems images={images} handleDelete={handleDelete} />}  
         </div>
       </div>
     </div>

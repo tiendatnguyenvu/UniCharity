@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import FormCampaign from "./FormCampaign";
-import { CampaignDto, CreateCampaignDto } from "../../../Models/Campaign";
+import { CampaignDto, CreateCampaignDto, UpdateCampaignDto } from "../../../Models/Campaign";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { GetCampaignById } from "../../../Service/CampaignService";
+import { GetCampaignById, UpdateCampaignAPI } from "../../../Service/CampaignService";
 
 const UpdateCampaign = () => {
   const { id } = useParams();
   const [initData, setInitData] = useState<CreateCampaignDto | null>(null);
+const navigate = useNavigate();
 
   useEffect(() => {
     GetCampaignById(id!)
@@ -24,7 +25,27 @@ const UpdateCampaign = () => {
       });
   }, []);
 
-  const handleSubmit = (data: CreateCampaignDto, images: FileList | null) => {};
+  const handleSubmit = (data: UpdateCampaignDto, images: FileList | null) => {
+    console.log("id:",id)
+    UpdateCampaignAPI(Number(id),data)
+    .then(
+      (res)=>{
+        console.log("res update ", res)
+        if(res?.status == 200)
+        {
+          if(res.data)
+          {
+            console.log("success",res.data);
+            toast.success("Update campaign successfully!");
+            navigate("admin/campaigns")
+          }
+         
+        }
+      }
+    )
+ 
+
+  };
   console.log("initData Update",initData)
   return (
     <div>
