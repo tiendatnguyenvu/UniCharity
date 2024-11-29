@@ -84,6 +84,13 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     );
   };
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0 nên cần +1
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
   const resquestUpdateCampaignPost = (
     data: any,
     images: FileList | null,
@@ -92,7 +99,7 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     console.log("list policy:",policies)
 
     const listPolicyUpdate = policies.map(item => {
-      const date = new Date().toUTCString();
+      const date = getCurrentDate();
       return new UpdateCampaignPolicyDto(item.policyDescription,item.eligibilityCriteria,item.approvalRequired,date,date);
     })
 
@@ -155,6 +162,7 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     result.splice(i, 1);
     setPolicies(result);
   };
+  
   const renderLabel = () => {
     const render = tabs.map((item: any, index: number) => {
       return (

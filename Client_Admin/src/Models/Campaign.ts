@@ -52,7 +52,7 @@ export class UpdateCampaignDto {
   description: string;
   targetAmount: number;
   currentAmount: number;
-  createdAt: Date | null;
+  createAt: Date | null;
   startDate: Date | null;
   endDate: Date | null;
   status: string;
@@ -75,7 +75,7 @@ export class UpdateCampaignDto {
     this.description = _description;
     this.targetAmount = _targetAmount;
     this.currentAmount = _currentAmount;
-    this.createdAt = _createdAt;
+    this.createAt = _createdAt;
     this.startDate = _startDate;
     this.endDate = _endDate;
     this.status = _status;

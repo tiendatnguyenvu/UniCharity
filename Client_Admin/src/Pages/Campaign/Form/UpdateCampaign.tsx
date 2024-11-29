@@ -39,7 +39,7 @@ const navigate = useNavigate();
           {
             console.log("success",res.data);
             toast.success("Update campaign successfully!");
-            navigate("admin/campaigns")
+            navigate("/admin/campaigns")
           }
          
         }
@@ -57,6 +57,7 @@ const navigate = useNavigate();
           isUpdate={true}
           initData={initData}
           id={id}
+          
         />
       )}
     </div>

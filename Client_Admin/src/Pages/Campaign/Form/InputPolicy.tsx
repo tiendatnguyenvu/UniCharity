@@ -85,8 +85,6 @@ const InputPolicy = ({
   };
 
   const handleCreatePolicy = () => {
-   
-
     if(!isUpdate)
     {
       const result  = responsePolicy();

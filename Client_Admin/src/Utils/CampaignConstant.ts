@@ -1,7 +1,7 @@
 export const STATUS_PENDING = "Pending";
 export const STATUS_ACTIVE = "Active";
 export const STATUS_COMPLETE = "Completed";
-export const STATUS_CANCLE = "Canclled";
+export const STATUS_CANCLE = "Cancelled";
 
 export const TAB_CREATE_CAMPAIGN = "Campaign";
 export const TAB_CREATE_POLICIES = "Policies";
