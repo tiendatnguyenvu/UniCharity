@@ -34,7 +34,7 @@ public class CampaignReportService implements ICampaignReportService {
     @Override
     public CampaignReportResponse createCampaignReport(CampaignReportCreateRequest request) {
         Campaign campaign = campaignRepository.findById(request.getCampaign()).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
-        if(campaign.getStatus().equals(CampaignStatus.COMPLETED)) throw new AppException(ErrorCode.CAMPAiGN_COMPLETED);
+        if(campaign.getStatus().equals(CampaignStatus.PENDING) || campaign.getStatus().equals(CampaignStatus.CANCELLED) || campaign.getStatus().equals(CampaignStatus.ACTIVE)) throw new AppException(ErrorCode.CAMPAiGN_MUST_BE_COMPLETED);
         if(campaign.getCampaignReports().size() > 0) throw new AppException(ErrorCode.CAMPAIGN_HAS_BEEN_REPORT);
         CampaignReport campaignReport = CampaignReportMapper.toCampaignReport(request);
         campaignReport.setCampaign(campaign);

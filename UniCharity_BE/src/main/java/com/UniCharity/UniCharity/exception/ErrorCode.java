@@ -33,7 +33,7 @@ public enum ErrorCode {
     // Campaign
     CAMPAIGN_NOT_EXISTED(1051, "Campaign not existed", HttpStatus.NOT_FOUND),
     CAMPAIGN_STATUS_NOT_PENDING(1052, "Campaign status must be 'Pending'", HttpStatus.BAD_REQUEST),
-    CAMPAiGN_COMPLETED(1053, "Campaign completed", HttpStatus.BAD_REQUEST),
+    CAMPAiGN_MUST_BE_COMPLETED(1053, "Campaign has to be completed", HttpStatus.BAD_REQUEST),
     CAMPAIGN_HAS_BEEN_REPORT(1056, "Campaign has already been reported", HttpStatus.BAD_REQUEST),
 
     // CampaignReport
