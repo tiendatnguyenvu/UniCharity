@@ -103,6 +103,13 @@ export interface ViolationActionGet {
     password: string
     role: string
   }
+
+  export type CampaignFormRequest = {
+    title: string
+    description: string
+    targetAmount: number
+    createdBy: number
+}
   
   export type Image = {
     id: number
@@ -117,3 +124,42 @@ export interface ViolationActionGet {
     pageSize: number
   }
 
+  export interface CampaignRequest {
+      title: string;
+      description: string;
+      targetAmount: number;
+      createdBy: number;
+  }
+  
+
+  export interface CampaignRequestRes {
+    code: number
+    result: ResultCampaignRequest
+  }
+  
+  export interface ResultCampaignRequest {
+    id: number
+    title: string
+    description: string
+    targetAmount: number
+    currentAmount: any
+    createdAt: string
+    startDate: any
+    endDate: any
+    status: string
+    createdBy: CreatedBy
+    images: any[]
+    policies: any[]
+    donations: any[]
+    campaignReports: any[]
+  }
+  
+  export interface User {
+    id: number
+    name: string
+    email: string
+    phone: string
+    password: string
+    role: string
+  }
+  

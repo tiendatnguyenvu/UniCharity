@@ -20,13 +20,13 @@ const PaymentReturn: React.FC = () => {
   // Hiển thị thông tin
   return (
     <div>
-      <ul>
+      {/* <ul>
         {Object.entries(queryParams).map(([key, value]) => (
           <li key={key}>
             <strong>{key}:</strong> {decodeURIComponent(value)}
           </li>
         ))}
-      </ul>
+      </ul> */}
       <section className="testimonial-section section-padding section-bg">
         <div className="container">
           <div className="row">
