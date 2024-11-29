@@ -15,6 +15,7 @@ public interface ICampaignService {
     public PageResponse<CampaignResponse> getCampaigns(int page, int size, String sortField, String sortDirection);
     public PageResponse<CampaignResponse> getCampaignsByStatus(String status, int page, int size, String sortField, String sortDirection);
     public CampaignResponse getCampaign(int campaignId);
+    public PageResponse<CampaignResponse> getCampaignsByTitle(String title, int page, int size, String sortField, String sortDirection);
     public List<Donation> getAllUserDonation(int campaignId);
     public CampaignResponse updateCampaign(int campaignId, CampaignUpdateRequest request);
     public CampaignResponse updateCampaignStatus(int campaignId);

@@ -19,8 +19,8 @@ public class DonationController {
     IDonationService donationService;
 
     @GetMapping
-    ApiResponse<PageResponse<DonationResponse>> getDonations (@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "donationDate") String sort) {
-        return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonations(page, size, sort)).build();
+    ApiResponse<PageResponse<DonationResponse>> getDonations (@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "donationDate") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonations(page, size, sortField, sortDirection)).build();
     }
 
     @GetMapping("/get-by-id/{donationId}")

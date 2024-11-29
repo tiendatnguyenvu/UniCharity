@@ -11,4 +11,5 @@ import java.util.List;
 
 public interface CampaignRepository extends JpaRepository<Campaign, Integer> {
     List<Campaign> findByStatus(String status, Sort sort);
+    List<Campaign> findByTitleContainingIgnoreCase(String title, Sort sort);
 }

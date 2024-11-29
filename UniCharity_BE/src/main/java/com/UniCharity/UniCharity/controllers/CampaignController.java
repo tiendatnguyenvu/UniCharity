@@ -54,8 +54,13 @@ public class CampaignController {
     }
 
     @GetMapping("/get-by-status/{status}")
-    ApiResponse<PageResponse<CampaignResponse>> getCampaignByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+    ApiResponse<PageResponse<CampaignResponse>> getCampaignsByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
         return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaignsByStatus(status, page, size, sortField, sortDirection)).build();
+    }
+
+    @GetMapping("/get-by-title/{title}")
+    ApiResponse<PageResponse<CampaignResponse>> getCampaignsByTitle(@PathVariable("title") String title, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaignsByTitle(title, page, size, sortField, sortDirection)).build();
     }
 
     @GetMapping("/get-by-id/{campaignId}")

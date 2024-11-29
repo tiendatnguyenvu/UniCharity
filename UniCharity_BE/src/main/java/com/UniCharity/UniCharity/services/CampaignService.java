@@ -9,13 +9,11 @@ import com.UniCharity.UniCharity.entities.*;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
 import com.UniCharity.UniCharity.mapper.CampaignMapper;
-import com.UniCharity.UniCharity.mapper.PolicyMapper;
 import com.UniCharity.UniCharity.repositories.CampaignRepository;
 import com.UniCharity.UniCharity.repositories.PolicyRepository;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.ICampaignService;
 import com.UniCharity.UniCharity.utils.PageUtils;
-import com.UniCharity.UniCharity.utils.SortUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -101,6 +99,27 @@ public class CampaignService implements ICampaignService {
     @Override
     public CampaignResponse getCampaign(int campaignId) {
         return CampaignMapper.toCampaignResponse(campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED)));
+    }
+
+    @Override
+    public PageResponse<CampaignResponse> getCampaignsByTitle(String title, int page, int size, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
+
+        List<CampaignResponse> campaignResponses = campaignRepository.findByTitleContainingIgnoreCase(title, sort).stream().map(CampaignMapper::toCampaignResponse).toList();
+
+        Page<CampaignResponse> campaignPage = PageUtils.paginateList(campaignResponses, page, size);
+
+        return new PageResponse<>(
+                campaignPage.getContent(),
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
+                        .totalItem(campaignPage.getTotalElements())
+                        .currentPage(campaignPage.getNumber())
+                        .totalPages(campaignPage.getTotalPages())
+                        .pageSize(campaignPage.getSize())
+                        .build()
+        );
     }
 
     @Override
