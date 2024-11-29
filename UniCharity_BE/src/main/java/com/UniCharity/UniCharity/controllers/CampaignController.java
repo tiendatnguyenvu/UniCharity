@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/campaigns")
@@ -71,6 +72,11 @@ public class CampaignController {
     @GetMapping("/get-users-donated/{campaignId}")
     ApiResponse<List<Donation>> getAllUserDonated(@PathVariable("campaignId") int campaignId) {
         return  ApiResponse.<List<Donation>>builder().result(campaignService.getAllUserDonation(campaignId)).build();
+    }
+
+    @GetMapping("/count-by-month/{year}")
+    ApiResponse<Map<Integer, Long>> countCampaignsByMonth(@PathVariable("year") int year) {
+        return ApiResponse.<Map<Integer, Long>>builder().result(campaignService.countCampaignsByMonth(year)).build();
     }
 
     @PutMapping("/update/{campaignId}")

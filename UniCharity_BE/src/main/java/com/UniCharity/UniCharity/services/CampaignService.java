@@ -22,7 +22,9 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -173,5 +175,20 @@ public class CampaignService implements ICampaignService {
             }
         }
         return userDonated;
+    }
+
+    @Override
+    public Map<Integer, Long> countCampaignsByMonth(int year) {
+        List<Object[]> results = campaignRepository.countCampaignsByMonth(year);
+        Map<Integer, Long> campaignsByMonth = new HashMap<>();
+        for (int i = 1; i <= 12; i++) {
+            campaignsByMonth.put(i, 0L);
+        }
+        for (Object[] result : results){
+            Integer month = (Integer) result[0];
+            Long count = (Long) result[1];
+            campaignsByMonth.put(month, count);
+        }
+        return campaignsByMonth;
     }
 }
