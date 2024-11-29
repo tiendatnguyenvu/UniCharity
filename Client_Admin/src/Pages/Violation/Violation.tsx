@@ -7,89 +7,84 @@ import { toast } from "react-toastify";
 import { GetListCampaignByStatus } from "../../Service/CampaignService";
 // import { ResponseListCampaign } from "../../Models/ResponseAPI";
 import Table from "../../Components/Table/Table";
-import {
-  CAMPAIGN_STATUS,
-  LIMIT_CAMPAIGN,
-  PAGE_CAMPAIGN,
-  STATUS_PENDING,
-} from "../../Utils/CampaignConstant";
 import { PageObject } from "../../Models/Paginate";
 import Paginate from "../../Components/Paginate/Paginate";
-import {
-  GetListDonationAPI,
-  GetListDonationByCampaignIdAPI,
-} from "../../Service/DonationService";
-import { DonationGet } from "../../Models/Donation";
 import {
   PAGE_DONATION,
   SIZE_DONATION,
   SORT_DONATION,
 } from "../../Utils/DonationConstant";
 import { useForm } from "react-hook-form";
+import {
+  GetListPolicyAPI,
+  GetListPolicyByCampaignIdAPI,
+} from "../../Service/PolicyService";
+import { ItemPolicy, ResultPolicy } from "../../Models/Policy";
 
-const Donation = () => {
-  const [donation, setDonation] = useState<DonationGet[] | null>(null);
+const Violation = () => {
+  const [policies, setPolicies] = useState<ItemPolicy[] | null>(null);
   const [pageObject, setPageObject] = useState<PageObject>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getListDonations(PAGE_DONATION, SIZE_DONATION, SORT_DONATION);
+    getListPolicy(PAGE_DONATION, SIZE_DONATION);
   }, []);
 
   useEffect(() => {
-    getListDonations(PAGE_DONATION, SIZE_DONATION, SORT_DONATION);
+    getListPolicy(PAGE_DONATION, SIZE_DONATION);
   }, [status]);
 
   const handleClickTab = (tab: string) => {};
-  const getListDonations = (
+  const getListPolicy = (
     page: number = PAGE_DONATION,
-    limit: number = SIZE_DONATION,
-    sort: string = SORT_DONATION
+    limit: number = SIZE_DONATION
   ) => {
-    GetListDonationAPI(page, limit, sort)
+    GetListPolicyAPI(page, limit)
       .then((res) => {
-        if (res?.data) {
-          console.log("donation response", res);
-          setDonation(res?.data.result.items);
-          setPageObject(res?.data?.result.page);
+        if (res?.status == 200) {
+          if (res?.data) {
+            console.log("donation response", res);
+            setPolicies(res.data.result.items);
+            setPageObject(res?.data?.result.page);
+          }
         }
       })
       .catch((error) => {
         toast.warning(error);
-        setDonation(null);
+        setPolicies(null);
       });
   };
 
   const configs = [
     {
       label: "#",
-      render: (DonationGet: DonationGet) => DonationGet.id,
-    },
-    {
-      label: "name",
-      render: (DonationGet: DonationGet) => DonationGet.user.name,
-    },
-    {
-      label: "amount",
-      render: (DonationGet: DonationGet) => DonationGet.amount + " VNĐ",
+      render: (ItemPpolicy: ItemPolicy) => ItemPpolicy.id,
     },
     {
       label: "Campaign",
-      render: (DonationGet: DonationGet) =>
-        DonationGet.campaign.title.slice(0, 20) + "...",
+      render: (ItemPpolicy: ItemPolicy) =>
+        ItemPpolicy.campaign.title.slice(0, 20),
     },
     {
-      label: "donationDate",
-      render: (DonationGet: DonationGet) => DonationGet.donationDate,
+      label: "Created",
+      render: (ItemPpolicy: ItemPolicy) => ItemPpolicy.createdAt,
     },
     {
-      label: "paymentMethod",
-      render: (DonationGet: DonationGet) => DonationGet.paymentMethod,
+      label: "eligibilityCriteria",
+      render: (ItemPpolicy: ItemPolicy) => ItemPpolicy.eligibilityCriteria,
+    },
+    {
+      label: "policyDescription",
+      render: (ItemPpolicy: ItemPolicy) => ItemPpolicy.policyDescription,
+    },
+    {
+      label: "Updated",
+      render: (ItemPpolicy: ItemPolicy) => ItemPpolicy.updatedAt,
     },
   ];
 
   const handlePageChange = (pageNumber: number) => {
-    getListDonations(pageNumber, SIZE_DONATION, SORT_DONATION);
+    getListPolicy(pageNumber, SIZE_DONATION);
   };
 
   const {
@@ -106,26 +101,24 @@ const Donation = () => {
   });
 
   const handleClickFilter = () => {
+    toast.success(getValues("filter"));
     if (getValues("filter") != "") {
       const campaignId = Number(getValues("filter"));
-      GetListDonationByCampaignIdAPI(campaignId, 0, SIZE_DONATION).then(
-        (res) => {
-          if (res?.status == 200) {
-            setDonation(res.data.result.items);
-            setPageObject(res.data.result.page);
-          }
+      GetListPolicyByCampaignIdAPI(campaignId).then((res) => {
+        if (res?.status == 200) {
+          setPolicies(res.data.result.items);
+          setPageObject(res.data.result.page);
         }
-      );
-    }else
-    {
-      getListDonations()
+      });
+    } else {
+      getListPolicy();
     }
   };
 
   return (
     <div>
       <div className="container-fluid pt-4 px-4">
-        <h1 className="py-3">Donation Management</h1>
+        <h1 className="py-3">Policies Management</h1>
         <div className="col-12">
           <div className="shadow rounded bg-light custom-container  h-100 p-4">
             <div className="col-sm-12 col-xl-6">
@@ -153,7 +146,7 @@ const Donation = () => {
               </div>
             </div>
             <div className="d-flex py-2">
-              <h6 className="mb-4">Donation List</h6>
+              <h6 className="mb-4">Policies List</h6>
               {/* <button
                 className="btn btn-primary ms-auto"
                 onClick={() => {
@@ -168,12 +161,12 @@ const Donation = () => {
             {pageObject ? (
               <Paginate onPageChange={handlePageChange} page={pageObject!} />
             ) : (
-              <div></div>
+              <div><h1>Loading</h1></div>
             )}
-            {donation && donation.length > 0 ? (
+            {policies && policies.length > 0 ? (
               <div className="p-lg-1 rounded bg-white">
                 {/* content */}
-                <Table configs={configs} data={donation} />
+                <Table configs={configs} data={policies} />
               </div>
             ) : (
               <h1>(No Record)</h1>
@@ -185,4 +178,4 @@ const Donation = () => {
   );
 };
 
-export default Donation;
+export default Violation;

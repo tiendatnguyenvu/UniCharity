@@ -23,3 +23,22 @@ try {
     toast.warning("erorr:"+error);
 }    
 }
+
+export const GetListDonationByCampaignIdAPI = async (campaignId:number,page:number,limit:number)=>
+    {
+    try {
+        const response = await axiosInstance.get<ResponseListDonationAPI>(api+`/get-by-campaign-id/${campaignId}`,
+            {
+                params:
+                {
+                    page: page,
+                    size: limit,
+                }
+            }
+        );
+        console.log("response list donation api: ", response);
+        return response;
+    } catch (error) {
+        toast.warning("erorr:"+error);
+    }    
+    }

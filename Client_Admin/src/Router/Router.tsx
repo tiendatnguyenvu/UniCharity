@@ -6,6 +6,8 @@ import UpdateCampaign from "../Pages/Campaign/Form/UpdateCampaign";
 import CampaignImagesDetail from "../Pages/Campaign/Form/CampaignImagesDetail";
 import Policy from "../Pages/Policy/Policy";
 import Donation from "../Pages/Donation/Donation";
+import Report from "../Pages/Report/Report";
+import CreateReport from "../Pages/Report/Form/CreateReport";
 
 const Router = createBrowserRouter([
     {
@@ -34,8 +36,16 @@ const Router = createBrowserRouter([
                 element: <Policy/>
             },
             {
-                path:"donation",
+                path:"donations",
                 element: <Donation/>
+            },
+            {
+                path:"reports",
+                element: <Report/>
+            },
+            {
+                path:"reports/create",
+                element: <CreateReport/>
             },
         ]
             
