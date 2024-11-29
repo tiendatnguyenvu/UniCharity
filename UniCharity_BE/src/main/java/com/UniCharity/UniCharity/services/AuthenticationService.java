@@ -2,8 +2,11 @@ package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.AuthenticationRequest;
 import com.UniCharity.UniCharity.dto.request.IntrospectRequest;
+import com.UniCharity.UniCharity.dto.request.UserCreateRequest;
+import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.authentication.AuthenticationResponse;
 import com.UniCharity.UniCharity.dto.response.authentication.IntrospectResponse;
+import com.UniCharity.UniCharity.dto.response.authentication.RegisterResponse;
 import com.UniCharity.UniCharity.dto.response.user.UserResponse;
 import com.UniCharity.UniCharity.exception.AppException;
 import com.UniCharity.UniCharity.exception.ErrorCode;
@@ -21,7 +24,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +40,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService implements IAuthenticationService {
     UserRepository userRepository;
+    PasswordEncoder passwordEncoder;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -58,9 +64,33 @@ public class AuthenticationService implements IAuthenticationService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
         UserResponse userResponse = UserMapper.toUserResponse(user);
-
         var token = JwtUtils.generateToken(user);
         JwtUtils.addTokenToCookie(response, token);
         return AuthenticationResponse.builder().token(token).authenticated(true).user(userResponse).build();
+    }
+
+    @Override
+    public RegisterResponse register(UserCreateRequest request, HttpServletResponse response) {
+        User user = UserMapper.toUser(request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        try {
+            user = userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            // Kiểm tra xem ngoại lệ liên quan đến cột nào
+            if (exception.getCause() instanceof ConstraintViolationException) {
+                ConstraintViolationException constraintViolation = (ConstraintViolationException) exception.getCause();
+                String message = constraintViolation.getSQLException().getMessage();
+                // Kiểm tra thông báo lỗi và phát hiện lỗi trùng cột nào
+                if (message.contains("email")) {
+                    throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+                } else if (message.contains("username")) {
+                    throw new AppException(ErrorCode.USERNAME_ALREADY_EXISTS);
+                }
+            }
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+        var token = JwtUtils.generateToken(user);
+        JwtUtils.addTokenToCookie(response, token);
+        return new RegisterResponse(UserMapper.toUserResponse(user), token);
     }
 }

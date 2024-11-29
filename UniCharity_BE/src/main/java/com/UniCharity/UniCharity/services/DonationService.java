@@ -51,9 +51,13 @@ public class DonationService implements IDonationService {
     }
 
     @Override
-    public PageResponse<DonationResponse> getDonations(int page, int size, String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
-        Page<DonationResponse> donationPage = donationRepository.findAll(pageable).map(DonationMapper::toDonationResponse);
+    public PageResponse<DonationResponse> getDonations(int page, int size, String sortField, String sortDirection) {
+        List<DonationResponse> donationResponses = donationRepository.findAll().stream().map(DonationMapper::toDonationResponse).collect(Collectors.toList());
+
+        SortUtils.sortList(donationResponses, sortField, sortDirection);
+
+        Page<DonationResponse> donationPage = PageUtils.paginateList(donationResponses, page, size);
+
         return new PageResponse<>(
                 donationPage.getContent(),
                 com.UniCharity.UniCharity.dto.response.page.Page.builder()
@@ -111,5 +115,11 @@ public class DonationService implements IDonationService {
                         .pageSize(donationPage.getSize())
                         .build()
         );
+    }
+
+    @Override
+    public List<Object[]> getTopUserByCampaignId(int campaignId, int top) {
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        return donationRepository.findTopUsersByCampaignId(campaignId, PageRequest.of(0, top));
     }
 }

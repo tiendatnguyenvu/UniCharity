@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/campaigns")
@@ -54,8 +55,13 @@ public class CampaignController {
     }
 
     @GetMapping("/get-by-status/{status}")
-    ApiResponse<PageResponse<CampaignResponse>> getCampaignByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+    ApiResponse<PageResponse<CampaignResponse>> getCampaignsByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
         return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaignsByStatus(status, page, size, sortField, sortDirection)).build();
+    }
+
+    @GetMapping("/get-by-title/{title}")
+    ApiResponse<PageResponse<CampaignResponse>> getCampaignsByTitle(@PathVariable("title") String title, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaignsByTitle(title, page, size, sortField, sortDirection)).build();
     }
 
     @GetMapping("/get-by-id/{campaignId}")
@@ -66,6 +72,16 @@ public class CampaignController {
     @GetMapping("/get-users-donated/{campaignId}")
     ApiResponse<List<Donation>> getAllUserDonated(@PathVariable("campaignId") int campaignId) {
         return  ApiResponse.<List<Donation>>builder().result(campaignService.getAllUserDonation(campaignId)).build();
+    }
+
+    @GetMapping("/get-by-year/{year}")
+    ApiResponse<PageResponse<CampaignResponse>> getCampaignsByYear(@PathVariable("year") int year, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaignsByYear(year, page, size, sortField, sortDirection)).build();
+    }
+
+    @GetMapping("/count-by-month/{year}")
+    ApiResponse<Map<Integer, Long>> countCampaignsByMonth(@PathVariable("year") int year) {
+        return ApiResponse.<Map<Integer, Long>>builder().result(campaignService.countCampaignsByMonth(year)).build();
     }
 
     @PutMapping("/update/{campaignId}")
