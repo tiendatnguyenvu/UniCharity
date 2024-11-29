@@ -9,61 +9,49 @@ import com.UniCharity.UniCharity.entities.Image;
 import com.UniCharity.UniCharity.repositories.CampaignRepository;
 import com.UniCharity.UniCharity.repositories.ImageRepository;
 import com.UniCharity.UniCharity.services.iservices.IImageService;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class ImageService implements IImageService {
+    private final Cloudinary cloudinary;
     private final List<String> allowedMimeTypes = Arrays.asList("image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp", "image/tiff");
     ImageRepository imageRepository;
     CampaignRepository campaignRepository;
 
     @Override
-    public ImageResponse uploadImage(MultipartFile imageFile, int campaignId) throws IOException {
-        validateFile(imageFile); // Kiểm tra file hợp lệ
-        Campaign campaign = campaignRepository.findById(campaignId)
-                .orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
-        byte[] fileContent = imageFile.getBytes();
-        String encodedString = Base64.getEncoder().encodeToString(fileContent);
-        String imageDataUrl = "data:" + imageFile.getContentType() + ";base64," + encodedString;
-        Image image = new Image();
-        image.setCampaign(campaign);
-        image.setImagePath(imageDataUrl);
-        image.setImageType("illustration");
-        imageRepository.save(image);
-        return ImageMapper.toImageResponse(image);
+    public ImageResponse uploadImage(MultipartFile imageFile, String imageType, int campaignId) throws IOException {
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        return uploadImageToCloudinary(imageFile, imageType, campaign);
     }
 
     @Override
-    public List<ImageResponse> uploadImageList(List<MultipartFile> imageList, int campaignId) throws IOException {
+    public List<ImageResponse> uploadImages(List<MultipartFile> imageFiles, String imageType, int campaignId) throws IOException {
         Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
-        List<ImageResponse> imageResponseList = new ArrayList<>();
-        for (MultipartFile imageItem : imageList) {
-            byte[] fileContent = imageItem.getBytes();
-            String encodedString = Base64.getEncoder().encodeToString(fileContent);
-            String imageDataUrl = "data:" + imageItem.getContentType() + ";base64," + encodedString;
-            Image image = new Image();
-            image.setCampaign(campaign);
-            image.setImagePath(imageDataUrl);
-            image.setImageType("illustration");
-            imageRepository.save(image);
-            imageResponseList.add(ImageMapper.toImageResponse(image));
+        List<ImageResponse> result = new ArrayList<>();
+        for(MultipartFile file : imageFiles) {
+            result.add(uploadImageToCloudinary(file, imageType, campaign));
         }
-        return imageRepository.findByCampaignId(campaign.getId()).stream().map(ImageMapper::toImageResponse).toList();
+        return result;
     }
+
 
     @Override
     public ImageResponse dowloadImage(int imageId) {
@@ -82,13 +70,50 @@ public class ImageService implements IImageService {
         return imageRepository.findByCampaignId(image.getCampaign().getId()).stream().map(ImageMapper::toImageResponse).toList();
     }
 
-    public void validateFile(MultipartFile file) {
-        if (file == null || file.isEmpty()) {
-            throw new AppException(ErrorCode.EMPTY_FILE);
+    public ImageResponse uploadImageToCloudinary(MultipartFile imageFile, String imageType, Campaign campaign) throws IOException {
+        assert imageFile.getOriginalFilename() != null;
+        String publicValue = generatePublicString(imageFile.getOriginalFilename());
+        String extension = getFileName(imageFile.getOriginalFilename())[1];
+        File fileUpload = convert(imageFile);
+        log.info("FileUpload í: {}", fileUpload);
+        cloudinary.uploader().upload(fileUpload, ObjectUtils.asMap("public_id", publicValue));
+        cleanDisk(fileUpload);
+        String filePath = cloudinary.url().generate(StringUtils.join(publicValue, ".", extension));
+
+        Image image = new Image();
+        image.setCampaign(campaign);
+        image.setImagePath(filePath);
+        image.setImageType(imageType);
+        imageRepository.save(image);
+
+        return ImageMapper.toImageResponse(image);
+    }
+
+    private File convert(MultipartFile file) throws IOException {
+        assert file.getOriginalFilename() != null;
+        File convFile = new File(StringUtils.join(generatePublicString(file.getOriginalFilename()), getFileName(file.getOriginalFilename())[1]));
+        try(InputStream is = file.getInputStream()) {
+            Files.copy(is, convFile.toPath());
         }
-        String mimeType = file.getContentType();
-        if (!allowedMimeTypes.contains(mimeType)) {
-            throw new AppException(ErrorCode.FILE_TYPE_NOT_SUPPORTED);
+        return convFile;
+    }
+
+    public void cleanDisk(File file) {
+        try {
+            log.info("file.toPath(): {}", file.toPath());
+            Path filePath = file.toPath();
+            Files.delete(filePath);
+        } catch (IOException e) {
+            log.error(e.toString());
         }
+    }
+
+    public String generatePublicString(String originalName) {
+        String fileName = getFileName(originalName)[0];
+        return StringUtils.join(UUID.randomUUID().toString(), "_", fileName);
+    }
+
+    public String[] getFileName(String originalName) {
+        return originalName.split("\\.");
     }
 }

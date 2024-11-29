@@ -1,7 +1,6 @@
 package com.UniCharity.UniCharity.services;
 
 import com.UniCharity.UniCharity.dto.request.DonationCreateRequest;
-import com.UniCharity.UniCharity.dto.response.campaign.CampaignResponse;
 import com.UniCharity.UniCharity.dto.response.donation.DonationResponse;
 import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 import com.UniCharity.UniCharity.entities.Campaign;
@@ -14,6 +13,8 @@ import com.UniCharity.UniCharity.repositories.CampaignRepository;
 import com.UniCharity.UniCharity.repositories.DonationRepository;
 import com.UniCharity.UniCharity.repositories.UserRepository;
 import com.UniCharity.UniCharity.services.iservices.IDonationService;
+import com.UniCharity.UniCharity.utils.PageUtils;
+import com.UniCharity.UniCharity.utils.SortUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -73,17 +75,11 @@ public class DonationService implements IDonationService {
     public PageResponse<DonationResponse> getDonationsByUserId(int userId, int page, int size, String sortField, String sortDirection) {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
-                ? Sort.by(sortField).ascending()
-                : Sort.by(sortField).descending();
+        List<DonationResponse> donationResponses = donationRepository.findAllByUserId(userId).stream().map(DonationMapper::toDonationResponse).collect(Collectors.toList());
 
-        List<DonationResponse> donationResponses = donationRepository.findByUserId(userId).stream().map(DonationMapper::toDonationResponse).toList();
+        SortUtils.sortList(donationResponses, sortField, sortDirection);
 
-        Pageable pageable = PageRequest.of(page, size);
-
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), donationResponses.size());
-        Page<DonationResponse> donationPage = new PageImpl<>(donationResponses.subList(start, end), pageable, donationResponses.size());
+        Page<DonationResponse> donationPage = PageUtils.paginateList(donationResponses, page, size);
 
         return new PageResponse<>(
                 donationPage.getContent(),
@@ -96,5 +92,24 @@ public class DonationService implements IDonationService {
         );
     }
 
+    @Override
+    public PageResponse<DonationResponse> getDonationsByCampaignId(int campaignId, int page, int size, String sortField, String sortDirection) {
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
 
+        List<DonationResponse> donationResponses = donationRepository.findAllByCampaignId(campaign.getId()).stream().map(DonationMapper::toDonationResponse).collect(Collectors.toList());
+
+        SortUtils.sortList(donationResponses, sortField, sortDirection);
+
+        Page<DonationResponse> donationPage = PageUtils.paginateList(donationResponses, page, size);
+
+        return new PageResponse<>(
+                donationPage.getContent(),
+                com.UniCharity.UniCharity.dto.response.page.Page.builder()
+                        .totalItem(donationPage.getTotalElements())
+                        .currentPage(donationPage.getNumber())
+                        .totalPages(donationPage.getTotalPages())
+                        .pageSize(donationPage.getSize())
+                        .build()
+        );
+    }
 }
