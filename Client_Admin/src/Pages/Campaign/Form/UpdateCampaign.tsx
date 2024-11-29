@@ -27,6 +27,8 @@ const navigate = useNavigate();
 
   const handleSubmit = (data: UpdateCampaignDto, images: FileList | null) => {
     console.log("id:",id)
+    console.log(" data before:",data)
+    
     UpdateCampaignAPI(Number(id),data)
     .then(
       (res)=>{

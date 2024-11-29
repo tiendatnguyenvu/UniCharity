@@ -90,6 +90,12 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     policies: UpdateCampaignPolicyDto[]
   ) => {
     console.log("list policy:",policies)
+
+    const listPolicyUpdate = policies.map(item => {
+      const date = new Date().toUTCString();
+      return new UpdateCampaignPolicyDto(item.policyDescription,item.eligibilityCriteria,item.approvalRequired,date,date);
+    })
+
         return new UpdateCampaignDto(
       data.title,
       getValues("description"),
@@ -100,7 +106,7 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
       data.endDate,
       data.status,
       data.createdBy.id,
-      policies
+      listPolicyUpdate
     );
   };
 
@@ -110,8 +116,9 @@ const FormCampaign = ({ handleCampaign, initData, isUpdate, id }: Props) => {
     console.log("submit");
 
     if (isUpdate) {
-      console.log("Updata++++++++")
+
       const result = resquestUpdateCampaignPost(data, null, policies);
+
       console.log("result", result)
 
       handleCampaign(result, null);

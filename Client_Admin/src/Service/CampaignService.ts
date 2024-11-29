@@ -59,7 +59,7 @@ export const UpdateCampaignAPI = async (campaitnId: number,formInput: UpdateCamp
   try {
     console.log("into:",formInput)
     console.log("+++++++++++++++++++++++==============")
-    const response = await axiosInstance.put<ResponseUpdateCampaignAPI>(`${api}/update/${campaitnId}`,formInput);
+    const response = await axiosInstance.put<ResponseUpdateCampaignAPI>(`${api}/update/${campaitnId}`,formInput)
     console.log("Update Campaign response: ", response)
     return response;
   } catch (error) {

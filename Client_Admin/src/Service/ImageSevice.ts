@@ -15,12 +15,12 @@ export const UploadListCampaignImagesAPI = async (
   }
   const formData = new FormData();
   Array.from(images).forEach((file) => {
-    formData.append("image", file);
+    formData.append("files", file);
   });
 
   try {
     const response = await axiosInstance.post<ResponseListImageByCampaignIdAPI>(
-      `${api}upload-list/illustration/${campaignId}`,
+      `${api}dowload-by-campaignId/${campaignId}`,
       formData,
       {
         headers: {

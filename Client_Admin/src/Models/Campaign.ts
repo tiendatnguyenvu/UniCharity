@@ -101,10 +101,38 @@ export interface CampaignDto {
   endDate: Date;
   status: string;
   createdBy: User;
-  policies: CampaignPolicyDto[];
   images: [];
+  policies: CampaignPolicyDto[];
   campaignReports: [];
   donations: [];
+}
+
+
+
+export interface ResCampaignUpdateDto {
+  id: number;
+  title: string;
+  description: string;
+  targetAmount: number;
+  currentAmount: number;
+  createdAt: Date;
+  startDate: Date;
+  endDate: Date;
+  status: string;
+  createdBy: User;
+  images: [];
+  policies: ResCampaignUpdatePolicyDto[];
+  campaignReports: [];
+  donations: [];
+}
+
+export interface ResCampaignUpdatePolicyDto {
+  id: number
+  policyDescription: string
+  eligibilityCriteria: string
+  approvalRequired: string
+  createdAt: string
+  updatedAt: string
 }
 
 export interface GetCampaignDto {
@@ -128,24 +156,27 @@ export interface CampaignFormFiles {
 }
 
 export class UpdateCampaignPolicyDto {
-  id: number;
+  campaign: number;
   policyDescription: string;
   eligibilityCriteria: string;
   approvalRequired: string;
-  createdAt: Date | null;
-  updatedAt: Date | null;
+  createdAt:string;
+  updatedAt:string;
 
   constructor(
     _policydescription: string,
     _eligibilityCriteria: string,
-    _approvalRequired: string = "approved"
+    _approvalRequired: string = "approved",
+    _createdAt: string,
+    _updatedAt: string
+
   ) {
-    this.id = 0;
+    this.campaign = 0;
     this.policyDescription = _policydescription;
     this.eligibilityCriteria = _eligibilityCriteria;
     this.approvalRequired = _approvalRequired;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.createdAt = _createdAt;
+    this.updatedAt = _updatedAt;
   }
 }
 export class CampaignPolicyDto {

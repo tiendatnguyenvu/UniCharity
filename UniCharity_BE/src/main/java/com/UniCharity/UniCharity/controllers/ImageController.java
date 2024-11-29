@@ -21,12 +21,12 @@ import java.util.List;
 public class ImageController {
     IImageService imageService;
 
-    @PostMapping("upload-image/{campaignId}")
+    @PostMapping("/upload-image/{campaignId}")
     ApiResponse<ImageResponse> uploadImage(@RequestParam("file") MultipartFile file, @RequestParam(value = "type", defaultValue = ImageType.BANNER) String imageType, @PathVariable("campaignId") int campaignId) throws IOException {
         return ApiResponse.<ImageResponse>builder().result(imageService.uploadImage(file, imageType, campaignId)).build();
     }
 
-    @PostMapping("upload-images/{campaignId}")
+    @PostMapping("/upload-images/{campaignId}")
     ApiResponse<List<ImageResponse>> uploadImages(@RequestParam("files") List<MultipartFile> files, @RequestParam(value = "type", defaultValue = ImageType.BANNER) String imageType, @PathVariable("campaignId") int campaignId) throws IOException {
         return ApiResponse.<List<ImageResponse>>builder().result(imageService.uploadImages(files, imageType, campaignId)).build();
     }
