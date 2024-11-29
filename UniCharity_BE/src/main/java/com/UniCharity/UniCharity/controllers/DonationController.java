@@ -10,6 +10,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/donation")
 @CrossOrigin(origins = "http://localhost:5173")
@@ -33,8 +35,13 @@ public class DonationController {
         return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonationsByUserId(userId, page, size, sortField, sortDirection)).build();
     }
 
-    @GetMapping("get-by-campaign-id/{campaignId}")
+    @GetMapping("/get-by-campaign-id/{campaignId}")
     ApiResponse<PageResponse<DonationResponse>> getDonationsByCamppaignId(@PathVariable("campaignId") int campaignId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "donationDate") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
         return ApiResponse.<PageResponse<DonationResponse>>builder().result(donationService.getDonationsByCampaignId(campaignId, page, size, sortField, sortDirection)).build();
+    }
+
+    @GetMapping("/top-donors-of-campaign/{campaignId}")
+    ApiResponse<List<Object[]>> getTopUsersByCampaignId(@PathVariable("campaignId") int campaignId, @RequestParam(defaultValue = "5") int top) {
+        return ApiResponse.<List<Object[]>>builder().result(donationService.getTopUserByCampaignId(campaignId, top)).build();
     }
 }

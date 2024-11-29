@@ -116,4 +116,10 @@ public class DonationService implements IDonationService {
                         .build()
         );
     }
+
+    @Override
+    public List<Object[]> getTopUserByCampaignId(int campaignId, int top) {
+        Campaign campaign = campaignRepository.findById(campaignId).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_NOT_EXISTED));
+        return donationRepository.findTopUsersByCampaignId(campaignId, PageRequest.of(0, top));
+    }
 }
