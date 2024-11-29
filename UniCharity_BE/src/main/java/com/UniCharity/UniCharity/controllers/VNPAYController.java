@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -56,8 +57,8 @@ public class VNPAYController {
 
     // Sau khi hoàn tất thanh toán, VNPAY sẽ chuyển hướng trình duyệt về URL này
     @GetMapping("/payment-return")
-    public ApiResponse<String> paymentCompleted(HttpServletRequest request) {
-        System.out.println(request.getRequestURI());
-        return ApiResponse.<String>builder().result(transactionService.updateTransaction(this.transactionResponse.getId(), campaignResponse.getId(), request)).build();
+    public ResponseEntity<Void> paymentCompleted(HttpServletRequest request) {
+        String completeUrl = transactionService.updateTransaction(transactionResponse.getId(), campaignResponse.getId(), request);
+        return ResponseEntity.status(302).header("Location", completeUrl).build();
     }
 }
