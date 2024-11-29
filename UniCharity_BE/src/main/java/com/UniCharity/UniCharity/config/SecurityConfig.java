@@ -44,35 +44,29 @@ public class SecurityConfig {
     }
 
     // bật jwt
-    /*
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .cors(Customizer.withDefaults()) // Kích hoạt CORS
                 .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers(PUBLIC_ENDPOINT).permitAll() // Cho phép truy cập công khai các endpoint này
-                        .anyRequest().authenticated() // Yêu cầu xác thực cho tất cả các endpoint còn lại
-                )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // Thêm bộ lọc JWT trước UsernamePasswordAuthenticationFilter
         return httpSecurity.build();
     }
-     */
 
-    // tắt jwt
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF
-                .cors(Customizer.withDefaults()) // Kích hoạt CORS (nếu cần)
-                .authorizeHttpRequests(request -> request
-                        .anyRequest().permitAll() // Cho phép tất cả các request mà không cần xác thực
-                )
-                .sessionManagement(session -> session.disable()) // Vô hiệu hóa quản lý phiên
-                .securityContext(context -> context.disable()); // Vô hiệu hóa SecurityContext
-
-        return httpSecurity.build();
-    }
+//    // tắt jwt
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        httpSecurity
+//                .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF
+//                .cors(Customizer.withDefaults()) // Kích hoạt CORS (nếu cần)
+//                .authorizeHttpRequests(request -> request
+//                        .anyRequest().permitAll() // Cho phép tất cả các request mà không cần xác thực
+//                )
+//                .sessionManagement(session -> session.disable()) // Vô hiệu hóa quản lý phiên
+//                .securityContext(context -> context.disable()); // Vô hiệu hóa SecurityContext
+//
+//        return httpSecurity.build();
+//    }
 
     @Bean
     JwtDecoder jwtDecoder() {
