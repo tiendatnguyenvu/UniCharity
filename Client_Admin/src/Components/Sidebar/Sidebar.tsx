@@ -22,15 +22,19 @@ const Sidebar = () => {
                 </div>
                 <div className="navbar-nav w-100">
                     <div className="nav-item dropdown">
-                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i className="fa fa-laptop me-2"></i>Products</a>
+                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i className="fa fa-laptop me-2"></i>Campaign</a>
                         <div className="dropdown-menu bg-transparent border-0">
-                            <a onClick={() => navigate("product")} className="dropdown-item">Product</a>
-                            <a onClick={() => navigate("variant")} className="dropdown-item">Variant</a>
+                            <a onClick={() => navigate("/admin/campaigns")} className="dropdown-item">Campaign</a>
+                            <a onClick={() => navigate("/admin/Reports")} className="dropdown-item">Report</a>
+                            <a onClick={() => navigate("/admin/policies")} className="dropdown-item">Policies</a>
+                            <a onClick={() => navigate("/admin/violations")} className="dropdown-item">Violations</a>
+                            <a onClick={() => navigate("/admin/donation")} className="dropdown-item">Donation</a>
+
                         </div>
                     </div>
-                    <a onClick={() => navigate("campaigns")} className="nav-item nav-link"><i className="fa fa-th me-2"></i>Campaign</a>
-                    <a onClick={() => navigate("/attribute")} className="nav-item nav-link"><i className="fa fa-th me-2"></i>Attribute</a>
-                    <a onClick={() => navigate("/banner")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Banner</a>
+                    <a onClick={() => navigate("/admin/campaigns")} className="nav-item nav-link"><i className="fa fa-th me-2"></i>Campaign</a>
+                    <a onClick={() => navigate("/admin/policies")} className="nav-item nav-link"><i className="fa fa-th me-2"></i>Policy</a>
+                    <a onClick={() => navigate("/admin/donation")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Donation</a>
                     <a onClick={() => navigate("/category")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Category</a>
                     <a href="chart.html" className="nav-item nav-link"><i className="fa fa-chart-bar me-2"></i>Charts</a>
                     <div className="nav-item dropdown">
