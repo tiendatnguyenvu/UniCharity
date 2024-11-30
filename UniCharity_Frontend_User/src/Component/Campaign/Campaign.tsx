@@ -24,7 +24,7 @@ const Campaign = ({ campaign, className, handleDonateNowClick }: Props) => {
                 <div className="custom-block">
                     <div className="custom-block-body">
                         <h5 className="mb-3 one-line">{campaign.title}</h5>
-                        {/* <p className='one-line' >{campaign.description}</p> */}
+                        <p className='one-line' >{campaign.description}</p>
 
                         <div className="progress mt-4">
                             <div

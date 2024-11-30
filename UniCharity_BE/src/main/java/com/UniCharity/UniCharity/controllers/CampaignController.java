@@ -37,6 +37,7 @@ public class CampaignController {
 
     @PostMapping("/create")
     ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request) {
+
         CampaignResponse campaignResponse = campaignService.createCampaign(request);
         List<PolicyResponse> policyResponseList = policyService.createPolicyList(request.getPolicies(), campaignResponse.getId());
         campaignResponse = campaignService.getCampaign(campaignResponse.getId());

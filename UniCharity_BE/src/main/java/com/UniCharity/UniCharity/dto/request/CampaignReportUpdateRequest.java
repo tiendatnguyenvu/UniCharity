@@ -28,6 +28,7 @@ public class CampaignReportUpdateRequest {
     @Size(max = 1000, message = "LESSONS_LEARNED_TOO_LONG")
     String lessonsLearned;
 
+    @FutureOrPresent(message = "REPORT_DATE_MUST_BE_FUTURE_OR_PRESENT")
     LocalDate reportDate;
 
     @PastOrPresent(message = "UPDATE_DATE_MUST_BE_PAST_OR_PRESENT")

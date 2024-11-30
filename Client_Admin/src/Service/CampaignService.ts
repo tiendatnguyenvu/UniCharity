@@ -2,8 +2,6 @@ import { toast } from "react-toastify";
 import axiosInstance from "./axios_instance";
 import { CreateCampaignDto, UpdateCampaignDto } from "../Models/Campaign";
 import { ResponseCreateCampaignAPI, ResponseListCampaignAPI, ResponseUpdateCampaignAPI } from "../Models/ResponseAPI";
-import { RootChartYear, RootTableYear } from "../Models/CharYear";
-import { PAGE_TABLE_CHART_YEAR, SIZE_TABLE_CHART_YEAR } from "../Utils/ChartConstants";
 
 const api = "/campaigns";
 
@@ -66,40 +64,5 @@ export const UpdateCampaignAPI = async (campaitnId: number,formInput: UpdateCamp
     return response;
   } catch (error) {
     console.dir(error);
-  }
-};
-
-
-//chart
-export const CountByMonthChart = async (year:number) => {
-  try {
-    const response = await axiosInstance.get<RootChartYear>(`${api}/count-by-month/${year}`)
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const GetCampaignByYear = async (year:number) => {
-  try {
-    const response = await axiosInstance.get<RootChartYear>(`${api}/count-by-month/${year}`)
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const GetCampaignTableByYear = async (year:number,page:number=PAGE_TABLE_CHART_YEAR,size:number = SIZE_TABLE_CHART_YEAR) => {
-  try {
-    const response = await axiosInstance.get<RootTableYear>(`${api}/get-by-year/${year}`,{
-      params:{
-        page:page,
-        size:size
-      }
-    })
-    console.log("table:", response.data.result.items)
-    return response;
-  } catch (error) {
-    console.log(error);
   }
 };

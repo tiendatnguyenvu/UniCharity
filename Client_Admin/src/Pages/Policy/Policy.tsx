@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 // import "./CampaignTab.scss";
+import { CampaignDto } from "../../Models/Campaign";
 import { GetListCampaignByStatus } from "../../Service/CampaignService";
 // import { ResponseListCampaign } from "../../Models/ResponseAPI";
 import Table from "../../Components/Table/Table";
@@ -15,147 +16,161 @@ import {
 } from "../../Utils/CampaignConstant";
 import { PageObject } from "../../Models/Paginate";
 import Paginate from "../../Components/Paginate/Paginate";
-import {
-  GetListDonationAPI,
-  GetListDonationByCampaignIdAPI,
-} from "../../Service/DonationService";
-import { DonationGet } from "../../Models/Donation";
-import {
-  PAGE_DONATION,
-  SIZE_DONATION,
-  SORT_DONATION,
-} from "../../Utils/DonationConstant";
-import { useForm } from "react-hook-form";
-import {
-  GetListPolicyAPI,
-  GetListPolicyByCampaignIdAPI,
-} from "../../Service/PolicyService";
-import { ItemPolicy, ResultPolicy } from "../../Models/Policy";
 
-const Donation = () => {
-  const [policies, setPolicies] = useState<ItemPolicy[] | null>(null);
+
+const Policy = () => {
+  const [campaigns, setCampaigns] = useState<CampaignDto[] | null>(null);
   const [pageObject, setPageObject] = useState<PageObject>();
+  const [tabs, setTabs] = useState(CAMPAIGN_STATUS);
+
+  const [status, setStatus] = useState(STATUS_PENDING);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    getListPolicy(PAGE_DONATION, SIZE_DONATION);
+    setStatus(STATUS_PENDING);
+    getListCampaigns(STATUS_PENDING);
+    setTabs(CAMPAIGN_STATUS);
   }, []);
 
   useEffect(() => {
-    getListPolicy(PAGE_DONATION, SIZE_DONATION);
+    getListCampaigns(status);
   }, [status]);
 
-  const handleClickTab = (tab: string) => {};
-  const getListPolicy = (
-    page: number = PAGE_DONATION,
-    limit: number = SIZE_DONATION
+  // render tab
+  const  renderLabel = () => {
+    const  render = tabs.map((item,index)=> {
+      return(<React.Fragment key={item.status}>
+
+                <input 
+                      type="radio"
+                      name="pcss3t"
+                      id={`tab${index+1}`}
+                      className={`tab-content-${index+1==1 ?"first":(index+1 == tabs.length ? "last":index+1)}`}
+                      checked={item.status === status}
+                    />
+                    <label
+                      htmlFor={`tab${index+1}`}
+                      onClick={() => handleClickTab(item.status)}
+                    >
+                      <i className="icon-picture"></i>
+                      <h6>{item.status}</h6>
+                    </label>
+      </React.Fragment>)
+      
+    })
+    render.join("")
+      return render;
+  }
+
+  const handleClickTab = (tab: string) => {
+    // console.log(tab);
+    setStatus(tab);
+  };
+  const getListCampaigns = (
+    status: string,
+    page: number = PAGE_CAMPAIGN,
+    limit: number = LIMIT_CAMPAIGN
   ) => {
-    GetListPolicyAPI(page, limit)
+    GetListCampaignByStatus(status, page, limit)
       .then((res) => {
-        if (res?.status == 200) {
-          if (res?.data) {
-            console.log("donation response", res);
-            setPolicies(res.data.result.items);
-            setPageObject(res?.data?.result.page);
-          }
+        if (res?.data) {
+          // console.log("campaigns",res)
+          setCampaigns(res?.data?.result.items);
+          setPageObject(res?.data?.result.page);
         }
       })
       .catch((error) => {
         toast.warning(error);
-        setPolicies(null);
+        setCampaigns(null);
       });
   };
-
-  const configs = [
-    {
-      label: "#",
-      render: (ItemPpolicy: ItemPolicy) => ItemPpolicy.id,
-    },
-    {
-      label: "Campaign",
-      render: (ItemPpolicy: ItemPolicy) =>
-        ItemPpolicy.campaign.title.slice(0, 20),
-    },
-    {
-      label: "Created",
-      render: (ItemPpolicy: ItemPolicy) => ItemPpolicy.createdAt,
-    },
-    {
-      label: "eligibilityCriteria",
-      render: (ItemPpolicy: ItemPolicy) => ItemPpolicy.eligibilityCriteria,
-    },
-    {
-      label: "policyDescription",
-      render: (ItemPpolicy: ItemPolicy) => ItemPpolicy.policyDescription,
-    },
-    {
-      label: "Updated",
-      render: (ItemPpolicy: ItemPolicy) => ItemPpolicy.updatedAt,
-    },
-  ];
 
   const handlePageChange = (pageNumber: number) => {
-    getListPolicy(pageNumber, SIZE_DONATION);
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    getValues,
-  } = useForm({
-    // resolver: yupResolver(schema), // Sử dụng schema đơn giản
-    defaultValues: {
-      filter: "",
-    },
-  });
-
-  const handleClickFilter = () => {
-    toast.success(getValues("filter"));
-    if (getValues("filter") != "") {
-      const campaignId = Number(getValues("filter"));
-      GetListPolicyByCampaignIdAPI(campaignId).then((res) => {
-        if (res?.status == 200) {
-          setPolicies(res.data.result.items);
-          setPageObject(res.data.result.page);
+    GetListCampaignByStatus(status, pageNumber, LIMIT_CAMPAIGN)
+      .then((res) => {
+        if (res?.data?.result.items) {
+          setCampaigns(res?.data?.result.items);
+          setPageObject(res?.data.result.page);
         }
-      });
-    } else {
-      getListPolicy();
-    }
+      })
+      .catch((error) => toast.error(error));
   };
+  // console.log("campaign", campaigns);
+  const configs = [
+    {
+      label: "# ",
+      render: (campaign: CampaignDto) => campaign.id,
+    },
+    {
+      label: "Title",
+      render: (campaign: CampaignDto) => {
+        if (campaign.title.length > 20)
+          return campaign.title.slice(0, 10) + "...";
+        return campaign.title;
+      },
+    },
+    {
+      label: "Create By",
+      render: (campaign: CampaignDto) => campaign.createdBy.name
+    },
+    
+    {
+      label: "Created date",
+      render: (campaign: CampaignDto) => campaign.createdAt,
+    },
+
+    {
+      label: "Target amount",
+      render: (campaign: CampaignDto) => campaign.targetAmount,
+    },
+    {
+      label: "Current amount",
+      render: (campaign: CampaignDto) => campaign.currentAmount,
+    },
+    {
+      label: "Images",
+      render: (campaign: CampaignDto) => <button className="btn-sm btn-info rounded" onClick={() =>
+        navigate(`/admin/campaigns/update-images/${campaign.id}`)
+      }>Detail</button>,
+    },
+
+    {
+      label: "Action",
+      render: (campaign: CampaignDto) => {
+        return (
+          
+          <td className="d-flex">
+            <button
+              type="button"
+              className="btn-sm btn-success d-flex align-items-center me-2"
+              onClick={() =>
+                navigate(`/admin/campaigns/update/${campaign.id}`)
+              }
+            >
+              Update
+            </button>
+            <button
+              type="button"
+              className="btn-sm btn-warning d-flex align-items-center me-2"
+              onClick={() =>
+                navigate(`/admin/campaigns/get-by-id/${campaign.id}`)
+              }
+            >
+              Detail
+            </button>
+          </td>
+        );
+      },
+    },
+  ];
 
   return (
     <div>
       <div className="container-fluid pt-4 px-4">
-        <h1 className="py-3">Donation Management</h1>
+        <h1 className="py-3">Policies Management</h1>
         <div className="col-12">
           <div className="shadow rounded bg-light custom-container  h-100 p-4">
-            <div className="col-sm-12 col-xl-6">
-              <div className="bg-light rounded h-100 p-4">
-                <h1 className="mb-4">Filter</h1>
-                <form onSubmit={handleSubmit(handleClickFilter)}>
-                  <div className="mb-3 d-">
-                    <label htmlFor="exampleInputEmail1" className="form-label">
-                      Campaign Code
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      {...register("filter")}
-                    />
-                    <div id="emailHelp" className="form-text"></div>
-                  </div>
-
-                  <button type="submit" className="btn btn-primary">
-                    Filter
-                  </button>
-                </form>
-              </div>
-            </div>
             <div className="d-flex py-2">
               <h6 className="mb-4">Policies List</h6>
               {/* <button
@@ -168,19 +183,12 @@ const Donation = () => {
               </button> */}
             </div>
             <div className="bg-light rounded  table-responsive"></div>
-
-            {pageObject ? (
-              <Paginate onPageChange={handlePageChange} page={pageObject!} />
-            ) : (
-              <div><h1>Loading</h1></div>
-            )}
-            {policies && policies.length > 0 ? (
-              <div className="p-lg-1 rounded bg-white">
-                {/* content */}
-                <Table configs={configs} data={policies} />
+            {campaigns ? (
+              <div>
+               {/* content */}
               </div>
             ) : (
-              <h1>(No Record)</h1>
+              <h1>Loading...</h1>
             )}
           </div>
         </div>
@@ -189,4 +197,4 @@ const Donation = () => {
   );
 };
 
-export default Donation;
+export default Policy;

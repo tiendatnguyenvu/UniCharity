@@ -199,16 +199,4 @@ export class CampaignPolicyDto {
     this.createdAt = new Date();
     this.updatedAt = new Date();
   }
-
-}
-
-//thống kê
-export class RangeDateByCampaign {
-  campaignId: number;
-  top: number;
-
-  constructor(campaignId: number, top: number) {
-    this.campaignId = campaignId;
-    this.top = top;
-  }
 }

@@ -130,6 +130,7 @@ export interface ViolationActionGet {
       targetAmount: number;
       createdBy: number;
   }
+  
 
   export interface CampaignRequestRes {
     code: number

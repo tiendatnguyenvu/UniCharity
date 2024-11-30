@@ -81,7 +81,7 @@ const Campaign = () => {
                 page= {pageObject!}
                 
               />
-              <Table data={campaigns.sort((a, b) => a.id - b.id)} configs={configs} />
+              <Table data={campaigns} configs={configs} />
             </div>
           ):
           <div className="d-flex justify-content-center align-items-center vh-100">
@@ -174,7 +174,7 @@ const Campaign = () => {
       label: "Images",
       render: (campaign: CampaignDto) => <button className="btn-sm btn-info rounded" onClick={() =>
         navigate(`/admin/campaigns/update-images/${campaign.id}`)
-      }>Detail Image</button>,
+      }>Detail</button>,
     },
 
     {
@@ -183,7 +183,8 @@ const Campaign = () => {
         return (
           <td className="d-flex">
           
-         {status == "Pending" ?
+         {status == "Pending" &&
+          
             <button
               type="button"
               className="btn-sm btn-success d-flex align-items-center me-2"
@@ -192,11 +193,21 @@ const Campaign = () => {
               }
             >
               Update
-            </button>:<h6>No Action</h6>
+            </button>
 
          
         }
-            </td>
+         
+            <button
+              type="button"
+              className="btn-sm btn-warning d-flex align-items-center me-2"
+              onClick={() =>
+                navigate(`/admin/campaigns/get-by-id/${campaign.id}`)
+              }
+            >
+              Detail
+            </button>
+          </td>
         );
       },
     },
