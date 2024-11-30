@@ -32,7 +32,7 @@ import {
 } from "../../Service/PolicyService";
 import { ItemPolicy, ResultPolicy } from "../../Models/Policy";
 
-const Donation = () => {
+const Fund = () => {
     const {id} = useParams();
   const [Fund, setFund] = useState<ItemPolicy[] | null>(null);
   const [pageObject, setPageObject] = useState<PageObject>();
@@ -51,19 +51,19 @@ const Donation = () => {
     page: number = PAGE_DONATION,
     limit: number = SIZE_DONATION
   ) => {
-    GetListPolicyAPI(page, limit)
+    get(page, limit)
       .then((res) => {
         if (res?.status == 200) {
           if (res?.data) {
             console.log("donation response", res);
-            setPolicies(res.data.result.items);
+            setFund(res.data.result.items);
             setPageObject(res?.data?.result.page);
           }
         }
       })
       .catch((error) => {
         toast.warning(error);
-        setPolicies(null);
+        setFund(null);
       });
   };
 
@@ -190,4 +190,4 @@ const Donation = () => {
   );
 };
 
-export default Donation;
+export default Fund;

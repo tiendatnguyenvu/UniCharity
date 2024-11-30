@@ -12,6 +12,7 @@ import ReportChart from "../Pages/ReportChart/ReportChart";
 import UpdateReport from "../Pages/Report/Form/UpdateReport";
 import User from "../Pages/User/User";
 import CreateReport from "../Pages/Report/Form/CreateReport";
+import Fund from "../Pages/Fund/Fund";
 
 const Router = createBrowserRouter([
   {
@@ -54,8 +55,8 @@ const Router = createBrowserRouter([
         path: "reports/update/:id",
         element: <UpdateReport />,
       }, {
-        path: "report/fund-alocation/:id",
-        element: <UpdateReport />,
+        path: "reports/fund-alocation/:id",
+        element: <Fund />,
       },
      
       {
