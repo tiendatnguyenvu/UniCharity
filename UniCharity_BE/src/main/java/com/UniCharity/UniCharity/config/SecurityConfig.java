@@ -53,21 +53,6 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-//    // tắt jwt
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity
-//                .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF
-//                .cors(Customizer.withDefaults()) // Kích hoạt CORS (nếu cần)
-//                .authorizeHttpRequests(request -> request
-//                        .anyRequest().permitAll() // Cho phép tất cả các request mà không cần xác thực
-//                )
-//                .sessionManagement(session -> session.disable()) // Vô hiệu hóa quản lý phiên
-//                .securityContext(context -> context.disable()); // Vô hiệu hóa SecurityContext
-//
-//        return httpSecurity.build();
-//    }
-
     @Bean
     JwtDecoder jwtDecoder() {
         SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");

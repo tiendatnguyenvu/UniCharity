@@ -19,7 +19,7 @@ public class FundAllocationMapper {
         fundAllocation.setDescription(request.getDescription());
         fundAllocation.setCreatedAt(request.getCreatedAt());
 
-        return null;
+        return fundAllocation;
     }
 
     public static FundAllocationResponse toFundAllocationResponse(FundAllocation fundAllocation) {
