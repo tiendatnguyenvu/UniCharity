@@ -44,23 +44,7 @@ public class SecurityConfig {
     }
 
     // bật jwt
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-<<<<<<< HEAD
-                .cors(Customizer.withDefaults()) // Kích hoạt CORS
-                .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // Thêm bộ lọc JWT trước UsernamePasswordAuthenticationFilter
-=======
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(request -> request
-                        .anyRequest().permitAll()
-                )
-                .csrf(csrf -> csrf.disable());
 
->>>>>>> 1367e0b (update)
-        return httpSecurity.build();
-    }
 
     @Bean
     JwtDecoder jwtDecoder() {
@@ -70,6 +54,16 @@ public class SecurityConfig {
                 .macAlgorithm(MacAlgorithm.HS512)
                 .build();
     }
+
+    // tắt jwt
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        httpSecurity
+//                .cors(Customizer.withDefaults()) // Kích hoạt CORS
+//                .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF
+//                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // Thêm bộ lọc JWT trước UsernamePasswordAuthenticationFilter
+//        return httpSecurity.build();
+//    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
