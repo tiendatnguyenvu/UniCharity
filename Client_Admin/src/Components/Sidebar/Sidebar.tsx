@@ -37,9 +37,8 @@ const Sidebar = () => {
                     <a onClick={() => navigate("/admin/donations")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Donation</a>
                     <a onClick={() => navigate("/admin/reports")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Report</a>
                     <a onClick={() => navigate("/admin/violation")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Violation</a>
-                    <a onClick={() => navigate("/admin/chart")} className="nav-item nav-link"><i className="fa fa-chart-bar me-2"></i>Charts</a>
                     <div className="nav-item dropdown">
-                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i className="fa fa-laptop me-2"></i>Chart</a>
+                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i className="fa fa-chart-bar me-2"></i>Chart</a>
                         <div className="dropdown-menu bg-transparent border-0">
                             <a onClick={() => navigate("/admin/chart/top")} className="dropdown-item">Top</a>
                             <a onClick={() => navigate("/admin/chart/year")} className="dropdown-item">Year</a>

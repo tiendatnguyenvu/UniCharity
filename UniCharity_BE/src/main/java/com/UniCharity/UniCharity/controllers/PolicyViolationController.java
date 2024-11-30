@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class PolicyViolationController {
     IPolicyViolationService service;
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
     ApiResponse<PolicyViolationResponse> createPolicyViolation(@RequestBody @Valid PolicyViolationCreateRequest request) {
         return ApiResponse.<PolicyViolationResponse>builder().result(service.createPolicyViolation(request)).build();
     }
@@ -36,6 +38,7 @@ public class PolicyViolationController {
     }
 
     @PutMapping("/update/{policyViolationId}")
+    @PreAuthorize("hasRole('ADMIN')")
     ApiResponse<PolicyViolationResponse> updatePolicyViolation(@PathVariable("policyViolationId") int policyViolationId,@RequestBody @Valid PolicyViolationUpdateRequest request) {
         return ApiResponse.<PolicyViolationResponse>builder().result(service.updatePolicyViolation(policyViolationId, request)).build();
     }

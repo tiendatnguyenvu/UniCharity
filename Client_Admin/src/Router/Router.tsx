@@ -11,6 +11,7 @@ import CreateReport from "../Pages/Report/Form/CreateReport";
 import ReportYear from "../Pages/ReportChart/ReportYear";
 import ReportChart from "../Pages/ReportChart/ReportChart";
 import UpdateReport from "../Pages/Report/Form/UpdateReport";
+import User from "../Pages/User/User";
 
 const Router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const Router = createBrowserRouter([
       {
         path: "chart/year",
         element: <ReportYear />,
+      },
+      {
+        path: "users",
+        element: <User />,
       },
     ],
   },
