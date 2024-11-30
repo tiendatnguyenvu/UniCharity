@@ -7,11 +7,11 @@ import CampaignImagesDetail from "../Pages/Campaign/Form/CampaignImagesDetail";
 import Policy from "../Pages/Policy/Policy";
 import Donation from "../Pages/Donation/Donation";
 import Report from "../Pages/Report/Report";
-import CreateReport from "../Pages/Report/Form/CreateReport";
 import ReportYear from "../Pages/ReportChart/ReportYear";
 import ReportChart from "../Pages/ReportChart/ReportChart";
 import UpdateReport from "../Pages/Report/Form/UpdateReport";
 import User from "../Pages/User/User";
+import CreateReport from "../Pages/Report/Form/CreateReport";
 
 const Router = createBrowserRouter([
   {
