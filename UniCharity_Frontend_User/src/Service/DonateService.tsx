@@ -13,9 +13,3 @@ export const donateAPI = async (dataPost: DonationPost) => {
         handleError(error);
     }
 };
-
-// import axios from "axios";
-
-// export const donateAPI = async (data: DonationPost) => {
-//   return axios.post("/api/donation", data);
-// };

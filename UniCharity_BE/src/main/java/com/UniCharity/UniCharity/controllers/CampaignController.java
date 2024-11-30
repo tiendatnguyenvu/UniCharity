@@ -36,8 +36,8 @@ public class CampaignController {
     IPolicyService policyService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
     ApiResponse<CampaignResponse> createCampaign(@RequestBody @Valid CampaignCreateRequest request) {
-
         CampaignResponse campaignResponse = campaignService.createCampaign(request);
         List<PolicyResponse> policyResponseList = policyService.createPolicyList(request.getPolicies(), campaignResponse.getId());
         campaignResponse = campaignService.getCampaign(campaignResponse.getId());
@@ -45,17 +45,20 @@ public class CampaignController {
     }
 
     @PostMapping("/create-request-campaign")
+
     ApiResponse<CampaignResponse> createRequest(@RequestBody @Valid CampaignRequest request) {
             return ApiResponse.<CampaignResponse>builder().result(campaignService.createRequest(request)).build();
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     ApiResponse<PageResponse<CampaignResponse>> getCampaigns(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
         return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaigns(page, size, sortField, sortDirection)).build();
     }
 
 
     @GetMapping("/get-by-status/{status}")
+
     ApiResponse<PageResponse<CampaignResponse>> getCampaignsByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
         return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaignsByStatus(status, page, size, sortField, sortDirection)).build();
     }
@@ -86,11 +89,13 @@ public class CampaignController {
     }
 
     @PutMapping("/update/{campaignId}")
+    @PreAuthorize("hasRole('ADMIN')")
     ApiResponse<CampaignResponse> updateCampaign(@PathVariable("campaignId") int campaignId, @RequestBody @Valid CampaignUpdateRequest request) {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.updateCampaign(campaignId, request)).build();
     }
 
     @PutMapping("/update-status/{campaignId}")
+    @PreAuthorize("hasRole('ADMIN')")
     ApiResponse<CampaignResponse> updateCampaignStatus(@PathVariable("campaignId") int campaignId) {
         return ApiResponse.<CampaignResponse>builder().result(campaignService.updateCampaignStatus(campaignId)).build();
     }

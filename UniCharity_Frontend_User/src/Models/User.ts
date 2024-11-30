@@ -6,4 +6,13 @@ export interface UserGet {
     role: string;
   }
 
+  export interface RegisterRes {
+    code: number
+    result: Result
+  }
+  
+  export interface Result {
+    userResponse: UserGet
+    token: string
+  }
   

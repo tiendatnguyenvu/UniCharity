@@ -15,12 +15,12 @@ import Modal from "react-modal";
 import { processHtml } from "../../Utils/HelperMethod";
 import { DonationPost } from "../../Service/AuthService";
 import { donateAPI } from "../../Service/DonateService";
-import axios from "axios";
 
 const DetailCampaignPage = () => {
   const { id } = useParams();
   const [campaignDT, setCampaignDT] = useState<CampaignGet>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [donationCount, setDonationCount] = useState(5); // Số lượng hiển thị ban đầu
   const navigate = useNavigate();
 
   // Fetch campaign details
@@ -40,9 +40,26 @@ const DetailCampaignPage = () => {
     fetchCampaign();
   }, [id]);
 
-  console.log(campaignDT);
-  
+  // Tính tổng số tiền quyên góp của từng user
+  const calculateTotalDonationsPerUser = (donations: DonationGet[]) => {
+    const totals = donations.reduce((acc, curr) => {
+      const userName = curr.user.name;
+      if (!acc[userName]) {
+        acc[userName] = 0; // Nếu user chưa tồn tại, khởi tạo giá trị
+      }
+      acc[userName] += curr.amount; // Cộng dồn số tiền
+      return acc;
+    }, {} as Record<string, number>);
 
+    return Object.entries(totals).map(([name, total]) => ({
+      name,
+      total,
+    }));
+  };
+
+  const donationTotals = calculateTotalDonationsPerUser(campaignDT?.donations || []);
+
+  // Xử lý donate
   const handleDonate = async (values: any) => {
     if (!id) return;
 
@@ -56,30 +73,10 @@ const DetailCampaignPage = () => {
     try {
       const response = await donateAPI(data);
       if (response?.data.code === 1000) {
-        toast.success("Quyên góp thành công! Cảm ơn bạn đã đóng góp.");
         setIsModalOpen(false);
-
-        // Lấy URL thanh toán từ API
         const paymentUrl = response?.data.result;
         if (paymentUrl) {
-          console.log(paymentUrl);
-          
-          // Gửi request đến VNPay qua axios
-          const paymentResponse = await axios.get(paymentUrl, {
-            withCredentials: false, // VNPay không yêu cầu gửi cookies từ client
-          });
-
-          // Xử lý phản hồi từ VNPay
-          if (paymentResponse?.data.responseCode === "00") {
-            toast.success("Thanh toán thành công!");
-            // Cập nhật thông tin chiến dịch
-            const updatedCampaign = await CampaignGetByIDAPI(Number(id));
-            if (updatedCampaign?.data.code === 1000) {
-              setCampaignDT(updatedCampaign?.data.result);
-            }
-          } else {
-            toast.error("Thanh toán thất bại. Vui lòng thử lại.");
-          }
+          window.location.href = paymentUrl;
         } else {
           toast.error("Không tìm thấy URL thanh toán VNPay.");
         }
@@ -90,7 +87,6 @@ const DetailCampaignPage = () => {
       toast.error("Không thể hoàn tất quyên góp. Vui lòng kiểm tra lại thông tin.");
     }
   };
-
 
   const formik = useFormik({
     initialValues: {
@@ -111,7 +107,7 @@ const DetailCampaignPage = () => {
     onSubmit: handleDonate,
   });
 
-  const configs = [
+  const rankingConfigs = [
     {
       label: "#",
       render: (don: DonationGet, index: number) => {
@@ -132,17 +128,7 @@ const DetailCampaignPage = () => {
     },
   ];
 
-<<<<<<< HEAD
   const totalConfigs = [
-    {
-      label: "#",
-      render: (don: DonationGet, index: number) => {
-        if (index + 1 === 1) return <img src={No1Icon} alt="Top 1" width="24" height="24" />;
-        if (index + 1 === 2) return <img src={No2Icon} alt="Top 2" width="24" height="24" />;
-        if (index + 1 === 3) return <img src={No3Icon} alt="Top 3" width="24" height="24" />;
-        return index + 1;
-      },
-    },
     {
       label: "Tên",
       render: (don: { name: string; total: number }) => don.name,
@@ -154,8 +140,6 @@ const DetailCampaignPage = () => {
     },
   ];
 
-=======
->>>>>>> 34eaa518179f5e627445d456e7029f1ffb34a8df
   return (
     <section className="news-section section-padding">
       <div className="container">
@@ -166,11 +150,14 @@ const DetailCampaignPage = () => {
         <div className="row">
           <div className="col-lg-7 col-12">
             <blockquote>{campaignDT?.title}</blockquote>
-            <div style={{ maxWidth: "100%" }} dangerouslySetInnerHTML={{ __html: processHtml(a) }} />
+            <div
+              style={{ maxWidth: "100%" }}
+              dangerouslySetInnerHTML={{
+                __html: processHtml(campaignDT?.description ?? `<p><strong>Chưa có nội dung</strong></p>`),
+              }}
+            />
             <h5 className="mb-3 pt-4" style={{ borderTop: "solid" }}>Nhà hảo tâm hàng đầu</h5>
-            {campaignDT?.donations && campaignDT?.donations.length > 0 && (
-              <Table configs={configs} data={campaignDT?.donations} />
-            )}
+            <Table configs={totalConfigs} data={donationTotals} />
           </div>
           <div className="col-lg-4 col-12 mx-auto mt-4 mt-lg-0">
             <div style={{ position: "sticky", top: "20px", right: "0px" }}>
@@ -195,42 +182,33 @@ const DetailCampaignPage = () => {
       >
         <form onSubmit={formik.handleSubmit} className="custom-form contact-form">
           <h2>Thông tin của bạn</h2>
-          <div>
-            <input
-              type="text"
-              name="name"
-              className="form-control"
-              placeholder="Tên của bạn"
-              {...formik.getFieldProps("name")}
-            />
-            {formik.touched.name && formik.errors.name && (
-              <p className="error text-danger">{formik.errors.name}</p>
-            )}
-          </div>
-          <div>
-            <input
-              type="email"
-              name="email"
-              className="form-control"
-              placeholder="Jackdoe@gmail.com"
-              {...formik.getFieldProps("email")}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <p className="error text-danger">{formik.errors.email}</p>
-            )}
-          </div>
-          <div>
-            <input
-              type="text"
-              name="amount"
-              className="form-control"
-              placeholder="Số tiền (VND)"
-              {...formik.getFieldProps("amount")}
-            />
-            {formik.touched.amount && formik.errors.amount && (
-              <p className="error text-danger">{formik.errors.amount}</p>
-            )}
-          </div>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Tên của bạn"
+            {...formik.getFieldProps("name")}
+          />
+          {formik.touched.name && formik.errors.name && (
+            <p className="error text-danger">{formik.errors.name}</p>
+          )}
+          <input
+            type="email"
+            className="form-control"
+            placeholder="Email của bạn"
+            {...formik.getFieldProps("email")}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <p className="error text-danger">{formik.errors.email}</p>
+          )}
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Số tiền (VND)"
+            {...formik.getFieldProps("amount")}
+          />
+          {formik.touched.amount && formik.errors.amount && (
+            <p className="error text-danger">{formik.errors.amount}</p>
+          )}
           <button type="submit" className="form-control">Quyên góp</button>
         </form>
       </Modal>
@@ -239,5 +217,3 @@ const DetailCampaignPage = () => {
 };
 
 export default DetailCampaignPage;
-
-const a = `<p><strong>Người ta thường ví vùng...</strong></p>`;
