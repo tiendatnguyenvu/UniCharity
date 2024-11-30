@@ -32,16 +32,9 @@ public enum ErrorCode {
 
     // Campaign
     CAMPAIGN_NOT_EXISTED(1051, "Campaign not existed", HttpStatus.NOT_FOUND),
-    CAMPAIGN_TITLE_IS_REQUIRED(1052, "Campaign title is required", HttpStatus.BAD_REQUEST),
-    CAMPAIGN_TITLE_TOO_LONG(1053, "Campaign title must not exceed 100 characters", HttpStatus.BAD_REQUEST),
-    DESCRIPTION_IS_REQUIRED(1054, "Description is required", HttpStatus.BAD_REQUEST),
-    DESCRIPTION_TOO_LONG(1055, "Description must not exceed 1000 characters", HttpStatus.BAD_REQUEST),
-    TARGET_AMOUNT_MUST_BE_POSITIVE(1056, "Target amount must be greater than 0", HttpStatus.BAD_REQUEST),
-    CURRENT_AMOUNT_MUST_BE_NON_NEGATIVE(1057, "Current amount must be non-negative", HttpStatus.BAD_REQUEST),
-    STATUS_CANNOT_BE_BLANK(1058, "Status cannot be blank", HttpStatus.BAD_REQUEST),
-    INVALID_STATUS_VALUE(1059, "Status must be one of: active, inactive, completed, cancelled", HttpStatus.BAD_REQUEST),
-    CAMPAIGN_ID_MUST_BE_POSITIVE(1060, "ID chiến dịch phải là số dương", HttpStatus.BAD_REQUEST),
-    CAMPAIGN_STATUS_NOT_PENDING(1061, "Campaign status must be 'Pending'", HttpStatus.BAD_REQUEST),
+    CAMPAIGN_STATUS_NOT_PENDING(1052, "Campaign status must be 'Pending'", HttpStatus.BAD_REQUEST),
+    CAMPAiGN_MUST_BE_COMPLETED(1053, "Campaign has to be completed", HttpStatus.BAD_REQUEST),
+    CAMPAIGN_HAS_BEEN_REPORT(1056, "Campaign has already been reported", HttpStatus.BAD_REQUEST),
 
     // CampaignReport
     CAMPAIGN_REPORT_NOT_EXISTED(2001, "Campaign reposrt not existed", HttpStatus.NOT_FOUND),

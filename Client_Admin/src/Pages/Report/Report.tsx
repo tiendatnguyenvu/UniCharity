@@ -26,70 +26,102 @@ import {
   SORT_DONATION,
 } from "../../Utils/DonationConstant";
 import { useForm } from "react-hook-form";
+import {
+  GetListPolicyAPI,
+  GetListPolicyByCampaignIdAPI,
+} from "../../Service/PolicyService";
+import { getAllReportAPI } from "../../Service/ReportService";
+import { PAGE_REPORT, SIZE_REPORT } from "../../Utils/ReportConstant";
+import { ReportItem } from "../../Models/Report";
 
-const Donation = () => {
-  const [donation, setDonation] = useState<DonationGet[] | null>(null);
+const Report = () => {
+  const [report, setReport] = useState<ReportItem[] | null>(null);
   const [pageObject, setPageObject] = useState<PageObject>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getListDonations(PAGE_DONATION, SIZE_DONATION, SORT_DONATION);
+    GetListReport();
   }, []);
 
   useEffect(() => {
-    getListDonations(PAGE_DONATION, SIZE_DONATION, SORT_DONATION);
+    GetListReport();
   }, [status]);
 
   const handleClickTab = (tab: string) => {};
-  const getListDonations = (
-    page: number = PAGE_DONATION,
-    limit: number = SIZE_DONATION,
-    sort: string = SORT_DONATION
+  const GetListReport = (
+    page: number = PAGE_REPORT,
+    limit: number = SIZE_REPORT
   ) => {
-    GetListDonationAPI(page, limit, sort)
+    getAllReportAPI(page, limit)
       .then((res) => {
-        if (res?.data) {
-          console.log("donation response", res);
-          setDonation(res?.data.result.items);
-          setPageObject(res?.data?.result.page);
+        if (res?.status == 200) {
+          if (res?.data) {
+            console.log("donation response", res);
+            setReport(res.data.result.items);
+            setPageObject(res?.data?.result.page);
+          }
         }
       })
       .catch((error) => {
         toast.warning(error);
-        setDonation(null);
+        setReport(null);
       });
   };
 
   const configs = [
     {
       label: "#",
-      render: (DonationGet: DonationGet) => DonationGet.id,
+      render: (item: ReportItem) => item.id,
     },
     {
-      label: "name",
-      render: (DonationGet: DonationGet) => DonationGet.user.name,
+        label: "Campaign",
+        render: (item: ReportItem) =>
+          item.campaign.title.slice(0, 20),
+      },
+    {
+      label: "Results Summary",
+      render: (item: ReportItem) =>
+        item.resultsSummary,
     },
     {
-      label: "amount",
-      render: (DonationGet: DonationGet) => DonationGet.amount + " VNĐ",
+      label: "Lessons Learned",
+      render: (item: ReportItem) => item.lessonsLearned,
     },
     {
-      label: "Campaign",
-      render: (DonationGet: DonationGet) =>
-        DonationGet.campaign.title.slice(0, 20) + "...",
+      label: "Created At",
+      render: (item: ReportItem) => item.createdAt,
     },
+
     {
-      label: "donationDate",
-      render: (DonationGet: DonationGet) => DonationGet.donationDate,
-    },
-    {
-      label: "paymentMethod",
-      render: (DonationGet: DonationGet) => DonationGet.paymentMethod,
-    },
+      label: "Action",
+      render: (item: ReportItem) => 
+         <div className="d-flex">
+           <button
+        type="button"
+        className="btn-sm btn-success d-flex align-items-center me-2"
+        onClick={() =>
+          navigate(`/admin/reports/update/${item.id}`)
+        }
+      >
+        Update
+      </button>
+      <button
+        type="button"
+        className="btn-sm btn-warning d-flex align-items-center me-2"
+        onClick={() =>
+          navigate(`/admin/reports/fund-alocation/${item.id}`)
+        }
+      >
+        Create Fund alocation
+      </button>
+         </div>
+    }
+
+  
   ];
 
   const handlePageChange = (pageNumber: number) => {
-    getListDonations(pageNumber, SIZE_DONATION, SORT_DONATION);
+    GetListReport(pageNumber, SIZE_REPORT);
   };
 
   const {
@@ -105,30 +137,15 @@ const Donation = () => {
     },
   });
 
-  const handleClickFilter = () => {
-    if (getValues("filter") != "") {
-      const campaignId = Number(getValues("filter"));
-      GetListDonationByCampaignIdAPI(campaignId, 0, SIZE_DONATION).then(
-        (res) => {
-          if (res?.status == 200) {
-            setDonation(res.data.result.items);
-            setPageObject(res.data.result.page);
-          }
-        }
-      );
-    }else
-    {
-      getListDonations()
-    }
-  };
+ 
 
   return (
     <div>
       <div className="container-fluid pt-4 px-4">
-        <h1 className="py-3">Donation Management</h1>
+        <h1 className="py-3">Report Management</h1>
         <div className="col-12">
           <div className="shadow rounded bg-light custom-container  h-100 p-4">
-            <div className="col-sm-12 col-xl-6">
+            {/* <div className="col-sm-12 col-xl-6">
               <div className="bg-light rounded h-100 p-4">
                 <h1 className="mb-4">Filter</h1>
                 <form onSubmit={handleSubmit(handleClickFilter)}>
@@ -151,29 +168,29 @@ const Donation = () => {
                   </button>
                 </form>
               </div>
-            </div>
+            </div> */}
             <div className="d-flex py-2">
-              <h6 className="mb-4">Donation List</h6>
-              {/* <button
+              <h6 className="mb-4">Report List</h6>
+              <button
                 className="btn btn-primary ms-auto"
                 onClick={() => {
-                  navigate("/admin/campaigns/create");
+                  navigate("/admin/reports/create");
                 }}
               >
-                Create a new campaign
-              </button> */}
+                Create a new Report
+              </button>
             </div>
             <div className="bg-light rounded  table-responsive"></div>
 
             {pageObject ? (
               <Paginate onPageChange={handlePageChange} page={pageObject!} />
             ) : (
-              <div></div>
+              <div><h1>Loading</h1></div>
             )}
-            {donation && donation.length > 0 ? (
+            {report && report.length > 0 ? (
               <div className="p-lg-1 rounded bg-white">
                 {/* content */}
-                <Table configs={configs} data={donation} />
+                <Table configs={configs} data={report} />
               </div>
             ) : (
               <h1>(No Record)</h1>
@@ -185,4 +202,4 @@ const Donation = () => {
   );
 };
 
-export default Donation;
+export default Report;
