@@ -55,6 +55,7 @@ const Navbar = () => {
                                 onClick={() => navigate("/history-donation")}
                             >History donation</a>
                         </li>
+
                         {isLoggedIn() ? (
                             <div className="btn-group">
                                 <div className="dropdown">
@@ -65,7 +66,7 @@ const Navbar = () => {
                                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         {/* <a className="dropdown-item" href="#">Profile</a> */}
                                         <a className="dropdown-item"
-                                            style={{cursor: "pointer"}}
+                                            style={{ cursor: "pointer" }}
                                             onClick={handleLoggout}
                                         >Log out</a>
                                     </div>
@@ -84,7 +85,9 @@ const Navbar = () => {
                                 <a className="nav-link custom-btn custom-border-btn btn">Login</a>
                             </li>
 
-                            <li className="nav-item ms-3">
+                            <li className="nav-item ms-3"
+                                onClick={() => navigate("/register")}
+                            >
                                 <a className="nav-link custom-btn custom-border-btn btn">Register</a>
                             </li>
                         </>}
