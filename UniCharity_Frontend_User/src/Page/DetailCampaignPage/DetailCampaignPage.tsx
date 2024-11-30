@@ -15,13 +15,12 @@ import Modal from "react-modal";
 import { processHtml } from "../../Utils/HelperMethod";
 import { DonationPost } from "../../Service/AuthService";
 import { donateAPI } from "../../Service/DonateService";
-import axios from "axios";
 
 const DetailCampaignPage = () => {
   const { id } = useParams();
   const [campaignDT, setCampaignDT] = useState<CampaignGet>();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [donationCount, setDonationCount] = useState(5);  // Set initial donation count
+  const [donationCount, setDonationCount] = useState(5); // Số lượng hiển thị ban đầu
   const navigate = useNavigate();
 
   // Fetch campaign details
@@ -41,12 +40,26 @@ const DetailCampaignPage = () => {
     fetchCampaign();
   }, [id]);
 
-  console.log(campaignDT);
+  // Tính tổng số tiền quyên góp của từng user
+  const calculateTotalDonationsPerUser = (donations: DonationGet[]) => {
+    const totals = donations.reduce((acc, curr) => {
+      const userName = curr.user.name;
+      if (!acc[userName]) {
+        acc[userName] = 0; // Nếu user chưa tồn tại, khởi tạo giá trị
+      }
+      acc[userName] += curr.amount; // Cộng dồn số tiền
+      return acc;
+    }, {} as Record<string, number>);
 
-  const handleSeeMore = () => {
-    setDonationCount(donationCount + 5);
+    return Object.entries(totals).map(([name, total]) => ({
+      name,
+      total,
+    }));
   };
 
+  const donationTotals = calculateTotalDonationsPerUser(campaignDT?.donations || []);
+
+  // Xử lý donate
   const handleDonate = async (values: any) => {
     if (!id) return;
 
@@ -61,11 +74,9 @@ const DetailCampaignPage = () => {
       const response = await donateAPI(data);
       if (response?.data.code === 1000) {
         setIsModalOpen(false);
-
-        // Lấy URL thanh toán từ API
         const paymentUrl = response?.data.result;
         if (paymentUrl) {
-          window.location.href = paymentUrl
+          window.location.href = paymentUrl;
         } else {
           toast.error("Không tìm thấy URL thanh toán VNPay.");
         }
@@ -96,7 +107,7 @@ const DetailCampaignPage = () => {
     onSubmit: handleDonate,
   });
 
-  const configs = [
+  const rankingConfigs = [
     {
       label: "#",
       render: (don: DonationGet, index: number) => {
@@ -117,6 +128,18 @@ const DetailCampaignPage = () => {
     },
   ];
 
+  const totalConfigs = [
+    {
+      label: "Tên",
+      render: (don: { name: string; total: number }) => don.name,
+    },
+    {
+      label: "Tổng đóng góp",
+      render: (don: { name: string; total: number }) =>
+        don.total.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
+    },
+  ];
+
   return (
     <section className="news-section section-padding">
       <div className="container">
@@ -127,25 +150,14 @@ const DetailCampaignPage = () => {
         <div className="row">
           <div className="col-lg-7 col-12">
             <blockquote>{campaignDT?.title}</blockquote>
-            <div style={{ maxWidth: "100%" }} dangerouslySetInnerHTML={{ __html: processHtml(campaignDT?.description ?? `<p><strong>Chưa có due7</strong></p>`) }} />
+            <div
+              style={{ maxWidth: "100%" }}
+              dangerouslySetInnerHTML={{
+                __html: processHtml(campaignDT?.description ?? `<p><strong>Chưa có nội dung</strong></p>`),
+              }}
+            />
             <h5 className="mb-3 pt-4" style={{ borderTop: "solid" }}>Nhà hảo tâm hàng đầu</h5>
-            {campaignDT?.donations && campaignDT?.donations.length > 0 && (
-              <>
-                <Table
-                  configs={configs}
-                  data={campaignDT?.donations
-                    .sort((a, b) => b.amount - a.amount)
-                    .slice(0, donationCount)}
-                />
-                {campaignDT.donations.length > donationCount && (
-                  <div className="d-flex justify-content-center" > 
-                    <button onClick={handleSeeMore} className="btn custom-btn mt-3">
-                      Xem thêm
-                    </button>
-                  </div>
-                )}
-              </>
-            )}
+            <Table configs={totalConfigs} data={donationTotals} />
           </div>
           <div className="col-lg-4 col-12 mx-auto mt-4 mt-lg-0">
             <div style={{ position: "sticky", top: "20px", right: "0px" }}>
@@ -170,39 +182,33 @@ const DetailCampaignPage = () => {
       >
         <form onSubmit={formik.handleSubmit} className="custom-form contact-form">
           <h2>Thông tin của bạn</h2>
-          <div>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Tên của bạn"
-              {...formik.getFieldProps("name")}
-            />
-            {formik.touched.name && formik.errors.name && (
-              <p className="error text-danger">{formik.errors.name}</p>
-            )}
-          </div>
-          <div>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Jackdoe@gmail.com"
-              {...formik.getFieldProps("email")}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <p className="error text-danger">{formik.errors.email}</p>
-            )}
-          </div>
-          <div>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Số tiền (VND)"
-              {...formik.getFieldProps("amount")}
-            />
-            {formik.touched.amount && formik.errors.amount && (
-              <p className="error text-danger">{formik.errors.amount}</p>
-            )}
-          </div>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Tên của bạn"
+            {...formik.getFieldProps("name")}
+          />
+          {formik.touched.name && formik.errors.name && (
+            <p className="error text-danger">{formik.errors.name}</p>
+          )}
+          <input
+            type="email"
+            className="form-control"
+            placeholder="Email của bạn"
+            {...formik.getFieldProps("email")}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <p className="error text-danger">{formik.errors.email}</p>
+          )}
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Số tiền (VND)"
+            {...formik.getFieldProps("amount")}
+          />
+          {formik.touched.amount && formik.errors.amount && (
+            <p className="error text-danger">{formik.errors.amount}</p>
+          )}
           <button type="submit" className="form-control">Quyên góp</button>
         </form>
       </Modal>

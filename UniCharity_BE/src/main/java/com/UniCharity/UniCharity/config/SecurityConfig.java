@@ -30,6 +30,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINT = {
             "/auth/login",
+            "/auth/register",
             "/auth/introspect",
             "/vnpay/create_payment",
             "/vnpay/payment-return"
@@ -43,34 +44,34 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter();
     }
 
-    // bật jwt
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .cors(Customizer.withDefaults()) // Kích hoạt CORS
-                .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers(PUBLIC_ENDPOINT).permitAll() // Cho phép truy cập công khai các endpoint này
-                        .anyRequest().authenticated() // Yêu cầu xác thực cho tất cả các endpoint còn lại
-                )
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // Thêm bộ lọc JWT trước UsernamePasswordAuthenticationFilter
-        return httpSecurity.build();
-    }
-
-    // tắt jwt
+//    // bật jwt
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 //        httpSecurity
+//                .cors(Customizer.withDefaults()) // Kích hoạt CORS
 //                .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF
-//                .cors(Customizer.withDefaults()) // Kích hoạt CORS (nếu cần)
 //                .authorizeHttpRequests(request -> request
-//                        .anyRequest().permitAll() // Cho phép tất cả các request mà không cần xác thực
+//                        .requestMatchers(PUBLIC_ENDPOINT).permitAll() // Cho phép truy cập công khai các endpoint này
+//                        .anyRequest().authenticated() // Yêu cầu xác thực cho tất cả các endpoint còn lại
 //                )
-//                .sessionManagement(session -> session.disable()) // Vô hiệu hóa quản lý phiên
-//                .securityContext(context -> context.disable()); // Vô hiệu hóa SecurityContext
-//
+//                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // Thêm bộ lọc JWT trước UsernamePasswordAuthenticationFilter
 //        return httpSecurity.build();
 //    }
+
+    // tắt jwt
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .csrf(AbstractHttpConfigurer::disable) // Vô hiệu hóa CSRF
+                .cors(Customizer.withDefaults()) // Kích hoạt CORS (nếu cần)
+                .authorizeHttpRequests(request -> request
+                        .anyRequest().permitAll() // Cho phép tất cả các request mà không cần xác thực
+                )
+                .sessionManagement(session -> session.disable()) // Vô hiệu hóa quản lý phiên
+                .securityContext(context -> context.disable()); // Vô hiệu hóa SecurityContext
+
+        return httpSecurity.build();
+    }
 
     @Bean
     JwtDecoder jwtDecoder() {

@@ -39,7 +39,7 @@ const Campaigns: React.FC = () => {
                         <div className="col-lg-12 col-12 text-center mb-4">
                             <h2>Our Causes</h2>
                         </div>
-                        {campaigns.map(campaign => (
+                        {campaigns.sort((a, b) => a.id - b.id).map(campaign => (
                             <Campaign campaign={campaign} className="col-lg-4 col-md-6 col-12" />
                         ))}
                         {page && (

@@ -81,7 +81,7 @@ const Campaign = () => {
                 page= {pageObject!}
                 
               />
-              <Table data={campaigns} configs={configs} />
+              <Table data={campaigns.sort((a, b) => a.id - b.id)} configs={configs} />
             </div>
           ):
           <div className="d-flex justify-content-center align-items-center vh-100">
