@@ -8,49 +8,65 @@ import Policy from "../Pages/Policy/Policy";
 import Donation from "../Pages/Donation/Donation";
 import Report from "../Pages/Report/Report";
 import CreateReport from "../Pages/Report/Form/CreateReport";
+import ReportYear from "../Pages/ReportChart/ReportYear";
+import ReportChart from "../Pages/ReportChart/ReportChart";
+import UpdateReport from "../Pages/Report/Form/UpdateReport";
 
 const Router = createBrowserRouter([
-    {
-        path:  "Admin",
-        element:<AdminLayout/>,
-        children:[
-            {
-                path:"campaigns",
-                element: <Campaign/>
-            },
-            {
-                path:"campaigns/create",
-                element: <CreateCampaign/>
-            },
-            {
-                path:"campaigns/update/:id",
-                element: <UpdateCampaign/>
-            },
-            {
-                path:"campaigns/update-images/:id",
-                element: <CampaignImagesDetail/>
-            },
-            // policy
-            {
-                path:"policies",
-                element: <Policy/>
-            },
-            {
-                path:"donations",
-                element: <Donation/>
-            },
-            {
-                path:"reports",
-                element: <Report/>
-            },
-            {
-                path:"reports/create",
-                element: <CreateReport/>
-            },
-        ]
-            
-        
-    }
-])
+  {
+    path: "Admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        path: "campaigns",
+        element: <Campaign />,
+      },
+      {
+        path: "campaigns/create",
+        element: <CreateCampaign />,
+      },
+      {
+        path: "campaigns/update/:id",
+        element: <UpdateCampaign />,
+      },
+      {
+        path: "campaigns/update-images/:id",
+        element: <CampaignImagesDetail />,
+      },
+      // policy
+      {
+        path: "policies",
+        element: <Policy />,
+      },
+      {
+        path: "donations",
+        element: <Donation />,
+      },
+      {
+        path: "reports",
+        element: <Report />,
+      },
+      {
+        path: "reports/create",
+        element: <CreateReport />,
+      }, {
+        path: "reports/update/:id",
+        element: <UpdateReport />,
+      }, {
+        path: "report/fund-alocation/:id",
+        element: <UpdateReport />,
+      },
+     
+      {
+        path: "chart/top",
+        element: <ReportChart />,
+      },
+      {
+        path: "chart/year",
+        element: <ReportYear />,
+      },
+    ],
+  },
+]);
 
 export default Router;

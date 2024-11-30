@@ -22,7 +22,7 @@ const CreateReport = () => {
 
   return (
     <div>
-      <FormReport handle={handleCreate} />
+      <FormReport handle={handleCreate} isUpdate={false}/>
     </div>
   );
 };

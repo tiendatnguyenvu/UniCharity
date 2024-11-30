@@ -38,15 +38,14 @@ const Sidebar = () => {
                     <a onClick={() => navigate("/admin/reports")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Report</a>
                     <a onClick={() => navigate("/admin/violation")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Violation</a>
                     <a onClick={() => navigate("/admin/chart")} className="nav-item nav-link"><i className="fa fa-chart-bar me-2"></i>Charts</a>
-                    {/* <div className="nav-item dropdown">
-                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i className="far fa-file-alt me-2"></i>Pages</a>
-                        < className="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" className="dropdown-item">Sign In</a>
-                            <a href="signup.html" className="dropdown-item">Sign Up</a>
-                            <a href="404.html" className="dropdown-item">404 Error</a>
-                            <a href="blank.html" className="dropdown-item">Blank Page</a>
-                        </  div>
-                    </div> */}
+                    <div className="nav-item dropdown">
+                        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i className="fa fa-laptop me-2"></i>Chart</a>
+                        <div className="dropdown-menu bg-transparent border-0">
+                            <a onClick={() => navigate("/admin/chart/top")} className="dropdown-item">Top</a>
+                            <a onClick={() => navigate("/admin/chart/year")} className="dropdown-item">Year</a>
+
+                        </div>
+                    </div>
                 </div>
             </nav>
         </div>

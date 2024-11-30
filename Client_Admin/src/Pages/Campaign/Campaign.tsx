@@ -174,7 +174,7 @@ const Campaign = () => {
       label: "Images",
       render: (campaign: CampaignDto) => <button className="btn-sm btn-info rounded" onClick={() =>
         navigate(`/admin/campaigns/update-images/${campaign.id}`)
-      }>Detail</button>,
+      }>Detail Image</button>,
     },
 
     {
@@ -183,8 +183,7 @@ const Campaign = () => {
         return (
           <td className="d-flex">
           
-         {status == "Pending" &&
-          
+         {status == "Pending" ?
             <button
               type="button"
               className="btn-sm btn-success d-flex align-items-center me-2"
@@ -193,21 +192,11 @@ const Campaign = () => {
               }
             >
               Update
-            </button>
+            </button>:<h6>No Action</h6>
 
          
         }
-         
-            <button
-              type="button"
-              className="btn-sm btn-warning d-flex align-items-center me-2"
-              onClick={() =>
-                navigate(`/admin/campaigns/get-by-id/${campaign.id}`)
-              }
-            >
-              Detail
-            </button>
-          </td>
+            </td>
         );
       },
     },

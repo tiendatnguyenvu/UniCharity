@@ -138,5 +138,33 @@ export interface ReportRoot {
     status: string
   }
   
+
+  //update 
+  export class RootUpdateReport {
+    totalDonations: number;
+    totalRecipients: number;
+    resultsSummary: string;
+    lessonsLearned: string;
+    reportDate: string;
+    updatedAt: string;
+  
+    constructor(
+      totalDonations: number,
+      totalRecipients: number,
+      resultsSummary: string,
+      lessonsLearned: string,
+      reportDate: string,
+      updatedAt: string
+    ) {
+      this.totalDonations = totalDonations;
+      this.totalRecipients = totalRecipients;
+      this.resultsSummary = resultsSummary;
+      this.lessonsLearned = lessonsLearned;
+      this.reportDate = reportDate;
+      this.updatedAt = updatedAt;
+    }
+  }
+  
+  
   
   

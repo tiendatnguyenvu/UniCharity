@@ -90,7 +90,34 @@ const Report = () => {
     {
       label: "Created At",
       render: (item: ReportItem) => item.createdAt,
+    },
+
+    {
+      label: "Action",
+      render: (item: ReportItem) => 
+         <div className="d-flex">
+           <button
+        type="button"
+        className="btn-sm btn-success d-flex align-items-center me-2"
+        onClick={() =>
+          navigate(`/admin/reports/update/${item.id}`)
+        }
+      >
+        Update
+      </button>
+      <button
+        type="button"
+        className="btn-sm btn-warning d-flex align-items-center me-2"
+        onClick={() =>
+          navigate(`/admin/reports/fund-alocation/${item.id}`)
+        }
+      >
+        Create Fund alocation
+      </button>
+         </div>
     }
+
+  
   ];
 
   const handlePageChange = (pageNumber: number) => {
