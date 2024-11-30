@@ -4,7 +4,9 @@ import com.UniCharity.UniCharity.dto.request.FundAllocationCreateRequest;
 import com.UniCharity.UniCharity.dto.request.FundAllocationUpdateRequest;
 import com.UniCharity.UniCharity.dto.response.ApiResponse;
 import com.UniCharity.UniCharity.dto.response.fundAllocation.FundAllocationResponse;
+import com.UniCharity.UniCharity.dto.response.page.PageResponse;
 import com.UniCharity.UniCharity.services.iservices.IFundAllocationService;
+import com.cloudinary.Api;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,11 @@ public class FundAllocationController {
     @GetMapping
     ApiResponse<List<FundAllocationResponse>> getFundAllocations() {
         return ApiResponse.<List<FundAllocationResponse>>builder().result(fundAllocationService.getFundAllocations()).build();
+    }
+
+    @GetMapping("get-by-reportId/{reportId}")
+    ApiResponse<PageResponse<FundAllocationResponse>> getFundAllocationsByReportId(@PathVariable("reportId") int reportId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+        return ApiResponse.<PageResponse<FundAllocationResponse>>builder().result(fundAllocationService.getFundAllocationsByReortId(reportId, page, size, sortField, sortDirection)).build();
     }
 
     @GetMapping("/get-by-id/{fundAllocationId}")

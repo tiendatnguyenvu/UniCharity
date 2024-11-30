@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FundAllocationCreateRequest {
     @Positive(message = "REPORT_ID_MUST_BE_POSITIVE")
-    int report;
+    Integer report;
 
     @NotBlank(message = "ALLOCATION_TYPE_CANNOT_BE_BLANK")
     @Size(max = 100, message = "ALLOCATION_TYPE_TOO_LONG")
@@ -30,6 +30,5 @@ public class FundAllocationCreateRequest {
     @PastOrPresent(message = "CREATED_DATE_MUST_BE_PAST_OR_PRESENT")
     LocalDate createdAt = LocalDate.now();
 
-    @Positive(message = "USER_ID_MUST_BE_POSITIVE")
-    int user;
+    Integer user;
 }
