@@ -40,7 +40,7 @@ public class FundAllocationService implements IFundAllocationService {
     @Override
     public FundAllocationResponse createFundAllocation(FundAllocationCreateRequest request) {
         User user = null;
-//        if(request.getUser()) user = userRepository.findByIdAndRole(request.getUser(), "user").orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        if(request.getUser() != null) user = userRepository.findByIdAndRole(request.getUser(), "user").orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         CampaignReport campaignReport = campaignReportRepository.findById(request.getReport()).orElseThrow(() -> new AppException(ErrorCode.CAMPAIGN_REPORT_NOT_EXISTED));
         FundAllocation fundAllocation = FundAllocationMapper.toFundAllocation(request);
         fundAllocation.setUser(user);
