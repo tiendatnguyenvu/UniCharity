@@ -57,8 +57,6 @@ public class JwtUtils {
     public static void addTokenToCookie(HttpServletResponse response, String token) {
         // Lưu token vào cookie với các thuộc tính bảo mật
         Cookie cookie = new Cookie("auth_token", token);
-        cookie.setHttpOnly(true); // Bảo vệ cookie khỏi các cuộc tấn công XSS
-        cookie.setSecure(true); // Chỉ sử dụng cookie qua HTTPS
         cookie.setPath("/"); // Áp dụng cho toàn bộ ứng dụng
         response.addCookie(cookie);
     }
