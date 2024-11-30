@@ -130,6 +130,15 @@ const DetailCampaignPage = () => {
 
   const totalConfigs = [
     {
+      label: "#",
+      render: (don: DonationGet, index: number) => {
+        if (index + 1 === 1) return <img src={No1Icon} alt="Top 1" width="24" height="24" />;
+        if (index + 1 === 2) return <img src={No2Icon} alt="Top 2" width="24" height="24" />;
+        if (index + 1 === 3) return <img src={No3Icon} alt="Top 3" width="24" height="24" />;
+        return index + 1;
+      },
+    },
+    {
       label: "Tên",
       render: (don: { name: string; total: number }) => don.name,
     },

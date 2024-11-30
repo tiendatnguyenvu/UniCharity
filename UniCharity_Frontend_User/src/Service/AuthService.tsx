@@ -5,11 +5,6 @@ import { AuthenRes } from "../Models/Auth";
 import { UserRegisterRequest } from "../Page/Register/Register";
 import { RegisterRes } from "../Models/User";
 
-const dataLogin = {
-    email: "nguyenvana@example.com",
-    password: "password123"
-}
-
 export const loginAPI = async (email: string, password: string) => {
     try {
         const data = await axios.post<AuthenRes>(`${BASE_URL}/auth/login`, {

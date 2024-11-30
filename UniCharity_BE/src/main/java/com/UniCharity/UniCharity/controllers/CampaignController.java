@@ -53,6 +53,7 @@ public class CampaignController {
         return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaigns(page, size, sortField, sortDirection)).build();
     }
 
+
     @GetMapping("/get-by-status/{status}")
     ApiResponse<PageResponse<CampaignResponse>> getCampaignsByStatus(@PathVariable("status") String status, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
         return ApiResponse.<PageResponse<CampaignResponse>>builder().result(campaignService.getCampaignsByStatus(status, page, size, sortField, sortDirection)).build();

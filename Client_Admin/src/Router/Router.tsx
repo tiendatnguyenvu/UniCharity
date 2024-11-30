@@ -11,8 +11,13 @@ import CreateReport from "../Pages/Report/Form/CreateReport";
 import ReportYear from "../Pages/ReportChart/ReportYear";
 import ReportChart from "../Pages/ReportChart/ReportChart";
 import UpdateReport from "../Pages/Report/Form/UpdateReport";
+import LoginPage from "../Pages/LoginPage/LoginPage";
 
 const Router = createBrowserRouter([
+  {
+    path: "",
+    element: <LoginPage />,
+  },
   {
     path: "Admin",
     element: <AdminLayout />,
