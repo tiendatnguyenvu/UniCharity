@@ -53,7 +53,7 @@ public class SecurityConfig {
 //                .authorizeHttpRequests(request -> request
 //                        .requestMatchers(PUBLIC_ENDPOINT).permitAll() // Cho phép truy cập công khai các endpoint này
 //                        .anyRequest().authenticated() // Yêu cầu xác thực cho tất cả các endpoint còn lại
-//                )
+//                ) 
 //                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // Thêm bộ lọc JWT trước UsernamePasswordAuthenticationFilter
 //        return httpSecurity.build();
 //    }
