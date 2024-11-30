@@ -106,8 +106,8 @@ const DetailCampaignPage = () => {
     }),
     onSubmit: handleDonate,
   });
-
-  const rankingConfigs = [
+  
+  const totalConfigs = [
     {
       label: "#",
       render: (don: DonationGet, index: number) => {
@@ -117,18 +117,6 @@ const DetailCampaignPage = () => {
         return index + 1;
       },
     },
-    {
-      label: "Tên",
-      render: (don: DonationGet) => `${don.user.name}`,
-    },
-    {
-      label: "Đóng góp",
-      render: (don: DonationGet) =>
-        don.amount.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
-    },
-  ];
-
-  const totalConfigs = [
     {
       label: "Tên",
       render: (don: { name: string; total: number }) => don.name,

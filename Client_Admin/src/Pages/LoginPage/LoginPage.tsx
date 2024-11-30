@@ -9,7 +9,6 @@ const LoginPage = () => {
     const { login } = useAuth()
 
     const handleSubmit = (e: any) => {
-        e.preventDefault();
         login(email, password)
     }
 
