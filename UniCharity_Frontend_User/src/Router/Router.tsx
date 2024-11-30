@@ -6,6 +6,8 @@ import DetailCampaignPage from '../Page/DetailCampaignPage/DetailCampaignPage';
 import Login from '../Page/Login/Login';
 import SuccessPage from '../Page/SuccessPage/SuccessPage';
 import RequestCampaign from '../Page/RequestCampaign/RequestCampaign';
+import HistoryDonation from '../Page/HistoryDonation/HistoryDonation';
+import About from '../Page/About/About';
 
 const Router = createBrowserRouter([
     {
@@ -25,13 +27,21 @@ const Router = createBrowserRouter([
                 element: <Login />,
             },
             {
-                path: "/banking/success/UniCharity/vnpay/payment-return", 
+                path: "/banking/success/", 
                 element: <SuccessPage />,  
             },
             {
                 path: "/request-campaign", 
                 element: <RequestCampaign />,  
-            }
+            },
+            {
+                path: "/about", 
+                element: <About />,  
+            },
+            {
+                path: "/history-donation", 
+                element: <HistoryDonation />,  
+            },
         ]
     }
 ]);

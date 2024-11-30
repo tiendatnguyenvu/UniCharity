@@ -24,12 +24,12 @@ const validationSchema = yup.object().shape({
         .positive('ID của người tạo phải lớn hơn 0.')
 })
 
-const navigate = useNavigate()
 
 const CreateCampaign = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<CampaignFormRequest>({
         resolver: yupResolver(validationSchema)
     })
+    const navigate = useNavigate()
 
     const { isLoggedIn, user } = useAuth()
 
@@ -37,8 +37,8 @@ const CreateCampaign = () => {
         CampaignRequest(data)
             .then((response) => {
                 if (response?.data.code === 1000) {
-                    toast.success('Tạo chiến dịch thành công!');
-                    navigate('/campaigns'); 
+                    toast.success('Yêu cầu thành công!');
+                    navigate('/'); 
                 } else {
                     toast.error('Đã xảy ra lỗi khi tạo chiến dịch.');
                 }

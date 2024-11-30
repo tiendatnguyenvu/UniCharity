@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const PaymentReturn: React.FC = () => {
   const location = useLocation();
@@ -14,19 +14,22 @@ const PaymentReturn: React.FC = () => {
   };
 
   const queryParams = parseQuery(location.search);
-  const orderIF = queryParams['vnp_OrderInfo'];
-  const cardType = queryParams['vnp_CardType'];
+  const payment = queryParams['paymentGateway'];
+  const amount = queryParams['amount'];
+  const amountNumber = parseFloat(decodeURIComponent(amount).substring(0, amount.length - 2).replace(/,/g, ''));
+
+  const navigate = useNavigate()
 
   // Hiển thị thông tin
   return (
     <div>
-      {/* <ul>
-        {Object.entries(queryParams).map(([key, value]) => (
+      <ul>
+        {/* {Object.entries(queryParams).map(([key, value]) => (
           <li key={key}>
             <strong>{key}:</strong> {decodeURIComponent(value)}
           </li>
-        ))}
-      </ul> */}
+        ))} */}
+      </ul>
       <section className="testimonial-section section-padding section-bg">
         <div className="container">
           <div className="row">
@@ -39,29 +42,23 @@ const PaymentReturn: React.FC = () => {
                 <div className="carousel-inner">
                   <div className="carousel-item active">
                     <div className="carousel-caption">
-                      <h4 className="carousel-title">{decodeURIComponent(orderIF)}</h4>
+                      <h4 className="carousel-title">
+                        {amountNumber.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                      </h4>
 
-                      <small className="carousel-name"><span className="carousel-name-title">Ngân hàng</span>,
-                        {decodeURIComponent(cardType)}</small>
-                    </div>
-                  </div>
-
-                  <div className="carousel-item">
-                    <div className="carousel-caption">
-                      <h4 className="carousel-title">{decodeURIComponent(orderIF)}</h4>
-
-                      <small className="carousel-name"><span className="carousel-name-title">Ngân hàng</span>,
-                        {decodeURIComponent(cardType)}</small>
+                      <small className="carousel-name"><span className="carousel-name-title">Phương Thức</span>,{decodeURIComponent(payment)}</small>
                     </div>
                   </div>
                 </div>
               </div>
+              <button
+                onClick={() => navigate("/")}
+                className="btn btn-primary bg-dark border-0 px-4" style={{ background: "#5bc1ac" }} >Quay Lại Trang Chính</button>
             </div>
-
           </div>
         </div>
-      </section>
-    </div>
+      </section >
+    </div >
   );
 };
 

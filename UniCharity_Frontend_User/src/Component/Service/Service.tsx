@@ -2,7 +2,7 @@ import React from 'react'
 
 const Service = () => {
     return (
-        <section className="section-padding">
+        <section className="section-padding" style={{padding: "100px 0px 0px 0px"}}>
             <div className="container">
                 <div className="row">
 
