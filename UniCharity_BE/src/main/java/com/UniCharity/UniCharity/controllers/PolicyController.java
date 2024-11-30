@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class PolicyController {
     IPolicyService policyService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
     ApiResponse<PolicyResponse> createPolicy(@RequestBody @Valid PolicyCreateRequest request) {
         return ApiResponse.<PolicyResponse>builder().result(policyService.createPolicy(request)).build();
     }
@@ -42,6 +44,7 @@ public class PolicyController {
     }
 
     @PutMapping("/update/{policyId}")
+    @PreAuthorize("hasRole('ADMIN')")
     ApiResponse<PolicyResponse> updatePolicy(@PathVariable("policyId") int policyId, @RequestBody @Valid PolicyUpdateRequest request) {
         return ApiResponse.<PolicyResponse>builder().result(policyService.updatePolicy(policyId, request)).build();
     }

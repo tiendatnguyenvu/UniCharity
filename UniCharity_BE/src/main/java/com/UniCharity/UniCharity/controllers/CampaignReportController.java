@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +22,7 @@ public class CampaignReportController {
     ICampaignReportService campaignReportService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ADMIN')")
     ApiResponse<CampaignReportResponse> createCampaignReport(@RequestBody @Valid CampaignReportCreateRequest request) {
         return ApiResponse.<CampaignReportResponse>builder().result(campaignReportService.createCampaignReport(request)).build();
     }
@@ -36,6 +38,7 @@ public class CampaignReportController {
     }
 
     @PutMapping("/update/{campaignReportId}")
+    @PreAuthorize("hasRole('ADMIN')")
     ApiResponse<CampaignReportResponse> updateCampaignReport(@PathVariable("campaignReportId") int campaignReportId,@RequestBody @Valid CampaignReportUpdateRequest request) {
         return ApiResponse.<CampaignReportResponse>builder().result(campaignReportService.updateCampaignReport(campaignReportId, request)).build();
     }

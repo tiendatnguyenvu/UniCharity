@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping
-    ApiResponse<PageResponse<UserResponse>> getUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "createdAt") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
+    ApiResponse<PageResponse<UserResponse>> getUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortField, @RequestParam(defaultValue = "asc") String sortDirection) {
         return ApiResponse.<PageResponse<UserResponse>>builder().result(userService.getUsers(page, size, sortField, sortDirection)).build();
     }
 
