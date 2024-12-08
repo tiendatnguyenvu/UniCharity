@@ -33,10 +33,10 @@ const Sidebar = () => {
                         </div> */}
                     </div>
                     <a onClick={() => navigate("/admin/campaigns")} className="nav-item nav-link"><i className="fa fa-th me-2"></i>Campaign</a>
-                    <a onClick={() => navigate("/admin/policies")} className="nav-item nav-link"><i className="fa fa-th me-2"></i>Policy</a>
+                    {/* <a onClick={() => navigate("/admin/policies")} className="nav-item nav-link"><i className="fa fa-th me-2"></i>Policy</a> */}
                     <a onClick={() => navigate("/admin/donations")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Donation</a>
                     <a onClick={() => navigate("/admin/reports")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Report</a>
-                    <a onClick={() => navigate("/admin/violation")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Violation</a>
+                    {/* <a onClick={() => navigate("/admin/violation")} className="nav-item nav-link"><i className="fa fa-table me-2"></i>Violation</a> */}
                     <div className="nav-item dropdown">
                         <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i className="fa fa-chart-bar me-2"></i>Chart</a>
                         <div className="dropdown-menu bg-transparent border-0">

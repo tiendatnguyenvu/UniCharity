@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import './Login.scss'
 import { useAuth } from '../../Context/UseAuth';
+import { useNavigate } from 'react-router';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const { login } = useAuth()
+    const navigate = useNavigate()
 
     const handleSubmit = (e: any) => {
-        login(email, password)
+        // login(email, password)
+        navigate("/admin/chart/year")
     }
 
     return (
